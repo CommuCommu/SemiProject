@@ -1,9 +1,9 @@
+<%@page import="dto.MemberDto"%>
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%!
-
+<%!	//초기 선언 함수
 //nvl 함수
 public boolean nvl(String msg){
 	return msg == null || msg.trim().equals("")?true:false;
@@ -45,9 +45,18 @@ public String showPen(int year, int month, int day){
 	
 	return str;
 }
-
-
 %>    
+
+
+<%
+	Object oYear = request.getAttribute("year");
+	Object oMonth = request.getAttribute("Month");
+	Object oDay = request.getAttribute("day");
+
+
+
+%>
+    
     
 <!DOCTYPE html>
 <html>
@@ -57,6 +66,22 @@ public String showPen(int year, int month, int day){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
+
+<%	//로그인 검증부분.
+	Object oLogin = session.getAttribute("login");
+	MemberDto mem = null;
+	if (oLogin == null) {
+%>
+	<script type="text/javascript">	// TODO 나중에 서블릿으로 교체할 것.
+		alert("로그인이 필요한 서비스입니다. 로그인 후 이용해주세요.");
+		location.href = "login.jsp"	
+	</script> 
+
+<%	
+	}else {
+		mem = (MemberDto) oLogin;
+	}
+%>
 
 <%-- GNB --%>
 <div id="gnb"></div>
@@ -69,6 +94,11 @@ $(function () {
 <%--페이지 시작. --%>
 <h1>예약페이지</h1>
 <hr>
+
+
+
+
+
 
 <%
 Calendar cal = Calendar.getInstance();
