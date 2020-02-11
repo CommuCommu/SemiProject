@@ -1,3 +1,5 @@
+<%@page import="dto.TableDto"%>
+<%@page import="java.util.List"%>
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -11,7 +13,18 @@
 	System.out.println("month : " + month);
 	System.out.println("day : " + day);
 	
-
+	Object olist = request.getAttribute("ReservationTableList");
+	List<TableDto> list = null;
+	if(olist != null) {
+		list = (List<TableDto>)olist;
+	}
+	
+	for(int i = 0; i < list.size(); i++) {
+		TableDto dto = list.get(i);
+		
+		System.out.println(dto.getTablenumber() + "," + dto.getNumberpeople() + "," + dto.getIsreserbaitiontable()); 
+	}
+	
 	//범위를 설정하는 날짜. 기준
 	Calendar cal = Calendar.getInstance();
 
@@ -28,8 +41,48 @@
 <head>
 <meta charset="UTF-8">
 <title>revWrite.jsp</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
+
+<%-- GNB --%>
+<div id="gnb"></div>
+<script type="text/javascript">
+$(function () {
+	$("#gnb").load("./GNB/gnb.jsp");
+})
+</script>
+
+
+<%--
+	1. 이용할 테이블 선택
+	2. 테이블에 대한 예약 시간표를 출력 및 몇시부터 몇시까지 이용할건지 선택
+	3. 선택 후에 확인을 누르면 예약이 완료되고 예약 리스트에 올라가야함.
+	4. 한 아이디로 중복 예약은 불가능함.
+	5. 예약에 길이는 최대 4시간으로 할까? 고민좀 해보자.
+
+ --%>
+
+
+<div>
+<b>1. 테이블을 선택해주세요.</b> 
+<select id="tableSelect" name="tableSelect">
+	<option value="none">선택</option>
+	<% for(int i = 0; i < list.size(); i++) { %>
+	<% TableDto dto = list.get(i); %>
+	<option value="<%= dto.getTablenumber()%>"><%=dto.getTablenumber()%>번 테이블 (<%=dto.getTablenumber()%>인용)</option>
+	<% } %>
+</select>
+</div>
+
+
+
+
+
+
+
+
+
 
 <h1>revWrite.jsp</h1>
 <div align="center">

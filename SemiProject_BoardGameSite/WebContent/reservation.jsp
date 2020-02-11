@@ -4,6 +4,7 @@
     pageEncoding="UTF-8"%>
     
 <%!	//초기 선언 함수
+
 //nvl 함수
 public boolean nvl(String msg){
 	return msg == null || msg.trim().equals("")?true:false;
@@ -35,7 +36,7 @@ public String showPen(int year, int month, int day){
 	String image = "[예약]";
 	
 	str = String.format("<a href='%s?year=%d&month=%d&day=%d' style='text-decoration:none' >%s</a>", 
-							"RevWrite", year, month, day, image);
+							"ReservationServlet", year, month, day, image);
 	
 	
 //	 == <a href=calwrite.jsp=?year=2020&month=02&day=05>
@@ -96,19 +97,26 @@ $(function () {
 <hr>
 
 
-
+<%-- 만약 예약가능한 테이블이 전혀 없다면 페이지를 띄우지 않고 막을 기능이 필요함. --%>
 
 
 
 <%
 Calendar cal = Calendar.getInstance();
+int todayDate = cal.get(Calendar.DATE);
+int todayMonth = cal.get(Calendar.MONTH);
+int todayYear = cal.get(Calendar.YEAR);
+System.out.println("------------------------------");
+System.out.println("오늘 날짜 : " + todayYear + "년 " + (todayMonth + 1) + "월 " + todayDate + "일");
+
+
 cal.set(Calendar.DATE, 1); // 현재 객체의 특정 필드를 다른 값으로 설정한다 / (현재 월)
 System.out.println("Calendar.DATE : " + Calendar.DATE);
 
 String syear = request.getParameter("year");
-System.out.println("syear : " +syear);
+System.out.println("parameter syear : " +syear);
 String smonth = request.getParameter("month");
-System.out.println("smonth : " +smonth);
+System.out.println("parameter smonth : " +smonth);
 
 int year = cal.get(Calendar.YEAR);
 System.out.println("year : " +year);
@@ -119,7 +127,7 @@ if(nvl(syear) == false){	//문자열이 들어있으면 실행
 int month = cal.get(Calendar.MONTH) + 1;
 System.out.println("month : " +month);
 if(nvl(smonth) == false){	//문자열이 들어있으면 실행
-	month = Integer.parseInt(smonth);
+	month = Integer.parseInt(smonth); 
 }
 
 // 1월 이전 선택시 처리
@@ -141,6 +149,7 @@ System.out.println("month-1 : " + (month-1));
 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 // 현재 객체의 주어진 값의 필드에 해당하는 상수 값을 반환한다. 이 상수값은 Calendar 클래스의 상수중에 가진다
 System.out.println("Calendar.DAY_OF_WEEK : " +dayOfWeek);
+System.out.println("------------------------------");
 
 // <<	year--
 String pp = String.format("<a href='%s?year=%d&month=%d'>"
@@ -215,9 +224,29 @@ for(int i = 1; i <= lastday; i++){
 		<%-- 날짜 / 펜 --%> 
 	<td>
 		<%= i %>
-	 	<%-- <%=callist(year, month, i) %> --%>
-	 	&nbsp;&nbsp;<%=showPen(year, month, i) %> 
-	<%-- 	<%=makeTable(year, month, i, list) %> --%>
+		
+		<%-- <%=callist(year, month, i) %> --%>
+	 	<%-- &nbsp;<%=showPen(year, month, i) %> --%>
+		<%-- <%=makeTable(year, month, i, list) %> --%>
+				
+		<% if(year > todayYear){ %>
+			&nbsp;<%=showPen(year, month, i) %> 
+		<% }else if(year == todayYear) { %>
+			<% if(month > (todayMonth + 1)) { %>
+				&nbsp;<%=showPen(year, month, i) %> 
+			<% }else if(month == (todayMonth + 1)) { %>
+				<% if(i > todayDate) {%>
+					&nbsp;<%=showPen(year, month, i) %> 
+				<% }else { %>
+					&nbsp;[X]
+				<% } %>
+			<% }else { %>
+				&nbsp;[X]
+			<% } %>
+		<% }else { %>
+			&nbsp;[X]
+		<% } %>
+
 	</td>	
 	<%
 		/* 일주일 단위 개행 */

@@ -1,7 +1,7 @@
 package dto;
 
-/*
-CREATE TABLE BG_RESERVAITON(
+/*	오타나있음. 나중에 수정할 것.
+CREATE TABLE BG_RESERVATION(
     SEQ NUMBER(8) PRIMARY KEY,            --������
     ID VARCHAR2(50) NOT NULL,             --���̵�. �ܷ�Ű
     WDATE DATE NOT NULL,                  --������ �ۼ��� ��¥   
@@ -18,7 +18,7 @@ CREATE SEQUENCE SEQ_BG_RESERVAITON
 START WITH 1
 INCREMENT BY 1;
 
-ALTER TABLE BG_RESERVAITON
+ALTER TABLE BG_RESERVAITONr
 ADD CONSTRAINT FK_BG_RESERVAITON_ID FOREIGN KEY(ID)
 REFERENCES BG_MEMBER(ID);
 
@@ -40,7 +40,7 @@ public class ReservationDto {
 	private int del;
 	
 	public ReservationDto() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public ReservationDto(int seq, String id, String wdate, String rdate, int starttime, int endtime, int tablenumber,
