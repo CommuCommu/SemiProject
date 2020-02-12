@@ -65,16 +65,141 @@ $(function () {
 
 
 <div>
-<b>1. 테이블을 선택해주세요.</b> 
-<select id="tableSelect" name="tableSelect">
+	<b>매장 운영 시간은 09~22시 입니다.</b>
+	<br><br><br>
+	<b>1. 테이블을 선택해주세요.</b> 
+	<select id="tableSelect" name="tableSelect">
+		<option value="none">선택</option>
+		<% for(int i = 0; i < list.size(); i++) { %>
+		<% TableDto dto = list.get(i); %>
+		<option value="<%= dto.getTablenumber()%>" data-np="<%=dto.getNumberpeople()%>"><%=dto.getTablenumber()%>번 테이블 (<%=dto.getNumberpeople()%>인용)</option>
+		<% } %>
+	</select>
+</div>
+
+
+<div id="second">
+	<div id="sf">
+	
+	
+	</div>
+</div>
+
+
+
+
+<script type="text/javascript">
+var revCheck = new Array();			//테이블 예약정보 전역변수.
+var numberPeoples = null;
+
+$("#tableSelect").on("change", function () {	//테이블 선택 변경
+	alert("값 변환 감지");
+	var tableNumber = $("#tableSelect option:selected").val(); //테이블 넘버를 가져옴.
+	
+	
+	if(tableNumber == "none") {
+      	$("#sf").remove();
+    	$("#second").append('<div id="sf">');
+    	$("#second").append('</div>');
+	}else {
+	    jQuery.ajax({
+	        type:"GET",
+	        url:"RevWriteServlet",
+	        //traditional : true, 	//배열전송할때 쓰는거. 지금은 아니니 필요 없을듯.
+	        dataType:"JSON", // 옵션이므로 JSON으로 받을게 아니면 안써도 됨
+			data:{"command":"tableSet","year":<%=year%> , "month":<%=month%> , "day":<%=day%> , "tableNumber":tableNumber},
+	        success : function(data) {
+	             // 통신이 성공적으로 이루어졌을 때 이 함수를 타게 된다.
+	             //Result(data , "delete" , id , null, null);
+	             alert("success"); 
+	             //alert(data); 
+	             //alert(data.length); //0~12 -> 13
+	    
+	             revCheck = new Array();
+	             for(i = 0; i < data.length; i++) {
+	            	revCheck[i] = data[i];
+	             }
+	             numberPeoples = $("#tableSelect option:selected").data("np");
+	             
+	          	$("#sf").remove();
+	        	$("#second").append('<div id="sf">');
+	        	$("#second").append('</div>');
+
+	        	$("#sf").append('<br>');
+	        	
+	        	$("#sf").append('<table border="1" id="revTable">');
+	        	
+	            $("#revTable").append('<tr>');
+	            for(var i = 0; i < (revCheck.length + 1); i++) {
+	           		$("#revTable").append('<td><b>' + (9 + i) + '</b></td>');
+	            }
+	            $("#revTable").append('</tr>');
+	         
+	            
+	            
+	            $("#revTable").append('<tr>');
+	            for(var i = 0; i < revCheck.length; i++) {
+	            	if(revCheck[i] == 0) {
+	            		$("#revTable").append('<td>' + "예약가능" + '</th>');
+	            	}else {
+	            		$("#revTable").append('<td>' + "예약불가" + '</th>');
+	            	}
+	            }
+	            $("#revTable").append('<td>' + '</th>');
+	            $("#revTable").append('</tr>');
+
+	            
+	        	$("#sf").append('</table>');
+
+	        	$("#sf").append('<br><br>');
+	        	$("#sf").append('<b>2.이용할 시간과 이용 인원을 선택해주세요.</b><br><br>');
+	        	$("#sf").append('<b>이용 시간 : </b>');
+	             
+	        	
+	        	
+	        	
+	        	$("#sf").append('<br>');
+	        	$("#sf").append('<b>인원수 : </b>');
+	        	$("#sf").append('<select id="peopleNumber">');
+	        	for(i = 1; i <= numberPeoples; i++) {
+	        		$("#peopleNumber").append('<option value=' + i + '>' + i + '명</option>');
+	        	}
+	        	$("#sf").append('</select>');
+	             
+
+	        	//var custListString = JSON.stringify(data);	//Json Object를 String 형태로 변환.	
+				//$("#mainDiv").load("./JspFile/CustUserList.jsp",  { "custList": custListString });		
+	        },
+	        error : function(xhr, status, error) {
+	              alert("에러발생");
+	        }
+	 	 });
+		
+	}
+	
+
+	
+	
+	
+})
+
+
+	
+	<%--
+	<select id="tableSelect" name="tableSelect">
 	<option value="none">선택</option>
 	<% for(int i = 0; i < list.size(); i++) { %>
 	<% TableDto dto = list.get(i); %>
 	<option value="<%= dto.getTablenumber()%>"><%=dto.getTablenumber()%>번 테이블 (<%=dto.getTablenumber()%>인용)</option>
 	<% } %>
-</select>
-</div>
+	</select>
+	--%>
+	
+	
 
+
+
+</script>
 
 
 
@@ -221,7 +346,7 @@ function setday() {
 	//alert("day : " + day);
 	
 	var lastday = (new Date(year, month, 0)).getDate();
-	alert("lastday : " + lastday);
+	//alert("lastday : " + lastday);
 	// 마지막 일수 적용
 	var str = "";
 	for(i = 1; i <= lastday; i++) {
