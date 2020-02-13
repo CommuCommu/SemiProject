@@ -14,6 +14,16 @@
 
 <% DBConnection.initConnection(); %>
 
+<%-- 
+	MemberDao dao = MemberDao.getInstance();
+	boolean isS = dao.test();
+	
+	System.out.println(isS);
+	
+	
+--%>
+
+
 <%
 
 	response.sendRedirect("main.jsp");
