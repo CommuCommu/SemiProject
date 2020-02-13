@@ -77,7 +77,7 @@
 				<tr>
 					<td>휴대폰번호:</td>
 					<td><input type="text" class="del" id="phoneNum"
-						name="call_number" not_null="true" correct="true" hg_nm="휴대폰번호"></td>
+						name="call_number" not_null="true" correct="true" hg_nm="휴대폰번호"placeholder="공백없이 숫자만 기입해주세요"></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -312,7 +312,32 @@
 				}
 			});
 			//비밀번호 재입력 제대로 입력했는지 확인문구 띄우기
-			$("input").keyup(function() {
+			$("#pwd2").keyup(function() {
+				var pwd2 = $("#pwd2").val();
+				var pwd1 = $("#pwd1").val();
+				if (pwd1 != "" && pwd2 != "") {
+					if (pwd1 == pwd2) { // 비밀번호 일치할때
+						$("#_submit").removeAttr("disabled");
+						$("#alert-notice").hide();
+						$("#alert-success").show();
+						$("#alert-danger").hide();
+
+					} else if (pwd1 != pwd2) { // 비밀번호 일치하지 않을때
+						$("#alert-notice").hide();
+						$("#alert-success").hide();
+						$("#alert-danger").show();
+						$("#submit").attr("disabled", "disabled");
+					}
+				} else { // 둘중하나라도 입력되지 않았을때
+					$("#alert-notice").hide();
+					$("#alert-success").hide();
+					$("#alert-danger").hide();
+					$("#submit").attr("disabled", "disabled");
+				}
+			});
+			
+			//비밀번호 재입력 제대로 입력했는지 확인문구 띄우기
+			$("#pwd1").keyup(function() {
 				var pwd2 = $("#pwd2").val();
 				var pwd1 = $("#pwd1").val();
 				if (pwd1 != "" && pwd2 != "") {
@@ -356,8 +381,32 @@
 					// alert("id 중복검사를 하였습니다");
 					if (valchk("#frm")) {
 						//모든 항목 입력 되면 회원가입 controller로 이동
-						alert("valcktrue");
-						document.getElementById('frm').submit();
+						$.ajax({
+							url : 'addmember',
+							type : "POST",
+							data : {"emailFront" : $("#_emailFront").val(),
+									"emailBack" : $("#_emailBack").val(),
+									"call_number" : $("#phoneNum").val(),
+									"command" : "emailCallNumChk"							
+									},
+							success : function(data){
+								if(data.emailChk){
+									alert("이미 존재하는 이메일 입니다. 다시 확인해주세요.");	
+								} else if(data.callChk){
+									alert("이미 존재하는 휴대폰번호 입니다. 다시 확인해주세요.");	
+								
+								} else if(data.emailChk == false && data.emailChk == false){
+									alert("이메일, 번호 확인이 완료되었습니다")
+								
+									document.getElementById('frm').submit();
+								}
+							},
+							error : function(){
+								alert("회원가입에 문제가 생겼습니다. 문제가 지속될시 고객센터로 문의해주십시오");
+							}
+						
+						});	
+						
 					}
 				
 				}else{
