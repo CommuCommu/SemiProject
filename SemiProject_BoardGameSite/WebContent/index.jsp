@@ -23,6 +23,7 @@
 --%>
 
 <%
+
 	response.sendRedirect("main.jsp");
 %>
 

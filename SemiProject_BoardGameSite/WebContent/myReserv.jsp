@@ -18,9 +18,9 @@ $(function () {
 </script>
 
 <%--페이지 시작. --%>
-<h1>관리자페이지</h1>
+<h1>내 예약 </h1>
 
-<a href="auth?command=getMemlist&pageNum=0&item=name&sort=asc">회원리스트보기</a>
+
 
 </body>
 </html>

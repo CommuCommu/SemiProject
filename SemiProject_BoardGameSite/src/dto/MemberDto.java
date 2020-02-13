@@ -65,6 +65,20 @@ public class MemberDto {
 		this.auth = auth;
 		this.del = del;
 	}
+	
+	public MemberDto(int seq, String id, String call_number, String name, String email, int bonuscredit,
+			String regdate, int auth, int del) {
+		super();
+		this.seq = seq;
+		this.id = id;
+		this.call_number = call_number;
+		this.name = name;
+		this.email = email;
+		this.bonuscredit = bonuscredit;
+		this.regdate = regdate;
+		this.auth = auth;
+		this.del = del;
+	}
 
 	public int getSeq() {
 		return seq;

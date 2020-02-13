@@ -32,6 +32,7 @@ public class LoginServ extends HttpServlet {
 	public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		String command = req.getParameter("command");
+		System.out.println("command" + command);
 		HttpSession session = req.getSession();
 		if(command.equals("login")) {
 			resp.sendRedirect("login.jsp");
@@ -52,7 +53,12 @@ public class LoginServ extends HttpServlet {
 
 			}
 			
+		}else if(command.equals("logout")) {
+			session.invalidate();
+			resp.sendRedirect("main.jsp");
+		}else if(command.equals("toLoginPg")) {
 			
+			resp.sendRedirect("login.jsp");
 		}
 	}
 }
