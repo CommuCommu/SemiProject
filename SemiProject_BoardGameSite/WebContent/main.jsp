@@ -9,17 +9,26 @@
 </head>
 <body>
 
-<%-- GNB --%>
-<div id="gnb"></div>
-<script type="text/javascript">
-$(function () {
-	$("#gnb").load("./GNB/gnb.jsp");
-})
-</script>
+<header>
+	<%-- GNB --%>
+	<div id="gnb"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#gnb").load("./GNB/gnb.jsp");
+	})
+	</script>
+</header>
 
-<%--페이지 시작. --%>
-<h1>메인페이지</h1>
+<section>
+	<%--페이지 시작. --%>
+	<h1>메인페이지</h1>
 
+</section>
+
+<footer>
+
+
+</footer>
 
 
 </body>

@@ -12,7 +12,6 @@
 
 <h1>Index 페이지</h1>
 
-
 <% DBConnection.initConnection(); %>
 
 <%

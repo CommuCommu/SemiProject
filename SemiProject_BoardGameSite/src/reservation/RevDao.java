@@ -9,6 +9,7 @@ import java.util.List;
 
 import db.DBClose;
 import db.DBConnection;
+import dto.MemberDto;
 import dto.ReservationDto;
 
 public class RevDao{
@@ -34,7 +35,7 @@ public class RevDao{
 		
 		String sql =  " SELECT * "
 					+ " FROM BG_RESERVATION "
-					+ " WHERE TO_CHAR(RDATE, 'YYYYMMDD') = ? AND TABLENUMBER = ? ";
+					+ " WHERE TO_CHAR(RDATE, 'YYYYMMDD') = ? AND TABLENUMBER = ? AND DEL = 0";
 
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -78,6 +79,39 @@ public class RevDao{
 		}
 		
 		return list;
+	}
+	public boolean insertRev(String YYYYMMDD, int tn ,int st, int et, int pn, String memo, String id) {
+		
+		String sql = " INSERT INTO BG_RESERVATION "
+				+ " VALUES(SEQ_BG_RESERVATION.NEXTVAL, ?, SYSDATE, ?, ?, ?, ?, ?, ? , 0 ) ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int count = 0;
+
+	    try {
+	    	conn = DBConnection.getConnection();
+	    	System.out.println("1/6 insertRev success!");
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 insertRev success!");
+			
+			psmt.setString(1, id);
+			psmt.setString(2, YYYYMMDD);
+			psmt.setInt(3, st);
+			psmt.setInt(4, et);
+			psmt.setInt(5, tn);
+			psmt.setString(6, memo);
+			psmt.setInt(7, pn);
+			count = psmt.executeUpdate();
+			System.out.println("3/6 insertRev success!");
+			
+		} catch (SQLException e) {
+			System.out.println("insertRev fail!");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+		return count > 0 ? true:false; 
 	}
 
 }

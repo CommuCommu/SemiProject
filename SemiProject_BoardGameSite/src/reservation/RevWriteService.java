@@ -30,15 +30,31 @@ public class RevWriteService {
 			
 		}else {	//리스트에 무언가 있을 경우.
 			for (ReservationDto dto : list) {
-				
+				for(int i = (dto.getStarttime() - 9); i < (dto.getEndtime() - 9); i++) {
+					checkRev[i] = 1;
+				}
 			}
 		}
-		
-		
-		
-		
 		String returnString = new Gson().toJson(checkRev);
 		return returnString;
+	}
+	public boolean insertRev(String year, String month, String day, String tableSelect, String startTime, String endTime, String memo, String peopleNumber, String id) {
+		RevDao dao = new RevDao();
+
+		String YYYYMMDD = year + two(month) + two(day);
+		int tn = Integer.parseInt(tableSelect);
+		int st = Integer.parseInt(startTime);
+		int et = Integer.parseInt(endTime);
+		int pn = Integer.parseInt(peopleNumber);
+		
+		st += 9;
+		et += 9;
+		
+		if(memo == null || memo.trim().equals("")) {
+			memo = "메모 없음";
+		}
+		
+		return dao.insertRev(YYYYMMDD, tn, st, et, pn, memo, id);
 	}
 
 	public String two(String msg){
