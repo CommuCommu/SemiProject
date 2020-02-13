@@ -1,49 +1,27 @@
 package dto;
 
-/*
-CREATE TABLE BG_EPILOGUE(
-    SEQ NUMBER(8) PRIMARY KEY,               
-    ID VARCHAR2(50) NOT NULL, 
-    REF NUMBER(8) NOT NULL,
-	STEP NUMBER(8) NOT NULL,
-	DEPTH NUMBER(8) NOT NULL,
-    THUMBNAIL VARCHAR2(200) NOT NULL,     
-    TITLE VARCHAR2(200) NOT NULL,  
-    PCONTENT VARCHAR2(4000) NOT NULL,
-    TCONTENT VARCHAR2(200) NOT NULL,
-    FILENAME VARCHAR2(50) NOT NULL,
-    WDATE DATE NOT NULL, 
-    DEL NUMBER(1) NOT NULL,
-    READCOUNT NUMBER(8) NOT NULL
-);
+import java.io.Serializable;
 
-CREATE SEQUENCE SEQ_BG_EPILOGUE
-START WITH 1
-INCREMENT BY 1;
+public class EpilogueDto implements Serializable {
 
-ALTER TABLE BG_EPILOGUE
-ADD CONSTRAINT FK_BG_EPILOGUE_ID FOREIGN KEY(ID)
-REFERENCES BG_MEMBER(ID);
-*/
 
-public class EpilogueDto {
+
 
 	private int seq;
-	private String id;	// æ∆¿Ãµ
+	private String id;	// ÏûëÏÑ±Ïûê
 	
-	private int ref;	// ¬¸¡∂
-	private int step;	// (row) Ω∫≈«
-	private int depth;	// ±Ì¿Ã
+	private int ref;	// Í∑∏Î£πÎ≤àÌò∏
+	private int step;	// Ìñâ(row) Î≤àÌò∏
+	private int depth;	// ÍπäÏù¥
 	
-	private String thumbnail;	//ΩÊ≥◊¿œ.
+	private String thumbnail;	//ÔøΩÔøΩÔøΩÔøΩÔøΩ.
 	
 	private String title;
-	private String pcontent;
-	private String tcontent;
-	private String filename;
-	private String wdate;	// ¿€º∫¿œ
+
+	private String content;
+	private String wdate;	// ÏûëÏÑ±Ïùº
 	
-	private int del;
+	private int del; //
 	private int readcount;
 	
 	
@@ -68,6 +46,14 @@ public class EpilogueDto {
 		this.del = del;
 		this.readcount = readcount;
 	}
+	
+	@Override
+	public String toString() {
+		return "EpilogueDto [seq=" + seq + ", id=" + id + ", ref=" + ref + ", step=" + step + ", depth=" + depth
+				+ ", thumbnail=" + thumbnail + ", title=" + title + ", content=" + content + ", wdate=" + wdate
+				+ ", del=" + del + ", readcount=" + readcount + "]";
+	}
+
 
 	public int getSeq() {
 		return seq;
@@ -176,4 +162,4 @@ public class EpilogueDto {
 	
 }
 
-
+	
