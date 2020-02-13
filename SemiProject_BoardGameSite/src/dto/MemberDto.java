@@ -164,14 +164,6 @@ public class MemberDto {
 	public void setDel(int del) {
 		this.del = del;
 	}
-
-
-	@Override
-	public String toString() {
-		return "MemberDto [seq=" + seq + ", id=" + id + ", pw=" + pw + ", call_number=" + call_number + ", name=" + name
-				+ ", email=" + email + ", bonuscredit=" + bonuscredit + ", regdate=" + regdate + ", auth=" + auth
-				+ ", del=" + del + "]";
-	}
 	
 	
 }

@@ -29,6 +29,8 @@ public class FindServ extends HttpServlet {
 			
 			resp.sendRedirect("findmemeber.jsp");
 			
+		
+			
 		}
 		
 		

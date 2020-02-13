@@ -1,45 +1,23 @@
 package dto;
 
-/*
-CREATE TABLE BG_EPILOGUE(
-    SEQ NUMBER(8) PRIMARY KEY,               
-    ID VARCHAR2(50) NOT NULL, 
-    REF NUMBER(8) NOT NULL,
-	STEP NUMBER(8) NOT NULL,
-	DEPTH NUMBER(8) NOT NULL,
-    THUMBNAIL VARCHAR2(200) NOT NULL,     
-    TITLE VARCHAR2(200) NOT NULL,  
-    CONTENT VARCHAR2(4000) NOT NULL, 
-    WDATE DATE NOT NULL, 
-    DEL NUMBER(1) NOT NULL,
-    READCOUNT NUMBER(8) NOT NULL                     
-);
+import java.io.Serializable;
 
-CREATE SEQUENCE SEQ_BG_EPILOGUE
-START WITH 1
-INCREMENT BY 1;
-
-ALTER TABLE BG_EPILOGUE
-ADD CONSTRAINT FK_BG_EPILOGUE_ID FOREIGN KEY(ID)
-REFERENCES BG_MEMBER(ID);
-*/
-
-public class EpilogueDto {
+public class EpilogueDto implements Serializable {
 
 	private int seq;
-	private String id;	// ¿€º∫¿⁄
+	private String id;	// ÏûëÏÑ±Ïûê
 	
-	private int ref;	// ±◊∑Ïπ¯»£
-	private int step;	// «‡(row) π¯»£
-	private int depth;	// ±Ì¿Ã
+	private int ref;	// Í∑∏Î£πÎ≤àÌò∏
+	private int step;	// Ìñâ(row) Î≤àÌò∏
+	private int depth;	// ÍπäÏù¥
 	
 	private String thumbnail;
 	
 	private String title;
 	private String content;
-	private String wdate;	// ¿€º∫¿œ
+	private String wdate;	// ÏûëÏÑ±Ïùº
 	
-	private int del;
+	private int del; //
 	private int readcount;
 	
 	public EpilogueDto() {
@@ -69,7 +47,6 @@ public class EpilogueDto {
 		this.readcount = readcount;
 	}
 	
-
 	@Override
 	public String toString() {
 		return "EpilogueDto [seq=" + seq + ", id=" + id + ", ref=" + ref + ", step=" + step + ", depth=" + depth
@@ -167,4 +144,4 @@ public class EpilogueDto {
 	
 }
 
-
+	
