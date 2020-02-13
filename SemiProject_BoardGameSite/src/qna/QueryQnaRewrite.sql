@@ -26,6 +26,43 @@ ADD CONSTRAINT FK_BG_QNA_ID FOREIGN KEY(ID)
 REFERENCES BG_MEMBER(ID);
 
 SELECT * FROM BG_QNA
-
+DELETE FROM BG_QNA
 delete from BG_QNA where seq=1;
 
+
+SELECT * FROM BG_QNA
+
+
+
+SELECT * FROM BG_MEMBER
+
+CREATE TABLE BG_MEMBER(
+	SEQ NUMBER(8) UNIQUE NOT NULL,                     --시퀀스. 정렬용.
+	ID VARCHAR2(50) PRIMARY KEY,                        --아이디
+    PW VARCHAR2(50) NOT NULL,                           --패스워드
+    CALL_NUMBER VARCHAR2(50) UNIQUE NOT NULL,  		--전화번호.
+    NAME VARCHAR2(50) NOT NULL,                       --이름
+    EMAIL VARCHAR2(100) NOT NULL,                      --이메일
+    BONUSCREDIT NUMBER(8) NOT NULL,                  --마일리지
+    REGDATE DATE NOT NULL,                                --가입날짜
+    AUTH NUMBER(2) NOT NULL,                             --권한 (0 : 사용자 / 1 : 관리자)
+    DEL NUMBER(1) NOT NULL                               --삭제 여부 (0 : X / 1 : 계정 탈퇴)
+);
+    
+CREATE SEQUENCE SEQ_BG_MEMBER
+START WITH 1
+INCREMENT BY 1;
+
+INSERT INTO BG_MEMBER (SEQ, ID, PW, CALL_NUMBER, NAME, EMAIL, BONUSCREDIT, REGDATE, AUTH, DEL)
+VALUES (SEQ_BG_MEMBER.NEXTVAL, 'cc', 'cc', '01112345678', 'Usercc', 'cc@gmail.com', 500, SYSDATE, 0, 0);
+
+
+SELECT SEQ, ID, TITLE, CONTENT, WDATE, READCOUNT, IS_SECRET, IS_ANSWER, DEL, BESTQNA
+FROM (SELECT ROW_NUMBER()OVER(ORDER BY WDATE) AS RNUM, SEQ, ID, TITLE, CONTENT, WDATE, READCOUNT, IS_SECRET, IS_ANSWER, DEL, BESTQNA
+				FROM BG_QNA 
+				ORDER BY WDATE) 
+WHERE RNUM>=1;
+
+
+
+SELECT * FROM BG_QNA_COMMENTS

@@ -8,17 +8,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>qnaWriteAf.jsp</title>
+<title>qnaCommentAf.jsp</title>
 </head>
 <body>
 
-<%-- =============== QnA 등록 알림 후처리 =============== --%>
+
 <%
 if(str.equals("true")){
 %>
 	<script type="text/javascript">
-		alert("QnA가 추가 되었습니다.")
-		location.href = "qnaServlet?action=list";
+		alert("댓글이 추가 되었습니다.")
+		//location.href = "qnaServlet?action=comment";
 	</script>	
 <%
 } else {

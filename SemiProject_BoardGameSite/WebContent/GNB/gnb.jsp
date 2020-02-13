@@ -38,6 +38,7 @@
 %>
 
 
+
 <div align="center">
 	<table border="1">
 		<tr>
@@ -47,7 +48,7 @@
 			<th><a href="./resetvation.jsp">예약</a></th>
 			<th><a href="./epilogue.jsp">후기</a></th>
 			<th><a href="./map.jsp">위치</a></th>
-			<th><a href="qnaList">Q&A</a></th>
+			<th><a href="qnaServlet?action=list">Q&A</a></th>
 			<th><a href="./admin.jsp">관리자</a></th>
 			<%
 			if (oLogin == null) {
