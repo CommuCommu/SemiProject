@@ -65,6 +65,7 @@ sFileInfo += "&bNewLine=true";
 //img 태그의 title 속성을 원본파일명으로 적용시켜주기 위함
 sFileInfo += "&sFileName="+ filename;
 // sFileInfo += "&sFileURL="+"http://localhost:8090/SmartEditorTest/editor/multiupload/"+realFileNm;
+//sFileInfo += "&sFileURL="+"http://127.0.0.1:8090/" + request.getContextPath() + "/editor/multiupload/"+realFileNm;
 sFileInfo += "&sFileURL="+"http://192.168.2.8:8090/" + request.getContextPath() + "/editor/multiupload/"+realFileNm;
 
 out.println(sFileInfo);
