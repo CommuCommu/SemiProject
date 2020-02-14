@@ -45,12 +45,12 @@ public class EpilogueDao {
 			System.out.println("1/6 writeEpilogue success");
 				
 			psmt = conn.prepareStatement(sql);
-			System.out.println("2/6 writeEpilogue success");
+			System.out.println("2/6 writeEpilogue success" + epilogue);
 			
 			psmt.setString(1, epilogue.getId());
 			psmt.setString(2, epilogue.getTitle());
 			psmt.setString(3, epilogue.getContent());
-			
+			System.out.println("2-1/6 writeEpilogue success" + epilogue.getContent());
 			
 			count = psmt.executeUpdate();
 			System.out.println("3/6 writeEpilogue success");
@@ -64,63 +64,7 @@ public class EpilogueDao {
 		
 		return count>0?true:false;
 	}
-	
-	public List<EpilogueDto> getEpilogueList() {
-		
-		String sql = " SELECT SEQ, ID, REF, STEP, DEPTH, "
-					+ " THUMBNAIL, TITLE, CONTENT, WDATE, "
-					+ " DEL, READCOUNT "
-					+ " FROM BG_EPILOGUE "
-					+ " ORDER BY REF DESC, STEP ASC ";
-					
-		Connection conn = null;
-		PreparedStatement psmt = null;
-		ResultSet rs = null;
-		
-		List<EpilogueDto> list = new ArrayList<EpilogueDto>();
-		
-		System.out.println(sql);
-		
-		
-		try {
-			conn = DBConnection.getConnection();
-					System.out.println("1/6 getEpilogueList success");
-			
-			psmt = conn.prepareStatement(sql);
-					System.out.println("2/6 getEpilogueList success");
-			
-			rs = psmt.executeQuery();
-					System.out.println("3/6 getEpilogueList success");
-			
-			while(rs.next()) {
-				int i = 1;
-				EpilogueDto dto = new EpilogueDto(rs.getInt(i++), 
-													rs.getString(i++), 
-													rs.getInt(i++), 
-													rs.getInt(i++), 
-													rs.getInt(i++), 
-													rs.getString(i++),
-													rs.getString(i++),
-													rs.getString(i++),
-													rs.getString(i++), 
-													rs.getInt(i++), 
-													rs.getInt(i++));
-				System.out.println(dto.toString());
-				list.add(dto);
 
-			}
-			System.out.println("4/6 getEpilogueList success");
-			
-		} catch (SQLException e) {
-			System.out.println("getEpilogueList fail");
-			e.printStackTrace();
-		} finally {
-			DBClose.close(psmt, conn, rs);			
-		}
-		
-		return list;
-	}
-	
 	public EpilogueDto getEpilogue(int seq) {
 		String sql = " SELECT SEQ, ID, REF, STEP, DEPTH, "
 						+ " THUMBNAIL, TITLE, CONTENT, WDATE, "
@@ -199,15 +143,15 @@ public class EpilogueDao {
 		}				
 	}
 	
-	//					  부모글의 sequence 답글의 Object
+
 	public boolean epilogueReply(int seq, EpilogueDto epilogue) {
-		// update
+	
 		String sql1 = " UPDATE BG_EPILOGUE "
 					+ " SET STEP=STEP+1 "
 					+ " WHERE REF = (SELECT REF FROM BG_EPILOGUE WHERE SEQ=?) "
 					+ "		AND STEP > (SELECT STEP FROM BG_EPILOGUE WHERE SEQ=?) ";
 		
-		// insert
+
 		String sql2 = " INSERT INTO BG_EPILOGUE "
 					+ " (SEQ, ID, REF, STEP, DEPTH, "
 					+ "  THUMBNAIL, TITLE, CONTENT, WDATE, DEL, READCOUNT) "
@@ -341,73 +285,7 @@ public class EpilogueDao {
 		return count>0?true:false;
 	}
 	
-	//								제목, 작성자, 내용             검색어
-	public List<EpilogueDto> getEpilogueList(String choice, String searchWord){
-		
-		String sql = " SELECT SEQ, ID, REF, STEP, DEPTH, "
-					+ " THUMBNAIL, TITLE, CONTENT, WDATE, "
-					+ " DEL, READCOUNT "
-					+ " FROM BG_EPILOGUE ";
-		
-		String sqlWord = "";
-		
-		if(choice.equals("title")) {
-			sqlWord = " WHERE TITLE LIKE '%" + searchWord.trim() + "%' ";
-		}else if(choice.equals("writer")) {
-			sqlWord = " WHERE ID='" + searchWord.trim() + "'";
-		}else if(choice.equals("content")) {
-			sqlWord = " WHERE CONTENT LIKE '%" + searchWord.trim() + "%' ";
-		}
-		
-		sql += sqlWord;
-		
-		sql += " ORDER BY REF DESC, STEP ASC ";
-		
-		Connection conn = null;
-		PreparedStatement psmt = null;
-		ResultSet rs = null;
-		
-		List<EpilogueDto> list = new ArrayList<EpilogueDto>();
-		
-		try {
-			conn = DBConnection.getConnection();
-					System.out.println("1/6 getEpilogueList(String choice, String searchWord) success");
-			
-			psmt = conn.prepareStatement(sql);
-					System.out.println("2/6 getEpilogueList(String choice, String searchWord) success");
-			
-			rs = psmt.executeQuery();
-					System.out.println("3/6 getEpilogueList(String choice, String searchWord) success");
-			
-			while(rs.next()) {
-				int i = 1;
-				EpilogueDto dto = new EpilogueDto(rs.getInt(i++), 
-													rs.getString(i++), 
-													rs.getInt(i++), 
-													rs.getInt(i++), 
-													rs.getInt(i++), 
-													rs.getString(i++), 
-													rs.getString(i++), 
-													rs.getString(i++),
-													rs.getString(i++), 
-													rs.getInt(i++), 
-													rs.getInt(i++));
-				list.add(dto);
-			}
-			System.out.println("4/6 getEpilogueList success");
-			
-		} catch (SQLException e) {
-			System.out.println("getEpilogueList fail");
-			e.printStackTrace();
-		} finally {
-			DBClose.close(psmt, conn, rs);			
-		}
-		
-		return list;		
-	}
-	
-	// 총 글의 갯수
-	// 13 -> 2	
+
 	public int getAllEpilogue(String choice, String searchWord) {
 		
 		String sql = " SELECT COUNT(*) FROM BG_EPILOGUE ";
@@ -446,14 +324,7 @@ public class EpilogueDao {
 	
 	
 	public List<EpilogueDto> getEpiloguePagingList(String choice, String searchWord, int page){
-		
-		/*
-			1. row 번호
-			2. 검색
-			3. 정렬
-			4. 범위 1 ~ 10		
-		*/
-		
+
 		String sql = " SELECT SEQ, ID, REF, STEP, DEPTH, "
 					+ " THUMBNAIL, TITLE, CONTENT, WDATE, "
 					+ " DEL, READCOUNT "
@@ -488,8 +359,8 @@ public class EpilogueDao {
 		List<EpilogueDto> list = new ArrayList<EpilogueDto>();
 		
 		int start, end;
-		start = 1 + 10 * page;	// 0 -> 1	1 -> 11
-		end = 10 + 10 * page;	// 0 -> 10  1 -> 20
+		start = 1 + 10 * page;	
+		end = 10 + 10 * page;	
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -531,7 +402,7 @@ public class EpilogueDao {
 		
 	}
 	
-	// detail view에서 그려 줄 내용정리
+
 	public List<EpilogueDto> getEpilogueReplies(int seq) {
 		String sql = "  SELECT * FROM BG_EPILOGUE "
 					+ " WHERE REF = ? AND THUMBNAIL <> 'Main' ";
@@ -581,7 +452,7 @@ public class EpilogueDao {
 		}
 		return list;
 	}
-// getReplyCount
+
 public int getReplyCount(int ref) {
 		
 		String sql = "  SELECT COUNT(REF) FROM BG_EPILOGUE"

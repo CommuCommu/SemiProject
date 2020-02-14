@@ -12,9 +12,11 @@ public class EpilogueService {
 		return dao.writeEpilogue(epilogue);
 	}
 	
+	/*
 	public List<EpilogueDto> getEpilogueList() {
 		return dao.getEpilogueList();
 	}
+	*/
 	
 	public EpilogueDto getEpilogue(int seq) {
 		return dao.getEpilogue(seq);
@@ -32,9 +34,12 @@ public class EpilogueService {
 		return dao.deleteEpilogue(seq);		
 	}
 	
+	/*
 	public List<EpilogueDto> getEpilogueList(String choice, String searchWord){
 		return dao.getEpilogueList(choice, searchWord);		
 	}
+	*/
+	
 	public int getAllEpilogue(String choice, String searchWord) {
 		return dao.getAllEpilogue(choice, searchWord);	
 	}
