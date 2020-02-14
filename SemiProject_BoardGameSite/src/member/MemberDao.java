@@ -11,7 +11,7 @@ import dto.MemberDto;
 
 public class MemberDao {
 
-private static MemberDao dao = new MemberDao();
+	private static MemberDao dao = new MemberDao();
 	
 	private MemberDao() {
 		

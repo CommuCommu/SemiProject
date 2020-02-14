@@ -12,17 +12,13 @@ import db.DBConnection;
 import dto.NoticeDto;
 
 public class NoticeDAO {
+    
 	
 	
 	private static NoticeDAO dao = new NoticeDAO();
 	
-	public NoticeDAO() {
-		
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+	private NoticeDAO() {
+
 	}
 	
 	public static NoticeDAO getInstance() {
@@ -31,11 +27,17 @@ public class NoticeDAO {
 	
 	
 	
-	// 怨듭� �옉�꽦
+	// 공지 작성
 	public boolean writeNotice(NoticeDto dto) {
 		
 		String sql = " INSERT INTO BG_NOTICE(SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL) "
 				+ " VALUES(SEQ_BG_NOTICE.NEXTVAL, ?, SYSDATE, ?, ?, 0, 0) ";
+		
+		// null 값 방지 저스트 출력용도
+		System.out.println(dto.getId());	
+		System.out.println(dto.getTitle());
+		System.out.println(dto.getContent());
+		System.out.println(dto.getWdate());
 		
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -64,7 +66,7 @@ public class NoticeDAO {
 	}
 	
 	
-	// 怨듭� �닔�젙
+	// 공지 수정
 	public boolean updateNotice(String title, String content, int seq) {
 		
 		String sql = " UPDATE BG_NOTICE "
@@ -97,7 +99,7 @@ public class NoticeDAO {
 	}
 	
 	
-	// 怨듭� �궘�젣
+	// 공지 삭제
 	public boolean deleteNotice(int seq) {
 		
 		String sql = " UPDATE BG_NOTICE "
@@ -226,7 +228,7 @@ public class NoticeDAO {
 	}
 	
 	
-	// 怨듭� 議고쉶 �닔
+	// 공지사항 조회수
 	public void viewCount(int seq) {
 		String sql = " UPDATE BG_NOTICE "
 				+ " SET READCOUNT = READCOUNT + 1 "
@@ -252,7 +254,7 @@ public class NoticeDAO {
 	}
 	
 	
-	// 怨듭� �긽�꽭蹂닿린
+	// 공지사항 상세 조회
 	public NoticeDto noticeDetail(int seq) {
 		String sql = " SELECT SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL "
 				+ " FROM BG_NOTICE "
@@ -303,7 +305,8 @@ public class NoticeDAO {
 	
 		   sql += "(SELECT ROW_NUMBER()OVER(ORDER BY SEQ ASC) AS RNUM, "
 		   		+ "			SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL "
-		   		+ " FROM BG_NOTICE ";
+		   		+ " FROM BG_NOTICE "
+		   		+ " WHERE DEL = 0 ";
 		   
 	String sqlWord = "";
 	

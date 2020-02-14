@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    <%
+    request.setCharacterEncoding("utf-8");
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,20 +26,28 @@ $(document).ready(function(){
 
 </head>
 <body>
+<%-- GNB --%>
+<div id="gnb"></div>
+<script type="text/javascript">
+$(function () {
+	$("#gnb").load("./GNB/gnb.jsp");
+})
+</script>
 
+<br><br><br><br>
 <div align = "center">
-<form id="frm" action="test" method="post">
+<form id="frm" action="noticeWrite" method="post">
+<input type = "hidden" name = "command" value= "writeAf">
 <%-- <form id="frm" action="insert.jsp" method="post" > --%>
-<table width="100%">
+	
+		제목 <input type="text" id="title" name="title" style = "width : 750px; height : 20px" placeholder="게시글 제목을 입력하세요">
+	
+<table align = "center" width = "900px" height = "600px">
 	<tr>
-		<td>제목</td>
-		<td><input type="text" id="title" name="title"/></td>
-	</tr>
-	<tr>
-		<td>내용</td>
+		<td></td>
 		<td> 
-			<textarea rows="10" cols="30" id="ir1" name="ir1" style="width:766px; height:412px; "></textarea>
-			
+			<textarea rows="10" cols="30" id="ir1" name="ir1" style="width:766px; height:412px; align:center"></textarea>
+			<input type = "hidden" name = "wDate" <%-- value = "<%=Date date = new Date(); %>" --%>>
 			<script type="text/javascript">			
 				var oEditors = [];										
 				$(function(){
@@ -66,9 +78,9 @@ $(document).ready(function(){
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2">
-			<input type="button" id="save" value="저장" onclick="fOnAppLoad(this)"/>
-			<input type="button" value="취소"/>
+		<td colspan="2" align = "center">
+			<input type="button" id="save" value="저장" onclick="fOnAppLoad(this)">
+			<input type="button" onclick = "location.href='notice.jsp'" value="취소">
 		</td>
 	</tr>
 </table>

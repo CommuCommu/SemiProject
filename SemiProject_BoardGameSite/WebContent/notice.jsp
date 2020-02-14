@@ -8,11 +8,22 @@
     <% 
     request.setCharacterEncoding("utf-8");
     %>
-    
-    
+    	
+    	
     <%
+    /* 
+    // 메인에서 auth 넘겨줘야 한다..
+    // 아아니야...잠깐만.....ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ 이건 잊어
+    
    	MemberDto memberDto = (MemberDto)session.getAttribute("login");
   
+    String sAuth = request.getParameter("auth");
+    int auth = Integer.parseInt(sAuth.trim());
+    System.out.println("관리자값 확인하기 = " + auth); */
+    
+    
+    
+    
     String searchWord = request.getParameter("searchWord");
     String choice = request.getParameter("choice");
     
@@ -54,6 +65,31 @@
 </head>
 <body>
 
+<%-- Session 객체 가져오기 --%>
+
+<%
+    Object oLogin = session.getAttribute("login");
+    MemberDto mem = null;
+    
+    if(oLogin == null) {
+    %>
+    
+    	
+    	
+    <%
+    
+    } else {
+    
+    	mem = (MemberDto) oLogin;
+    	
+   	%>
+   	
+    <%
+    	}
+    %>
+
+
+
 <%-- GNB --%>
 <div id="gnb"></div>
 <script type="text/javascript">
@@ -64,7 +100,7 @@ $(function () {
 <br><br>
 
 <%--페이지 시작. --%>
-<h1 align = "center">공지사항</h1>
+<h1 align = "center"><font style="font-size:29pt">공지사항</font></h1>
 
 
 <%
@@ -94,8 +130,8 @@ if(length % 10 > 0) {
 
 <div align = "center" style = "padding-left:100px; padding-right:100px">
 <br><br><br><br>
-<table border = "1" style = "border-collapse:collapse" class="table table-striped">
-	<col width = "70"> <col width = "600"> <col width = "90"> <col width = "90"> <col width = "50">
+<table border = "1" style = "border-collapse:collapse" class="table table-hover">
+	<col width = "40"> <col width = "600" style="text-align:center"> <col width = "90"> <col width = "90"> <col width = "50">
 	
 	
 	<tr>
@@ -127,12 +163,12 @@ if(length % 10 > 0) {
 	%>
 	
 	<tr>
-		<th> <%=i+1 %> </th>
-		<td>
+		<th style="text-align:center"> <%=i+1 %> </th>
+		<td style = "text-align:center">
 			<%
 				if(dto.getDel() == 0) {
 			%>
-			<a href = "NoticeDetail.jsp?seq=<%=dto.getSeq() %>"> <%=dto.getTitle() %></a>
+			<a href = "noticeDetail?seq=<%=dto.getSeq() %>"> <%=dto.getTitle() %></a>
 			<%
 				} else {
 			%> <font color = "#ff0000"> 이 글은 삭제된 글입니다. </font> <%
@@ -140,6 +176,8 @@ if(length % 10 > 0) {
 			%>
 		</td>
 		<td align = "center"> <%=dto.getId() %> </td>
+		<td align ="center"> <%=dto.getWdate() %> </td>
+		<td align = "center"> <%=dto.getReadcount() %> </td>
 	</tr>
 	
 	
@@ -165,16 +203,90 @@ if(length % 10 > 0) {
 	
 	<!-- a 버튼 클릭 시 goPage() 호출 -->
 	<a href = "#none" title="<%=i+1 %> 페이지" onclick = "goPage(<%=i%>)"
-					  style="font-size:15pt; color:#000; font-weight:bold; text-decoration:none">
-					  [<%=i+1 %>]
+					  style="font-size:15pt; color:#6E6E6E; /* font-weight:bold; */text-decoration:none">
+					  <%=i+1 %>
 	</a>&nbsp;
 	<%
 			}
 		}
 	%>
 	<br>
-	<br> <a href = "noticeWrite.jsp?type=write"> 글쓰기 </a>
+	<br><br><br>
+	
+	<!-- 관리자만 글쓰기 버튼이 보이게 하기 -->
+	
+	
+	<%-- <%
+	if(mem.getAuth() == 1) {
+	%>
+		<a href = "noticeWrite?command=write"> <button type = "button"> 글쓰기 </button> </a>
+	
+	<%
+	}
+	%> --%>
+	
+	<br><br><br>
+	
+	
+	<!-- 검색기능 -->
+	<div align = "center">
+	
+	<select id = "choice">
+		<option value = "sel"> 선택 </option>
+		<option value = "title"> 제목 </option>
+		<option value = "content"> 내용 </option>
+	</select> <input type = "text" id = "search" value = "">
+	
+	<!-- 검색버튼을 누르면 검색 메소드 searchNotice 호출 (써야함) -->
+	<button type = "button" onclick = "searchNotice()">검색 </button>
+	</div>
+	
+	
 </div>
+
+
+<script type = "text/javascript">
+function searchNotice() {
+	
+	// select 의 option 값을 변수에 넣는다.
+	var choice = document.getElementById("choice").val();
+	
+	// 검색한 내용값을 변수에 넣는다.
+	var word = $("#search").val();
+	
+	// 검색어가 아무것도 없으면, 아무것도 선택하지 않은 select 를 가리키게 한다.
+	if(word == "") {
+		document.getElementById("choice").value = 'sel';
+	}
+	
+	// NoticeListServlet 에 command = search / 검색어 searchWord = word, 검색항목인 choice 를 넣는다.
+	location.href = "noticeList?command=search&searchWord=" + word + "&choice=" + choice;
+}
+
+
+function goPage( pageNum ) {
+	var choice = $("#choice").val();
+	var word = $("#search").val();
+
+	if(word == "") {
+		document.getElementById("choice").value = 'sel';
+	}
+	
+	var linkStr = "notice.jsp?pageNumber=" + pageNum;
+	
+	if(choice != 'sel' && word != "") {
+		linkStr = linkStr + "&searchWord = " + word + "&choice=" + choice;
+	}
+	
+	
+	location.href = linkStr;
+}
+
+
+
+
+
+</script>
 
 </body>
 </html>

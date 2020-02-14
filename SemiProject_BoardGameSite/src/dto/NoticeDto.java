@@ -52,7 +52,12 @@ public class NoticeDto {
 		this.title=title;
 		this.content=content;
 	}
-
+	
+	
+	public NoticeDto(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
 
 	public int getSeq() {
 		return seq;
