@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+
 import dto.MemberDto;
 
 @WebServlet("/addmember")
@@ -24,10 +26,10 @@ public class AddMemberServ extends HttpServlet {
 	public void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		MemberService memService = new MemberService();
-
+		req.setCharacterEncoding("utf-8");
 		
 		String command = req.getParameter("command");
-		System.out.println("command" + command);
+		System.out.println("command: " + command);
 		
 		if(command.equals("add")) { // 로그인페이지에서 회원가입요청한경우, 회원가입 페이지로
 			
@@ -51,8 +53,23 @@ public class AddMemberServ extends HttpServlet {
 				resp.sendRedirect("regiAf.jsp");
 			}
 			
+		}else if(command.equals("emailCallNumChk"))	{
+			
+			String call_number = req.getParameter("call_number");
+			String email = req.getParameter("emailFront")+ "@" + req.getParameter("emailBack");
+			System.out.println("callnum: " + call_number + ", email:" + email);
+
+			boolean emailChk = memService.emailChk(email);
+			boolean callChk = memService.phoneNumChk(call_number);
+			
+			System.out.println("emailChk: " + emailChk + "callChk" + callChk) ;
+			JSONObject obj = new JSONObject();  
+			obj.put("emailChk", emailChk); 
+			obj.put("callChk", callChk);
+			
+			resp.setContentType("application/x-json); charset=utf-8");
+			resp.getWriter().print(obj);
 		}
-		
 		
 	}
 }

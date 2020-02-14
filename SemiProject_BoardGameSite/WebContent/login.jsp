@@ -17,11 +17,14 @@ String loginFail = request.getParameter("loginFail");
 
 <%-- GNB --%>
 <div id="gnb"></div>
+
 <script type="text/javascript">
 $(function () {
 	$("#gnb").load("./GNB/gnb.jsp");
 })
 </script>
+
+
 
 <%--페이지 시작. --%>
 <div align="center">
@@ -34,6 +37,8 @@ $(function () {
 	<a href="addmember?command=add"><button type="button">회원가입</button></a></div>
 </form>
 </div>
+
+
 
 <script type="text/javascript">
 
@@ -50,8 +55,6 @@ function loginFail(){
 	
 	}
 }
-
-
 	
 	$(function () {
 		$("#_submit").click(function () {
