@@ -27,7 +27,7 @@
 <div id="gnb"></div>
 <script type="text/javascript">
 $(function () {
-	$("#gnb").load("./GNB/gnbEx.jsp");
+	$("#gnb").load("./GNB/gnb.jsp");
 })
 </script>
 

@@ -53,10 +53,10 @@
         <a class="nav-link" href="./epiloguelist.jsp">후기</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./map.jsp">위치</a>
+        <a class="nav-link" href="./mapEx.jsp">위치</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./qna.jsp">Q & A</a>
+        <a class="nav-link" href="qnaServlet?action=list">Q & A</a>
       </li>
       
       <% if(oLogin != null) { %>

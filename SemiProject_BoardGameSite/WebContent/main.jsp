@@ -143,12 +143,12 @@ h4 {
 <body>
 
 
-<!-- <div id="gnb"></div>
+<div id="gnb"></div>
 <script type="text/javascript">
 $(function () {
 	$("#gnb").load("./GNB/gnb.jsp");
 })
-</script> -->
+</script>
 
 
 <!-- GNB 부분 ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ -->
@@ -162,6 +162,8 @@ $(function () {
 	MemberDto mem = null;
 	%>	
 
+
+<%--
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="./main.jsp"><img src="./GNB/icon.png" width="50px" height="50px"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -220,11 +222,11 @@ $(function () {
     </form>
   </div>
 </nav>
-
+ --%>
 
 
 <!-- 본문 부분!!!!!!! -->
-
+<div style="padding-top: 400px">
 	<div class="card">
 		<div class="imgBox">
 			<div class="bark"></div>
@@ -242,6 +244,7 @@ $(function () {
 			<p class="text-right">♥Sarah</p> -->
 		</div>
 	</div>
+</div>
 
 </body>
 </html>
