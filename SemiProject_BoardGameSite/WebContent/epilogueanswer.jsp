@@ -51,12 +51,7 @@ $(function () {
 	<th align="center">제목</th>
 	<td colspan="5">${_epilogue.title }</td>
 </tr>
-<%-- 
-<tr>
-	<th align="center">정보</th>
-	<td>${_epilogue.ref }-${_epilogue.step }-${_epilogue.depth }</td>
-</tr>
- --%>
+
 <tr align="center">
 	<th>내용</th>
 	<td colspan="5">

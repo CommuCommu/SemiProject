@@ -7,9 +7,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>epilogueupdate</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script> 
 <script type="text/javascript" src="editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+
+<title>epilogueupdate</title>
 
 <div id="gnb"></div>
 <script type="text/javascript">
@@ -29,26 +30,26 @@ $(document).ready(function(){
 })
 </script>
 
-<!-- 
+
 <style type="text/css">
 table.type02 {
-    border-collapse: separate;
+ 	border-collapse: separate;
     border-spacing: 0;
     text-align: left;
-    line-height: 1.0;
-    border-top: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-  	margin : 20px 10px;
+	line-height: 1.0;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+
 }
 table.type02 th {
     /* width: 150px; */
     padding: 10px;
     font-weight: bold;
     vertical-align: top;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
     background: #eee;
     text-align: center;
 }
@@ -56,16 +57,14 @@ table.type02 td {
     /* width: 350px; */
     padding: 10px;
     vertical-align: top;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
 }
 </style>
- -->
+
 
 </head>
 <body>
-
-<a href="logout.jsp">로그아웃</a>
 
 <h1>글 수정</h1>
 
@@ -83,31 +82,32 @@ MemberDto mem = null;
 mem = (MemberDto)ologin;
 %>
 
-<div class="center">
+
 
 <form id="frm" action="epilogueupdateAf.jsp" method="post">
 <input type="hidden" name="seq" value="<%=seq %>">
 			
-<table class="type02" width = "100%">
-<!-- 
-<col width="20"><col width="100%"> 
- -->
-<tr>
-	<td align="right">아이디</td>
+<table class="type02">
+<col width="150"><col width="500"> 
+
+<tr style="border:none">
+	<th align="center">아이디</th>
 	<td>
-		<input type="text" name="id" readonly="readonly" size="50" value=${ login.id }> 		
+		<input style="border:none" type="text" name="id" readonly="readonly"  value=${ login.id }> 		
 	</td>	
 </tr>
+
 <tr>
-	<td align="right">제목</td>
+	<th align="center">제목</th>
 	<td>
-		<input type="text" name="title" size="110" value="<%=epilogue.getTitle() %>">		
+		<input style="border:none" type="text" name="title" size="100%" value="<%=epilogue.getTitle() %>">		
 	</td>
 </tr>
+
 <tr>
-	<td align="right">수정할 내용</td>
-	<td> 
-			<textarea rows="10" cols="30" id="ir1" name="ir1" style="width:766px; height:412px;" ></textarea>
+	<th align="center">수정할 내용</th>
+	<td align="center"> 
+			<textarea rows="10" cols="30" id="ir1" name="ir1" style="width:100%; height:412px;" ></textarea>
 			
 			<script type="text/javascript">			
 				var oEditors = [];										
@@ -145,21 +145,13 @@ mem = (MemberDto)ologin;
 --%>
 										
 </tr>
-
 <tr>
-	<td colspan="2">
+	<td colspan="2" align="right">
 		<input type="submit" id="save" value="수정" onclick="fOnAppLoad(this)">
-		<input type="button" value="취소" onclick="location.href='epiloguelist_css.jsp'"/>
+		<input type="button" value="취소" onclick="location.href='epiloguelist.jsp'"/>
 	</td>
 </tr>
-
 </table>
-
 </form>
-
-</div>
-
-<a href="epiloguelist_css.jsp">방문후기 목록으로</a>
-
 </body>
 </html>

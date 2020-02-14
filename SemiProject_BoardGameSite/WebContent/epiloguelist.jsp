@@ -81,28 +81,15 @@ table.type02 th {
 }
 table.type02 td {
     /* width: 350px; */
-    padding: 10px;
+    padding: 3px;
+    line-height: 1.2;
     vertical-align: center;
-    border-right: 0.5px solid #ccc;
-    border-bottom: 0.5px solid #ccc;
+    border-top: 0.1px solid #ccc;
+    border-bottom: 0.1px solid #ccc;
 }
 
-/* 
-img {
-  border: 1px solid #ddd;
-  border-radius: 1px;
-  padding: 1px;
-  width: 150px;
-}
-
-img:hover {
-  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-}
-
- */
 </style>
 
-<!-- 메뉴 ul  -->
 
 </head>
 <body>
@@ -137,92 +124,85 @@ $(document).ready(function () {
 </script>
 
 <%
-// paging
 String spageNumber = request.getParameter("pageNumber");
 int pageNumber = 0;
+int count=0;
 if(spageNumber != null && !spageNumber.equals("")){
 	pageNumber = Integer.parseInt(spageNumber);
 }
 
 EpilogueDao dao = EpilogueDao.getInstance();	
-//	List<EpilogueDto> list = dao.getEpilogueList();
-//	List<EpilogueDto> list = dao.getEpilogueList(choice, searchWord);
 	List<EpilogueDto> list = dao.getEpiloguePagingList(choice, searchWord, pageNumber);
 
-	
-//	request.setAttribute("list", list);
-
-int len = dao.getAllEpilogue(choice, searchWord);
-System.out.println("총 글의 갯수:" + len);
+int len = dao.getAllEpilogue(choice, searchWord); 
+	System.out.println("총 글의 갯수:" + len);
 
 int epiloguePage = len / 10;	// 예: 22개의 글 -> 3페이지
+
 if(len % 10 > 0){
 	epiloguePage = epiloguePage + 1;
 }
-
 %>
-
-<h4 align="right" style="background-color: #f0f0f0">
+<table class="type02" style="width:95%; border: none">
+<tr>
+<td align="left" style="border: none; font-size: 20px; font-style: bold ">방문후기 페이지</td>
+<td align="right" style="border: none">
 	환영합니다 <%=mem.getId() %>님
-</h4>
-
-
-<h3>방문후기 페이지 입니다.</h3>
+</td>
+</tr>
+<tr>
+<td align="left" style="border: none; font-size: 20px; font-style: bold"><font color="gray">총 방문 후기 수 / <%=len %></font></td>
+</tr>
+</table>
 
 <div align="center">
-
 <table class="type02">
 <col width="70"><col width="70"><col width="600"><col width="70"><col width="70"><col width="100"><col width="120">
 
 <tr>
-	<th>번호</th><th>TN</th><th>제목</th><th>댓글수</th><th>조회수</th><th>작성자</th><th>등록일</th>
-	
+	<th>번호</th><th style="font-size: 9pt">Image</th><th>제목</th><th>댓글수</th><th>조회수</th><th>작성자</th><th>등록일</th>
 </tr>
-<%
-
+<% 
 if(list == null || list.size() == 0){
-	%>
+%>
 	<tr>
-		<td colspan="6">작성된 후기가 없습니다</td>
+		<th colspan="7">작성된 후기가 없습니다</th>
 	</tr>
-	<%
+	
+<%
 }else{
-		
-	for(int i = 0;i < list.size(); i++){
-
+%>
+	
+<%
+for(int i = 0;i < list.size(); i++){
 		EpilogueDto epilogue = list.get(i);	
-					System.out.println("epilCount : " + epilogue);
-		String takeImgAddress = epilogue.getContent();
-					System.out.println("takeImgAddress : " + takeImgAddress);		
-	%>
-
+%>
 	<div class="test" hidden="true"><%=epilogue.getContent() %></div>
-	<%-- 
-	<input hidden="true" class="test" value="<%=epilogue.getContent() %>">
- 	 --%>
 	<tr>			
-		<%
-		if(epilogue.getStep() == 0 ){
-		%>
-		<th><%=i + 1 %></th>
+<%
+if(epilogue.getStep() == 0 ){
+%>
+		
+		<th><%=++count %></th>
 		 <td align = "center"> 
-		  
+		 
 					 <%
-					 // thumbnail
 					 String str=epilogue.getContent().trim();
-					 String[] array=str.split("/");
+					 String[] array=str.split("http");
+							str=array[1];
+							array=str.split("/");
 					 String url="";
-					 str=array[7].substring(0, 58);
-			 		 url="http://127.0.0.1:8090/jspSamples/editor/multiupload/"+str;
-					 %>
+					 String strUrl=(array[7].trim()).substring(0, 58);
+ 			 	     url="editor/multiupload/"+strUrl;
 
+					 %>
+					 
 				 <a target="_blank" href="epiloguedetail.jsp?seq=<%=epilogue.getSeq() %>">	
-				 	<img  src="<%=url %>" alt="url" style="width:40px; height:20px">
+				 	<img  src="<%=url %>" alt="url" style="width:60px; height:40px">
 				 </a>	
 		  </td>
 		 	
 		 	<% if(epilogue.getDel() == 0){ %>
-		 	
 				<td class="seqclick" seq=<%=epilogue.getSeq() %> style="font-size: 10pt">
 					<%-- <%=arrow( epilogue.getDepth() ) %> --%>
 					<b><%=epilogue.getTitle() %></b>
@@ -249,14 +229,14 @@ if(list == null || list.size() == 0){
 </table>
 
 <%
-for(int i = 0;i < epiloguePage; i++){		// [1] 2 [3]
-	if(pageNumber == i){	// 현재 페이지		
+for(int i = 0;i < epiloguePage; i++){	
+	if(pageNumber == i){		
 		%>
 		<span style="font-size: 15pt; color: #0000ff; font-weight: bold;">
 			<%=i + 1 %>
 		</span>&nbsp;
 		<%
-	}else{	// 그 외의 페이지
+	}else{	
 		%>
 		<a href="#none" title="<%=i+1 %>페이지" onclick="goPage(<%=i %>)"
 			style="font-size: 15pt; color: #000; font-weight: bold; text-decoration: none">
@@ -267,12 +247,9 @@ for(int i = 0;i < epiloguePage; i++){		// [1] 2 [3]
 }
 %>
 <br><br>
-
 <a href="epiloguewrite.jsp">방문후기를 작성</a>
 </div>
-
 <br>
-
 <div align="center">
 
 <select id="choice" style="height: 25px">
@@ -283,32 +260,16 @@ for(int i = 0;i < epiloguePage; i++){		// [1] 2 [3]
 </select>
 
 <input style="height: 20px" type="text" id="search" value="">
-
 <button onclick="searchEpilogue()">검색</button>
 
 </div>
-
 <br><br><br>
-
-
 <script type="text/javascript">
-
-$(document).ready(function () {
-	/* 
-	alert($(".test").html());
-	 */
-// alert($('.test').find('img').attr('src'));
-	
-//	 $(".demo").attr("src", $('.test').find('img').attr('src'));
-	 
-//	 document.getElementsByClass("demo").src = $('.test').find('img').attr('src');
-	
-});
 
 $(function () {
 	
 	$(".seqclick").mousedown(function() {
-	//	alert("mousedown");
+	
 		location.href = "epiloguedetail.jsp?seq=" + $(this).attr("seq");
 	});
 	
@@ -324,8 +285,6 @@ $(function () {
 function searchEpilogue() {
 	var choice = document.getElementById("choice").value;
 	var word = $("#search").val();
-//	alert(choice);
-//	alert(word);
 
 	if(word == ""){
 		document.getElementById("choice").value = 'sel';
@@ -338,7 +297,7 @@ function searchEpilogue() {
 function goPage( pageNum ) {
 	var choice = $("#choice").val();
 	var word = $("#search").val();
-//	alert("pageNum:" + pageNum);
+
 	if(word == ""){
 		document.getElementById("choice").value = 'sel';
 	}
@@ -347,7 +306,6 @@ function goPage( pageNum ) {
 		linkStr = linkStr + "&searchWord=" + word + "&choice=" + choice;
 	}
 	location.href = linkStr;
-//	location.href = "epiloguelist.jsp?pageNumber=" + pageNum;
 }
 
 </script>
