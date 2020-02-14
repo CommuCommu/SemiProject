@@ -11,6 +11,8 @@
 
 </head>
 <body>
+
+
 <%
 	Object oLogin = session.getAttribute("login");
 	MemberDto mem = null;

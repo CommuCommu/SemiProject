@@ -23,10 +23,10 @@ public class NoticeDto {
 
 	int seq;
 	String id;
-	String wdate;
+	String wDate;
 	String title;
 	String content;
-	int readcount;
+	int readCount;
 	int del;
 	
 	
@@ -39,13 +39,25 @@ public class NoticeDto {
 		super();
 		this.seq = seq;
 		this.id = id;
-		this.wdate = wdate;
+		this.wDate = wdate;
 		this.title = title;
 		this.content = content;
-		this.readcount = readcount;
+		this.readCount = readcount;
 		this.del = del;
 	}
 
+
+	public NoticeDto(String id, String title, String content) {
+		this.id=id;
+		this.title=title;
+		this.content=content;
+	}
+	
+	
+	public NoticeDto(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
 
 	public int getSeq() {
 		return seq;
@@ -68,12 +80,12 @@ public class NoticeDto {
 
 
 	public String getWdate() {
-		return wdate;
+		return wDate;
 	}
 
 
 	public void setWdate(String wdate) {
-		this.wdate = wdate;
+		this.wDate = wdate;
 	}
 
 
@@ -98,12 +110,12 @@ public class NoticeDto {
 
 
 	public int getReadcount() {
-		return readcount;
+		return readCount;
 	}
 
 
 	public void setReadcount(int readcount) {
-		this.readcount = readcount;
+		this.readCount = readcount;
 	}
 
 
