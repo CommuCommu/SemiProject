@@ -37,6 +37,15 @@ public class QnaCommentDto {
 		// TODO Auto-generated constructor stub
 	}
 
+	// 댓글 저장용
+	public QnaCommentDto(String id, String content, int qnamumber) {
+		super();
+		this.id = id;
+		this.content = content;
+		this.qnamumber = qnamumber;
+	}
+
+
 	public QnaCommentDto(int seq, String id, String wdate, int qnamumber, String content, int del) {
 		super();
 		this.seq = seq;
