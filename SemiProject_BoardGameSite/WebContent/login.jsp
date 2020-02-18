@@ -49,6 +49,7 @@ $(function () {
 
 <div align="center" style="line-height:3em">
 <form action="login?command=toMain" id="frm" method="POST">
+<<<<<<< HEAD
 	
 	<div>아이디: <input type="text" id="_id" name="id" placeholder="아이디를 입력해주세요"></div>
 	
@@ -59,6 +60,18 @@ $(function () {
 	<div><a href="find?command=toFindPage"><button type="button">아이디 또는 비밀번호 찾기</button></a>
 	
 	<a href="addmember?command=add"><button type="button">회원가입</button></a></div>
+=======
+	<div><!-- 아이디:  --><input type="text" id="_id" name="id" placeholder="아이디를 입력해주세요" class="form-control" style="width: 380px; margin-bottom: 10px"></div>
+	<div><!-- 비밀번호:  --><input type="password" id="_pw" name="pw" placeholder="비밀번호를 입력해주세요" class="form-control" style="width: 380px; margin-bottom: 15px"></div>
+	<div>
+		<input type="button" id="_submit" class="btn btn-danger" style="width: 380px;vertical-align: middle;" value="로그인">
+	</div>
+	<div class="member_btns">
+		<a href="addmember?command=add" >회원가입</a>
+		<span>|</span>
+		<a href="find?command=toFindPage">아이디 · 비밀번호 찾기</a>
+	</div>
+>>>>>>> Jung_Css
 </form>
 </div>
 

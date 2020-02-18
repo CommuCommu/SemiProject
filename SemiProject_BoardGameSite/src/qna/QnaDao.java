@@ -67,6 +67,55 @@ public class QnaDao {
 		}		
 		return list;
 	}
+	
+	
+	public List<QnaDto> getQnaNoticeList() {
+		
+		String sql = " SELECT SEQ, ID, TITLE, CONTENT, WDATE, READCOUNT, IS_SECRET, IS_ANSWER, DEL, BESTQNA "
+				   + " FROM BG_QNA "
+				   + " WHERE ID IN (SELECT ID FROM BG_MEMBER WHERE AUTH=1) "
+				   + " ORDER BY WDATE DESC ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		List<QnaDto> list = new ArrayList<QnaDto>();
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getQnaNoticeList success");
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 getQnaNoticeList success");
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getQnaNoticeList success");
+			
+			while (rs.next()) {
+				int i = 1;
+				QnaDto dto = new QnaDto( rs.getInt(i++),
+										 rs.getString(i++),
+										 rs.getString(i++),
+										 rs.getString(i++),
+										 rs.getString(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++)	);
+				list.add(dto);				
+			}
+			System.out.println("4/6 getQnaNoticeList success");
+			
+		} catch (SQLException e) {
+			System.out.println("getQnaNoticeList fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);			
+		}		
+		return list;
+	}
+	
+	
 
 	public boolean setQnaWrite(QnaDto dto) {
 		
@@ -515,7 +564,7 @@ public List<QnaDto> getQnaPagingList(String choice, String searchWord, int page)
 		
 		return count>0?true:false;
 	}
-	
+
 public List<QnaDto> getNoAnsList(int page){
 		
 		System.out.println("dao로 들어온 page : " + page);
@@ -617,6 +666,7 @@ public int getNoAnsCount(){
 	}	
 	return count;
 }
+
 	public boolean setQnaAnswerEnd(int seq) {
 		String sql = " UPDATE BG_QNA "
 				   + " SET IS_ANSWER=1 "

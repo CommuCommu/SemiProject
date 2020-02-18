@@ -17,6 +17,7 @@ int qnaPage = (int)request.getAttribute("qnaPage");
 System.out.println("뷰에서의 qnaPage : " + qnaPage);
 // 리스트 호출
 List<QnaDto> list = (List<QnaDto>)request.getAttribute("qnaList");
+List<QnaDto> qnaNoticeList = (List<QnaDto>)request.getAttribute("qnaNoticeList");
 System.out.println("뷰에서 리스트 호출");
 
 // 게스트의 로그인 세션 처리
@@ -75,12 +76,21 @@ QnaCommentDao qcDao = QnaCommentDao.getInstance();
 
 a {color: #000000;}
 a:hover {text-decoration: none; color: #000000;}
+<<<<<<< HEAD
 img {vertical-align: sub;}
+=======
+/* img {vertical-align: sub;} */
+>>>>>>> Jung_Css
 
 .badge.badge-secondary {display: unset; padding:0.3em 0.8em; vertical-align: bottom;}
 .badge.badge-warning {color:#fff; background-color:#ff7307; display: unset; padding:0.3em 0.8em; vertical-align: bottom;}
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> Jung_Css
 </style>
 
 
@@ -117,6 +127,7 @@ $(document).ready(function () {
 <div class="container">
 <br><p class="subject">Question & Answer</p>
 </div>
+<<<<<<< HEAD
 
 
 
@@ -135,11 +146,32 @@ $(document).ready(function () {
 	</thead>
 
 
+=======
+
+
+
+<!-- 테이블 div 시작 -->
+<div align="center" class="container"> 
+
+
+<!-- <table border="1"> -->
+<table class="table table-hover">
+<!-- <table class="table table-bordered"> --> <!-- 줄있음 test용-->
+<col width="60"><col width="400"><col width="100"><col width="100"><col width="100">
+	<thead align="center">
+		<tr>
+		   <th>No</th><th>제목</th><th>글쓴이</th><th>진행</th><th>작성일</th><!-- <th>글 구분</th> -->
+		</tr>
+	</thead>
+
+
+>>>>>>> Jung_Css
 	<tbody>
 <% if(list == null || list.size() == 0){ %>
 	<tr>
 		<td colspan="6">작성된 글이 없습니다</td>
 	</tr>
+<<<<<<< HEAD
 <% } else {
 	for(int i = 0;i < list.size(); i++){
 		QnaDto dto = list.get(i);
@@ -193,6 +225,60 @@ $(document).ready(function () {
 				<span style="color:#ff0000;font-size:15px;font-weight:500" >+<%=qcDao.getQnaCount(dto.getSeq()) %></span>
 			<% } %>
 			
+=======
+<% } else { for(int i = 0;i < qnaNoticeList.size(); i++){
+				QnaDto noticeDto = qnaNoticeList.get(i); %>
+			<tr>
+				<td align="center"><img src="./image/qnaNotice2.png" width="21"></td>
+				<td><a href='#' onclick="userChek(<%=noticeDto.getIs_secret() %>, '<%=noticeDto.getId() %>', <%=noticeDto.getSeq() %>, <%=pageNumber%>)">
+					<%=noticeDto.getTitle() %></a></td>
+				<td align="center">관리자</td>
+				<td align="center">공지</td>
+					<% /* 작성일(wDate)을 잘라서 년월일 추출 yyMMdd */
+					
+					  String s1 = noticeDto.getWdate().substring(2,10);
+					  String p1 = "[-]";
+					  String[] sArray1 = s1.split(p1);
+					  String wDateStr = "";
+					  for( int j = 0; j < sArray1.length; j++ ){
+						  wDateStr += sArray1[j].trim();
+					  }
+					  //System.out.print("스플릿으로 자른 날짜" +sArray1[j].trim());
+					  System.out.println("스플릿으로 자른 날짜 : " + wDateStr);
+					  int wDate = Integer.parseInt(wDateStr);
+					  
+					  if(wDate < curTime) { %>
+						<td align="center"><%=noticeDto.getWdate().substring(2,11) %></td>
+					<% } else { %>
+						<td align="center"><%=noticeDto.getWdate().substring(11,13) %> : <%=noticeDto.getWdate().substring(14,16) %></td>
+					<% } %>
+				
+			
+			</tr>
+			
+			
+			<% } 
+
+				for(int i = 0;i < list.size(); i++){
+					QnaDto dto = list.get(i);
+					if(dto.getDel() == 0) { %>
+			
+	<tr>
+		<td style="text-align:center"><%=dto.getSeq() %></td>
+		<td>
+		<%-- 글 구분 --%>
+			<% if(dto.getIs_secret() == 1) { %>
+				<img src="./image/qnaLock.png" width="17" style="vertical-align: sub;">
+			<% } %>
+			<a href='#' onclick="userChek(<%=dto.getIs_secret() %>, '<%=dto.getId() %>', <%=dto.getSeq() %>, <%=pageNumber%>)">
+			<%=dto.getTitle() %></a>
+			
+			<!-- 댓글 카운트 -->
+			<% if(qcDao.getQnaCount(dto.getSeq()) > 0) {%>
+				<span style="color:#ff0000;font-size:15px;font-weight:500" >+<%=qcDao.getQnaCount(dto.getSeq()) %></span>
+			<% } %>
+			
+>>>>>>> Jung_Css
 		
 			<%-- 세션 ID 저장--%>
 			<input type="hidden" value="<%=curSessionId %>" id="sId">
@@ -215,11 +301,33 @@ $(document).ready(function () {
 		<% } %>
 		
 		<%-- 작성일 --%>
+<<<<<<< HEAD
+=======
 		
+>>>>>>> Jung_Css
 		
 	
 		
+<<<<<<< HEAD
+	
+		
 		<% if(wDate < curTime) { %>
+=======
+		<% /* 작성일(wDate)을 잘라서 년월일 추출 yyMMdd */
+		
+		  String s1 = dto.getWdate().substring(2,10);
+		  String p1 = "[-]";
+		  String[] sArray1 = s1.split(p1);
+		  String wDateStr = "";
+		  for( int j = 0; j < sArray1.length; j++ ){
+			  wDateStr += sArray1[j].trim();
+		  }
+		  //System.out.print("스플릿으로 자른 날짜" +sArray1[j].trim());
+		  System.out.println("스플릿으로 자른 날짜 : " + wDateStr);
+		  int wDate = Integer.parseInt(wDateStr);
+		  
+		  if(wDate < curTime) { %>
+>>>>>>> Jung_Css
 			<td align="center"><%=dto.getWdate().substring(2,11) %></td>
 		<% } else { %>
 			<td align="center"><%=dto.getWdate().substring(11,13) %> : <%=dto.getWdate().substring(14,16) %></td>
@@ -240,7 +348,11 @@ $(document).ready(function () {
 <%
 			}
 	}
+<<<<<<< HEAD
 	}
+=======
+	
+>>>>>>> Jung_Css
 }// list의 for문 끝
 %>
 </tbody>
@@ -397,7 +509,10 @@ function searchQna() {
 	
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Jung_Css
 </script>
 <!-- <script type="text/javascript" src="js/bootstrap.js"></script> -->
 <script type="text/javascript">

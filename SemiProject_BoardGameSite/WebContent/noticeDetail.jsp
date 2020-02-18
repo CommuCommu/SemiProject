@@ -60,9 +60,12 @@
 <title>Insert title here</title>
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<<<<<<< HEAD
 <!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
 <!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
 <link rel="stylesheet" href="css/bootstrap.css">
+=======
+>>>>>>> Jung_Css
 
 
 

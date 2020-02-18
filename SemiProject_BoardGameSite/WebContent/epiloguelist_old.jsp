@@ -56,6 +56,43 @@ $(function () {
 </script>
 
 
+<<<<<<< HEAD
+=======
+<style type="text/css">
+table.type02 {
+    border-collapse: separate;
+    border-spacing: 0;
+    vertical-align: center;
+    text-align: left;
+    line-height: 0.6;
+    border-top: 0.5px solid #ccc;
+    border-left: 0.5px solid #ccc;
+  	margin : 20px 10px;
+}
+table.type02 th {
+    /* width: 150px; */
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: center;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    background: #eee;
+    text-align: center;
+}
+table.type02 td {
+    /* width: 350px; */
+    padding: 3px;
+    line-height: 1.2;
+    vertical-align: center;
+    border-top: 0.1px solid #ccc;
+    border-bottom: 0.1px solid #ccc;
+}
+
+</style>
+
+>>>>>>> Jung_Css
 
 </head>
 <body>
@@ -122,7 +159,11 @@ if(len % 10 > 0){
 </table>
 
 <div align="center">
+<<<<<<< HEAD
 <table class="type02" border="1">
+=======
+<table class="type02">
+>>>>>>> Jung_Css
 <col width="70"><col width="70"><col width="600"><col width="70"><col width="70"><col width="100"><col width="120">
 
 <tr>

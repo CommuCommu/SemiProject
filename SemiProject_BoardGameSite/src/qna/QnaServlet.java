@@ -73,6 +73,7 @@ public class QnaServlet extends HttpServlet {
 
 			// List<QnaDto> list = qnaService.getQnaList();
 			List<QnaDto> list = qnaService.getQnaPagingList(choice, searchWord, pageNumber);
+			List<QnaDto> qnaNoticeList = qnaService.getQnaNoticeList();
 			
 			// int allListCount = qnaService.getQnaListCount();
 			
@@ -95,6 +96,8 @@ public class QnaServlet extends HttpServlet {
 			req.setAttribute("choice", choice);
 			// 검색시 검색어 값
 			req.setAttribute("searchWord", searchWord);
+			
+			req.setAttribute("qnaNoticeList", qnaNoticeList);
 			//req.setAttribute("allListCount", allListCount);
 			forward("qna.jsp", req, resp); // 전송
 			

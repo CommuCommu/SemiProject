@@ -25,6 +25,8 @@ initial-scale 속성은 페이지가 처음 로드될 때 줌 레벨을 조정�
 	
 	.navbar.navbar-expand-sm.bg-success.navbar-dark{
 		height: 50px;background-color: #004eff !important;
+		<%-- height: 50px;background-color: #0cc5ce !important; --%>
+
 	}
 	
 	

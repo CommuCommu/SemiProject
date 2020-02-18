@@ -3732,7 +3732,13 @@ input[type="button"].btn-block {
   color: #495057;
   text-align: center;
   white-space: nowrap;
+<<<<<<< HEAD
   background-color: #e9ecef;
+=======
+  /* 수정 */
+  /*  background-color: #e9ecef;  */
+  background-color: #ced4da;
+>>>>>>> Jung_Css
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
 }

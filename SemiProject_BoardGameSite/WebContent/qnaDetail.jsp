@@ -159,8 +159,22 @@ else if(commDeleteisS.equals("true")){
 
 <div align="center">
 <input type="button" onclick="changeTest(<%=pageNum%>)" value="목록 돌아가기">
+<<<<<<< HEAD
 
+=======
+>>>>>>> Jung_Css
 
+</div>
+
+<<<<<<< HEAD
+<script type="text/javascript">
+function changeTest(pageNum) {
+	//뒤로갈 히스토리가 있으면,
+	alert(pageNum);
+	location.href="qnaServlet?action=list&pageNumber="+pageNum;
+}
+
+=======
 </div>
 
 <script type="text/javascript">
@@ -170,6 +184,7 @@ function changeTest(pageNum) {
 	location.href="qnaServlet?action=list&pageNumber="+pageNum;
 }
 
+>>>>>>> Jung_Css
 </script>
 
 
