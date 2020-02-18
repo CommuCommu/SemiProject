@@ -306,9 +306,6 @@ else if(commDeleteisS.equals("true")){
 
 
 
-
-
-
 <%-- 관리자 답변 부분 --%>
 <%	if(mem != null && ( mem.getAuth() == 1 ) ) { %>
 	<tr>
@@ -330,10 +327,16 @@ else if(commDeleteisS.equals("true")){
  
 <br><br><br>
 
+<%--추가 보류!--%>
+
+<%--관리자 미응답 리스트 넘어가기 
+<%	if(mem != null && ( mem.getAuth() == 1 ) ) { %>
+	<a href="auth?command=noAnswer">미응답 Q & A 리스트로 돌아가기</a> 
 
 
+<% } // if 끝 %>	
 
-
+--%>
 
 <script type="text/javascript">
 var testbutton = 0;

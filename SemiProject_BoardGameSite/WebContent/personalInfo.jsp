@@ -11,7 +11,7 @@
  String phoneNum = mem.getCall_number();
  String email = mem.getEmail();
  String pwd = mem.getPw();
- 
+ int credit = mem.getBonuscredit();
  %>   
     
 <!DOCTYPE html>
@@ -49,14 +49,19 @@ $(function () {
 		<th>휴대전화번호:</th> 
 		<td><input type="text" name="phoneNum" readonly="readonly" value='<%=phoneNum %>'> </td>
 	</tr>
-		<tr>
+	<tr>
 		<th>이메일:</th> 
 		<td><input type="text" name="email" readonly="readonly" value='<%=email %>'> </td>
+	</tr>
+	<tr>
+		<th>포인트: </th> 
+	<td><input type="text" name="email" readonly="readonly" value='<%=credit %>'> 포인트</td>
+	</tr>
 	<tr> 
 		<td colspan="2"><a href="personalInfo?command=memcheck"><button type="button">수정</button></a></td>
 	</tr>
 </table>
-<a href="personalInfo?command=myReserv"><button type="button">내 예약</button></a>
+<a href="myReserv?command=myReserv&id=<%=id %>&sort=asc&page=0"><button type="button">내 예약</button></a>
 <a href="login?command=logout"><button type="button">로그아웃</button></a>
 
 <script type="text/javascript">

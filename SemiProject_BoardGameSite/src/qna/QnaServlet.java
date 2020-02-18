@@ -204,7 +204,6 @@ public class QnaServlet extends HttpServlet {
 			//String.valueOf(isS);
 			
 			
-
 			// 조회수 호출
 			qnaService.getReadCount(qnaSeq);
 			// 질문글 호출

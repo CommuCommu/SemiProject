@@ -88,6 +88,14 @@ public class QnaService {
 		return isS;
 	}
 
+	public List<QnaDto> getNoAnsList(int pageNum) {
+		QnaDao dao = QnaDao.getInstance();
+		return dao.getNoAnsList(pageNum);
+	}
 	
+	public int getNoAnsCount() {
+		QnaDao dao = QnaDao.getInstance();
+		return dao.getNoAnsCount();
+	}
 	
 }

@@ -37,6 +37,7 @@ public class ReservationServlet extends HttpServlet {
 		ReservationService rsv = new ReservationService();
 		
 		List<TableDto> list = rsv.getReservationTableList();
+		System.out.println("tableList :" + list);
 		req.setAttribute("ReservationTableList", list);
 		
 		forward("revWrite.jsp", req, resp);
