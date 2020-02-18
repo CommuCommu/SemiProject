@@ -1,9 +1,3 @@
-<!-- ★★★★★★★★★ ★★★★★★★★★ ★★★★★★★★★ 
-class="del"의 선언 부분 부트스트랩 적용하면서 "부트함수명 del" ex( class="form-control del" )로 변경하였고
-jquery 호출시 ex( $(".form-control.del").val ) 형태로 변경하였습니다 :) 
-★★★★★★★★★★★★★★ ★★★★★★★★★  --> 
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,34 +5,9 @@ jquery 호출시 ex( $(".form-control.del").val ) 형태로 변경하였습니�
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
-	<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
-	<link rel="stylesheet" href="css/bootstrap.css">
-
-<!-- 타이틀 스타일 추가 -->
-<style type="text/css">
-.member_btns {text-align:center;padding:1px 0 27px 0;}
-.member_btns a {font-size:16px;font-weight:bold;color:#9a9a9a;}
-.member_btns a:hover {color:#1a1a1a;text-decoration:none}
-.member_btns span {font-size:21px;color:#cacaca;padding:0 30px;}
-
-.alert.alert-danger.custom {width: 500px; height: 50px ;padding: inherit;height: 30px;margin-bottom: auto;}
-.alert.alert-success.custom {width: 500px; height: 50px ;padding: inherit;height: 30px;margin-bottom: auto;}
-.input-group-prepend.custom{margin: auto;}
-
-.input-group.mb-3 {width: 80%;}
-td{text-align: -webkit-center;}
-
-.input-group-text{width: 130px; font-weight: bold; display:table-cell; text-align: center;}
-
-</style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
-
-
-
-
-
 <body>
 	<%-- GNB --%>
 	<div id="gnb"></div>
@@ -49,192 +18,101 @@ td{text-align: -webkit-center;}
 	</script>
 
 	<%--페이지 시작. --%>
-	<div align="center" class="container">
-	<br><p class="subject">Membership Join</p>
-
+	<div align="center">
+		<h1>회원가입</h1>
 		<form id="frm" name="frm" action="addmember" method="post">
 			<input type="hidden" name="command" value="addAf">
 			<table>
-				<!-- <col width="150"><col width="500"> -->
-				<!-- ID 입력 -->
+				<col width="150">
+				<col width="500">
 				<tr>
-					<td>
-					<div class="input-group mb-3">
-	      				<div class="input-group-prepend">
-	        				<span class="input-group-text">아이디</span>
-	      				</div>
-	      				<input type="text" class="form-control del" id="_id" name="id" placeholder="영문 or 숫자 6~20자 "
-							not_null="true"  correct="true" hg_nm="아이디" size="60px">
-							&nbsp;<button type="button" class="btn btn-secondary" id="dupl" onclick="idDuplChk()">중복확인</button>
-	    			</div>
-					</td>
+					<td>아이디:</td>
+					<td><input type="text" class="del" id="_id" name="id" placeholder="영문, 숫자 6~20자"
+						not_null="true"  correct="true" hg_nm="아이디">
+						<button type="button" id="dupl" onclick="idDuplChk()">ID중복체크</button></td>
 				</tr>
-				
-				<!-- ID 형식 확인 -->
 				<tr>
-					<td>
-					<div class="input-group mb-3">
-	      				<div class="input-group-prepend custom">
-	      				<div class="alert alert-danger custom" id="id-notice"  align="center">아이디는 영문 or 숫자 6~20자로 입력해주세요</div>
-	      				</div>
-	    			</div>
-					</td>
+					<td></td>
+					<td><div class="id-notice" id="id-notice">아이디는 영문, 숫자 6~20자로 입력해주세요</div></td>
 				</tr>
-
-				<!-- 비밀번호 입력 -->
 				<tr>
-					<td>
-					<div class="input-group mb-3">
-	      				<div class="input-group-prepend custom">
-	        				<span class="input-group-text" >비밀번호</span>
-	      				</div>
-	      				<input type="password" class="form-control del" id="pwd1" placeholder="영문 + 숫자 + 특수문자 조합 8자리이상"
-						name="password" not_null="true" correct="true" hg_nm="비밀번호" size="40px">
-	    			</div>
-					</td>
+					<td>비밀번호:</td>
+					<td><input type="password" class="del" id="pwd1" placeholder="영문, 숫자, 특수문자 조합 8자리이상"
+						name="password" not_null="true" correct="true" hg_nm="비밀번호"></td>
 				</tr>
-				
-				<!-- 비밀번호 형식 경고 -->
 				<tr>
-					<td>
-					<div class="input-group mb-3">
-	      				<div class="input-group-prepend custom">
-	      				<div class="alert alert-danger custom" id="pw-notice" align="center">비밀번호는 영문+숫자+특수문자 조합 8자 이상으로 입력해주세요</div>
-	      				</div>
-	    			</div>
-					</td>
+					<td></td>
+					<td><div class="pw-notice" id="pw-notice">비밀번호는 영문, 숫자, 특수문자 조합 8자이상으로 입력해주세요</div></td>
 				</tr>
-				
-				<!-- 비밀번호 확인 -->
 				<tr>
+					<td>비밀번호 확인:</td>
 					<td>
-					<div class="input-group mb-3">
-	      				<div class="input-group-prepend custom">
-	        				<span class="input-group-text">비밀번호 확인</span>
-	      				</div>
-	      				<input type="password" class="form-control del" id="pwd2" name="passchk" size="40px">
-	    			</div>
-					</td>
-				</tr>
-				
-				<!-- 비밀번호 일치 확인 경고 -->
-				<tr>				
-					<td>
-					<div class="input-group mb-3">
-	      				<div class="input-group-prepend custom">
-		      				<div class="alert-notice" id="alert-notice" align="center">위와 동일한 비밀번호를 다시 한번 입력해주세요.</div>
-		      				<div class="alert alert-success custom" id="alert-success" align="center">비밀번호가 일치합니다.</div>
-							<div class="alert alert-danger custom" id="alert-danger" align="center">비밀번호가 일치하지 않습니다.</div>
-	      				</div>
-	    			</div>
-					</td>
-				</tr>
-				
-				<!-- 이름 입력 -->
-				<tr>
-					<td>
-					<div class="input-group mb-3">
-	      				<div class="input-group-prepend custom">
-	        				<span class="input-group-text">이름</span>
-	      				</div>
-	      				<input type="text" class="form-control del" id="_name" name="name" placeholder=""
-						not_null="true" correct="true" hg_nm="이름" size="40px">
-	    			</div>
-					</td>
-				</tr>
-				
-				<!-- 이름 형식 경고 -->
-				<tr>
-					<td>
-					<div class="input-group mb-3">
-	      				<div class="input-group-prepend custom">
-	      					<div class="alert alert-danger custom" id="name-notice" align="center">이름의 양식이 잘못되었습니다. 다시 확인해주세요.</div>
-	      				</div>
-	    			</div>
-					</td>
-				</tr>
-				
-				<!-- 휴대폰 번호 입력 -->
-				<tr>
-					<td>
-					<div class="input-group mb-3">
-	      				<div class="input-group-prepend custom">
-	        				<span class="input-group-text">휴대폰번호</span>
-	      				</div>
-	      				<input type="text" class="form-control del" id="phoneNum"
-						name="call_number" not_null="true" correct="true" hg_nm="휴대폰번호"placeholder="공백없이 숫자만 기입해주세요" size="40px">
-	    			</div>
-					</td>
-				</tr>
-				
-				<!-- 휴대폰 형식 경고 -->
-				<tr>
-					<td>
-					<div class="input-group mb-3">
-	      				<div class="input-group-prepend custom">
-	      					<div class="alert alert-danger custom" id="phone-notice"  align="center">휴대폰번호 양식이 잘못되었습니다. 다시 확인해주세요.</div>
-	      				</div>
-	    			</div>
-					</td>
-				</tr>
-				
-				<!-- 이메일 입력 -->
-				<tr>
-					<td>
-					<div class="input-group mb-3">
-	      				<div class="input-group-prepend custom">
-	        				<span class="input-group-text" >이메일</span>
-	      				</div>
-		      			<input type="text" class="form-control del" id="_emailFront"
-							name="emailFront" not_null="true" correct="true" hg_nm="이메일" >
-						<div class="input-group-prepend">
-	        				<span class="input-group-text" style="width: 40px ;font-weight: bold;">@</span>
-	      				</div>
-	      				
-						<input type="text" class="form-control del" id="_emailBack" name="emailBack"
-						placeholder="직접입력" value="" not_null="true" correct="true" hg_nm="이메일">
+						<input type="password" class="del" id="pwd2" name="passchk">
 						
-						<select id="_email" class="form-control">
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td>
+						<!-- 비밀번호 일치여부 확인문구 -->
+						<div class="alert-notice" id="alert-notice">위와 동일한 비밀번호를
+							다시한번 입력해주세요.</div>
+						<div class="alert alert-success" id="alert-success">비밀번호가
+							일치합니다.</div>
+						<div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지
+							않습니다.</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>이름:</td>
+					<td><input type="text" class="del" id="_name" name="name" placeholder=""
+						not_null="true" correct="true" hg_nm="이름"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><div class="name-notice" id="name-notice">이름의 양식이 잘못되었습니다. 다시 확인해주세요.</div></td>
+				</tr>
+				<tr>
+					<td>휴대폰번호:</td>
+					<td><input type="text" class="del" id="phoneNum"
+						name="call_number" not_null="true" correct="true" hg_nm="휴대폰번호"placeholder="공백없이 숫자만 기입해주세요"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><div class=phone-notice" id="phone-notice">휴대폰번호 양식이 잘못되었습니다. 다시 확인해주세요.</div></td>
+				</tr>
+				<tr>
+					<td>이메일</td>
+					<td><input type="text" class="del" id="_emailFront"
+						name="emailFront" not_null="true" correct="true" hg_nm="이메일">@ <input
+						type="text" class="del" id="_emailBack" name="emailBack"
+						placeholder="직접입력해주세요" value="" not_null="true" correct="true" hg_nm="이메">
+						<!-- 이메일 뒷부분 주소 선택 --> 
+						<select id="_email">
 							<option value="" selected="selected">직접입력</option>
 							<option value="naver.com">naver.com</option>
 							<option value="gmail.com">gmail.com</option>
 							<option value="hanmail.net">hanmail.net</option>
-						</select>
-						
-	    			</div>
-					</td>
+					</select>
 				</tr>
-				
-				<!-- 이메일 형식 경고 -->
 				<tr>
-					<td>
-						<div class="input-group mb-3">
-		      				<div class="input-group-prepend custom">
-		      					<div class="alert alert-danger custom" id="_alert-wrong" align="center">이메일주소를 다시 확인해주세요</div>
-		      				</div>
-		    			</div>
+					<td></td>
+					<td colspan="2">
+						<!-- 이메일주소 양식 맞는지 여부 -->
+						<div class="alert-wrong" id="_alert-wrong">이메일주소를 다시 확인해주세요</div>
 					</td>
 				</tr>
-				
-				<!-- 양식 버튼 -->
 				<tr>
 					<td colspan="2" align="center"><br>
 						 <button type="button" id="_submit" onclick="register()"
-							disabled="disabled" class="btn btn-primary" style="width: 130px">회원가입</button> 
-							<span style="font-size:21px;color:#cacaca;padding:0 30px;">|</span>
+							disabled="disabled">회원가입</button> 
 					<!-- <input type="submit" id="_submit" value="회원가입" disabled="disabled"> -->
-						<button type="button" id="restart" class="btn btn-outline-danger" style="width: 130px">다시작성</button></td>
+						<button type="button" id="restart">다시작성</button></td>
 			</table>
 		</form>
 	</div>
-	
-	
-<!-- 임시여백 -->	
-<br><br><br><br>
-	
-	
-	
-	
 	<script type="text/javascript">
 		var idck = 0; // id 중복검사 여부 확인
 		var checkedId = ""; // 중복검사한 id담을 변수 
@@ -487,7 +365,7 @@ td{text-align: -webkit-center;}
 			// 다시작성 클릭시 입력된 정보들 지우기
 			$("#restart").click(function() {
 				// alert("click");
-				$(".form-control.del").val("");
+				$(".del").val("");
 				$("#alert-notice").hide();
 				$("#alert-success").hide();
 				$("#alert-danger").hide();

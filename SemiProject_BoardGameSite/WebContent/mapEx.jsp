@@ -6,6 +6,9 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title>오시는 길</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+	<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+	<link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
 <%--GNB --%>
@@ -15,8 +18,15 @@ $(function () {
 	$("#gnb").load("./GNB/gnb.jsp");
 });
 </script>
+
+<!-- 타이틀 수정 -->
+<div class="container">
+<br><p class="subject">Location</p>
+</div>
+
+
 	<div style="padding:10px;margin-left:30px;">
-	<h1>Location</h1>
+	
 	<hr align="left" size="2">
 	<p><strong>주소</strong>&nbsp;서울시 서초구 강남대로 456(서초동, 백암빌딩)</p>
 	</div>

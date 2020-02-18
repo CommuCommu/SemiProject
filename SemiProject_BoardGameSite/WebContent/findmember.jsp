@@ -6,7 +6,42 @@
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+<link rel="stylesheet" href="css/bootstrap.css">
+
+<style type="text/css">
+	.form-control{width: 250px;text-align: center;margin-bottom: 10px}
+	
+	div.root{margin: auto;width:800px;}
+
+    div.left {
+        width: 50%;
+        height:250px;
+        float: left;
+        
+        box-sizing: border-box;
+       /*  background: #ff0; */
+        text-align: center;
+    
+    }
+    div.right {
+        width: 50%;
+        height:250px;
+        float: right;
+        box-sizing: border-box;
+       /*  background: #0ff; */
+        text-align: center;
+       
+    }
+
+</style>
+
+
+
 </head>
+
+
 <body>
 <%-- GNB --%>
 <div id="gnb"></div>
@@ -16,42 +51,64 @@ $(function () {
 });
 </script>
 
+
+<div class="root">
+
 <%--페이지 시작. --%>
 
-<h1>아이디 찾기</h1>
-<table>
+
+<div class="left">
+<br><p class="subject">Find User ID</p>
+<table style="margin-left: auto; margin-right: auto;">
 	<tr>
-		<td><input type="text" id="_name"  placeholder="이름을 입력해주세요" ></td>
+		<td><input type="text" id="_name"  placeholder="이름" class="form-control"></td>
 	</tr>
 	<tr>	
-		<td><input type="text" id="_email" placeholder="가입하신 이메일 주소를 입력해주세요."></td>
+		<td><input type="text" id="_email" placeholder="이메일" class="form-control"></td>
 	</tr>
 	<tr>
-		<td align="center"><button type="button" onclick="findId()">아이디찾기</button></td>
+		<td align="center"><button type="button" onclick="findId()" class="btn btn-info" style="width: 250px">아이디찾기</button></td>
 	</tr>
 	<tr>
-		<td align="center"><div id="foundId"></div></td>
+		<td align="center">
+			<!-- <div id="foundId">☆</div> -->
+		</td>
 	</tr>
 </table>
 
-<div id="foundId"></div>
+<!-- 아이디 찾기 결과 --> 
+<div id="foundId" style="font-weight: bold; margin-top: 10px"></div>
+</div>
 
 
-<h1>비밀번호 찾기</h1>
-<table>
+
+<div class="right">
+<br><p class="subject">Find Password</p>
+<table style="margin-left: auto; margin-right: auto;">
 	<tr>
-		<td><input type="text" id="_id" placeholder="아이디를 입력해주세요" ></td>
+		<td><input type="text" id="_id" placeholder="아이디" class="form-control" ></td>
 	</tr>
 	<tr>	
-		<td><input type="text" id="idEmail" placeholder="가입시 입력하신 이메일 주소를 입력해주세요."></td>
+		<td><input type="text" id="idEmail" placeholder="이메일 " class="form-control"></td>
 	</tr>
 	<tr>
-		<td align="center"><button type="button" onclick="findPw()">비밀번호찾기</button></td>
+		<td align="center"><button type="button" onclick="findPw()" class="btn btn-info" style="width: 250px">비밀번호찾기</button></td>
 	</tr>
 </table>
 
+</div>
 
-<div>가입하신 이메일이 기억나지 않을 고객센터(1111-0000)로 연락주세요.</div>
+</div>
+
+<div align="center">
+	<p style="margin-top: 300px;font-weight: bold;" >● 가입하신 이메일이 기억나지 않을 고객센터(080-00A-000B)로 연락주세요 ●</p>
+</div>
+
+
+
+
+
+
 <script type="text/javascript">
 
 function findId() {

@@ -67,6 +67,55 @@ public class QnaDao {
 		}		
 		return list;
 	}
+	
+	
+	public List<QnaDto> getQnaNoticeList() {
+		
+		String sql = " SELECT SEQ, ID, TITLE, CONTENT, WDATE, READCOUNT, IS_SECRET, IS_ANSWER, DEL, BESTQNA "
+				   + " FROM BG_QNA "
+				   + " WHERE ID IN (SELECT ID FROM BG_MEMBER WHERE AUTH=1) "
+				   + " ORDER BY WDATE DESC ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		List<QnaDto> list = new ArrayList<QnaDto>();
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getQnaNoticeList success");
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 getQnaNoticeList success");
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getQnaNoticeList success");
+			
+			while (rs.next()) {
+				int i = 1;
+				QnaDto dto = new QnaDto( rs.getInt(i++),
+										 rs.getString(i++),
+										 rs.getString(i++),
+										 rs.getString(i++),
+										 rs.getString(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++)	);
+				list.add(dto);				
+			}
+			System.out.println("4/6 getQnaNoticeList success");
+			
+		} catch (SQLException e) {
+			System.out.println("getQnaNoticeList fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);			
+		}		
+		return list;
+	}
+	
+	
 
 	public boolean setQnaWrite(QnaDto dto) {
 		
@@ -341,8 +390,11 @@ public List<QnaDto> getQnaPagingList(String choice, String searchWord, int page)
 		//start = 1 + 10 * page;	// 0 -> 1	1 -> 11
 		//end = 10 + 10 * page;	// 0 -> 10  1 -> 20
 		
-		start = 1 + 5 * page;	// 0 -> 1	1 -> 6	 2 -> 11
-		end = 5 + 5 * page;		// 0 -> 5   1 -> 10  2 -> 15
+		//start = 1 + 5 * page;	// 0 -> 1	1 -> 6	 2 -> 11
+		//end = 5 + 5 * page;		// 0 -> 5   1 -> 10  2 -> 15
+		
+		start = 1 + 15 * page;	// 0 -> 1	1 -> 6	 2 -> 11
+		end = 15 + 15 * page;		// 0 -> 5   1 -> 10  2 -> 15
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -443,7 +495,8 @@ public List<QnaDto> getQnaPagingList(String choice, String searchWord, int page)
 	public List<QnaCommentDto> getComment(int seq) {
 		String sql = " SELECT SEQ, ID, WDATE, QNANUMBER, CONTENT, DEL "
 				   + " FROM BG_QNA_COMMENTS "
-				   + " WHERE QNANUMBER=?";
+				   + " WHERE QNANUMBER=? " 
+				   + " ORDER BY WDATE ";
 				 
 		
 		Connection conn = null;
@@ -483,7 +536,36 @@ public List<QnaDto> getQnaPagingList(String choice, String searchWord, int page)
 	
 	}
 
-	public boolean setQnaAnswer(int seq) {
+	public boolean setQnaAnswerWait(int seq) {
+		String sql = " UPDATE BG_QNA "
+				   + " SET IS_ANSWER=0 "
+				   + " WHERE SEQ=? ";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int count = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 setQnaAnswerWait Success");
+			
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, seq);
+			System.out.println("2/6 setQnaAnswerWait Success");
+			
+			count = psmt.executeUpdate();
+			System.out.println("3/6 setQnaAnswerWait Success");
+			
+		} catch (Exception e) {		
+			System.out.println("setQnaAnswerWait Fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);			
+		}
+		
+		return count>0?true:false;
+	}
+	
+	public boolean setQnaAnswerEnd(int seq) {
 		String sql = " UPDATE BG_QNA "
 				   + " SET IS_ANSWER=1 "
 				   + " WHERE SEQ=? ";
@@ -493,17 +575,17 @@ public List<QnaDto> getQnaPagingList(String choice, String searchWord, int page)
 		
 		try {
 			conn = DBConnection.getConnection();
-			System.out.println("1/6 setQnaAnswer Success");
+			System.out.println("1/6 setQnaAnswerEnd Success");
 			
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, seq);
-			System.out.println("2/6 setQnaAnswer Success");
+			System.out.println("2/6 setQnaAnswerEnd Success");
 			
 			count = psmt.executeUpdate();
-			System.out.println("3/6 setQnaAnswer Success");
+			System.out.println("3/6 setQnaAnswerEnd Success");
 			
 		} catch (Exception e) {		
-			System.out.println("setQnaAnswer Fail");
+			System.out.println("setQnaAnswerEnd Fail");
 			e.printStackTrace();
 		} finally {
 			DBClose.close(psmt, conn, null);			
@@ -511,7 +593,5 @@ public List<QnaDto> getQnaPagingList(String choice, String searchWord, int page)
 		
 		return count>0?true:false;
 	}
-	
-	
 	
 }

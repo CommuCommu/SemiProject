@@ -17,7 +17,6 @@ int qnaPage = (int)request.getAttribute("qnaPage");
 System.out.println("뷰에서의 qnaPage : " + qnaPage);
 // 리스트 호출
 List<QnaDto> list = (List<QnaDto>)request.getAttribute("qnaList");
-List<QnaDto> qnaNoticeList = (List<QnaDto>)request.getAttribute("qnaNoticeList");
 System.out.println("뷰에서 리스트 호출");
 
 // 게스트의 로그인 세션 처리
@@ -57,16 +56,7 @@ QnaCommentDao qcDao = QnaCommentDao.getInstance();
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-
-
-
-
-
 <!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
 <!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
 <link rel="stylesheet" href="css/bootstrap.css">
@@ -76,12 +66,10 @@ QnaCommentDao qcDao = QnaCommentDao.getInstance();
 
 a {color: #000000;}
 a:hover {text-decoration: none; color: #000000;}
-/* img {vertical-align: sub;} */
+img {vertical-align: sub;}
 
 .badge.badge-secondary {display: unset; padding:0.3em 0.8em; vertical-align: bottom;}
 .badge.badge-warning {color:#fff; background-color:#ff7307; display: unset; padding:0.3em 0.8em; vertical-align: bottom;}
-
-
 
 
 </style>
@@ -91,9 +79,13 @@ a:hover {text-decoration: none; color: #000000;}
 </head>
 <body>
 
-
 <%-- GNB --%>
 <div id="gnb"></div>
+<script type="text/javascript">
+$(function () {
+	$("#gnb").load("./GNB/gnb.jsp");
+})
+</script>
 
 
 
@@ -143,51 +135,52 @@ $(document).ready(function () {
 	<tr>
 		<td colspan="6">작성된 글이 없습니다</td>
 	</tr>
-<% } else { for(int i = 0;i < qnaNoticeList.size(); i++){
-				QnaDto noticeDto = qnaNoticeList.get(i); %>
+<% } else {
+	for(int i = 0;i < list.size(); i++){
+		QnaDto dto = list.get(i);
+		if(dto.getDel() == 0) { 
+			
+			/* 작성일(wDate)을 잘라서 년월일 추출 yyMMdd */
+			
+			  String s1 = dto.getWdate().substring(2,10);
+			  String p1 = "[-]";
+			  String[] sArray1 = s1.split(p1);
+			  String wDateStr = "";
+			  for( int j = 0; j < sArray1.length; j++ ){
+				  wDateStr += sArray1[j].trim();
+			  }
+			  //System.out.print("스플릿으로 자른 날짜" +sArray1[j].trim());
+			  System.out.println("스플릿으로 자른 날짜 : " + wDateStr);
+			  int wDate = Integer.parseInt(wDateStr);
+			
+			
+			
+			if(dto.getId().equals("aa")) {%>
 			<tr>
 				<td align="center"><img src="./image/qnaNotice2.png" width="21"></td>
-				<td><a href='#' onclick="userChek(<%=noticeDto.getIs_secret() %>, '<%=noticeDto.getId() %>', <%=noticeDto.getSeq() %>, <%=pageNumber%>)">
-					<%=noticeDto.getTitle() %></a></td>
-				<td align="center">관리자</td>
-				<td align="center">공지</td>
-					<% /* 작성일(wDate)을 잘라서 년월일 추출 yyMMdd */
-					
-					  String s1 = noticeDto.getWdate().substring(2,10);
-					  String p1 = "[-]";
-					  String[] sArray1 = s1.split(p1);
-					  String wDateStr = "";
-					  for( int j = 0; j < sArray1.length; j++ ){
-						  wDateStr += sArray1[j].trim();
-					  }
-					  //System.out.print("스플릿으로 자른 날짜" +sArray1[j].trim());
-					  System.out.println("스플릿으로 자른 날짜 : " + wDateStr);
-					  int wDate = Integer.parseInt(wDateStr);
-					  
-					  if(wDate < curTime) { %>
-						<td align="center"><%=noticeDto.getWdate().substring(2,11) %></td>
+				<td><a href='#' onclick="userChek(<%=dto.getIs_secret() %>, '<%=dto.getId() %>', <%=dto.getSeq() %>)">
+			<%=dto.getTitle() %></a></td>
+				<td>관리자</td>
+				<td>공지</td>
+					<% if(wDate < curTime) { %>
+						<td align="center"><%=dto.getWdate().substring(2,11) %></td>
 					<% } else { %>
-						<td align="center"><%=noticeDto.getWdate().substring(11,13) %> : <%=noticeDto.getWdate().substring(14,16) %></td>
+						<td align="center"><%=dto.getWdate().substring(11,13) %> : <%=dto.getWdate().substring(14,16) %></td>
 					<% } %>
 				
 			
 			</tr>
-			
-			
-			<% } 
-
-				for(int i = 0;i < list.size(); i++){
-					QnaDto dto = list.get(i);
-					if(dto.getDel() == 0) { %>
+			<%} else {%>
 			
 	<tr>
 		<td style="text-align:center"><%=dto.getSeq() %></td>
+		
 		<td>
 		<%-- 글 구분 --%>
 			<% if(dto.getIs_secret() == 1) { %>
-				<img src="./image/qnaLock.png" width="17" style="vertical-align: sub;">
+				<img src="./image/qnaLock.png" width="17">
 			<% } %>
-			<a href='#' onclick="userChek(<%=dto.getIs_secret() %>, '<%=dto.getId() %>', <%=dto.getSeq() %>, <%=pageNumber%>)">
+			<a href='#' onclick="userChek(<%=dto.getIs_secret() %>, '<%=dto.getId() %>', <%=dto.getSeq() %>)">
 			<%=dto.getTitle() %></a>
 			
 			<!-- 댓글 카운트 -->
@@ -221,20 +214,7 @@ $(document).ready(function () {
 		
 	
 		
-		<% /* 작성일(wDate)을 잘라서 년월일 추출 yyMMdd */
-		
-		  String s1 = dto.getWdate().substring(2,10);
-		  String p1 = "[-]";
-		  String[] sArray1 = s1.split(p1);
-		  String wDateStr = "";
-		  for( int j = 0; j < sArray1.length; j++ ){
-			  wDateStr += sArray1[j].trim();
-		  }
-		  //System.out.print("스플릿으로 자른 날짜" +sArray1[j].trim());
-		  System.out.println("스플릿으로 자른 날짜 : " + wDateStr);
-		  int wDate = Integer.parseInt(wDateStr);
-		  
-		  if(wDate < curTime) { %>
+		<% if(wDate < curTime) { %>
 			<td align="center"><%=dto.getWdate().substring(2,11) %></td>
 		<% } else { %>
 			<td align="center"><%=dto.getWdate().substring(11,13) %> : <%=dto.getWdate().substring(14,16) %></td>
@@ -255,7 +235,7 @@ $(document).ready(function () {
 <%
 			}
 	}
-	
+	}
 }// list의 for문 끝
 %>
 </tbody>
@@ -338,19 +318,15 @@ function QnaWrite() {
 }
 
 // Qna 글 열람시 유저&비밀글 확인 처리
-function userChek(is_secret, id, seq, pageNum) {
-	
-	alert(pageNum);
-	
+function userChek(is_secret, id, seq) {
 	var curSessionId = $("#sId").val();
 	var curSessionAuth = $("#sAuth").val();
 	
 	if(<%=mem == null %>) {
 		if(is_secret == 0) {
 			// 게스트가 일반글 열람 -> 상세 보기 연결
-			//alert("게스트 일반글 접근");
-			/* location.href = "qnaServlet?action=detail&seq="+seq; */
-			location.href = "qnaServlet?action=detail&seq="+seq+"&pageNum="+pageNum;
+			alert("게스트 일반글 접근");
+			location.href = "qnaServlet?action=detail&seq="+seq;
 		}else if (is_secret == 1){
 			// 게스트가 비밀글 열람 -> 로그인 페이지 연결
 			alert("로그인이 필요합니다.");
@@ -360,19 +336,17 @@ function userChek(is_secret, id, seq, pageNum) {
 		if(curSessionAuth==0) {
 			if(is_secret == 0){
 				// 로그인 이후 모든 유저 일반글 열람 -> 상세글 보기 연결
-				/* location.href = "qnaServlet?action=detail&seq="+seq; */
-				location.href = "qnaServlet?action=detail&seq="+seq+"&pageNum="+pageNum;
+				location.href = "qnaServlet?action=detail&seq="+seq;
 			}else if((is_secret == 1) && (id != curSessionId) ) {
 				// 사용자와 작성자 다르고 비밀글 열람 -> 경고창
 				alert("비공개 글은 작성자만 확인 할 수 있습니다.");
 			} else {
 				// 사용자와 작성자 같고 비밀글인 경우 -> 상세글 연결
 				//alert("추가 예외 확인");
-				/* location.href = "qnaServlet?action=detail&seq="+seq; */
-				location.href = "qnaServlet?action=detail&seq="+seq+"&pageNum="+pageNum;
+				location.href = "qnaServlet?action=detail&seq="+seq;
 			}
 		} else if (curSessionAuth==1) {
-			location.href = "qnaServlet?action=detail&seq="+seq+"&pageNum="+pageNum;
+			location.href = "qnaServlet?action=detail&seq="+seq;
 		}
 	}
 }
@@ -414,10 +388,5 @@ function searchQna() {
 
 </script>
 <!-- <script type="text/javascript" src="js/bootstrap.js"></script> -->
-<script type="text/javascript">
-$(function () {
-	$("#gnb").load("./GNB/gnb.jsp");
-})
-</script>
 </body>
 </html>

@@ -52,7 +52,7 @@ $(function () {
 	<tr>	
 		<th>제목</th>
 		<td>
-			<input type="text" name="title" value="<%=dto.getTitle() %>" required="required">
+			<input type="text" name="title" size="80px" value="<%=dto.getTitle() %>" required="required">
 		</td>
 	</tr>
 	<tr>	
@@ -72,7 +72,8 @@ $(function () {
 	</tr>
 	<tr>
 		<td colspan="2">
-			<input type="button" onclick="location.href='qnaList'" value="목록">
+			<!-- <input type="button" onclick="location.href='qnaList'" value="목록"> -->
+			<input type="button" onclick="location.href='javascript:history.back()'" value="목록">
 			<input type="hidden" name="seq" value="<%=dto.getSeq() %>">
 			<input type="submit" value="수정하기">
 			

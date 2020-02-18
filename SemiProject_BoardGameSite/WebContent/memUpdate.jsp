@@ -10,10 +10,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원 정보 수정</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+<link rel="stylesheet" href="css/bootstrap.css">
+
+<style type="text/css">
+th {text-align: right;padding-right: 20px}
+.form-control { width: 95%;margin-bottom: 5px }
+.btn.btn-primary {width :100px}
+</style>
+
+
 </head>
 <body>
+
+
 <%-- GNB --%>
 <div id="gnb"></div>
 <script type="text/javascript">
@@ -23,22 +36,35 @@ $(function () {
 </script>
 
 <%--페이지 시작. --%>
-<h1>내정보 수정</h1>
+<div align="center" class="container">
+	<br><p class="subject">회원 정보 수정</p>
+</div>
+<div align="center" class="container" style="padding-right: 60px">
 <table>
-<col width="150"><col width="300">
-	<input type="hidden" id="oldPw" value="<%=mem.getPw() %>">
+<col width="120px"><col width="300px">
 	<tr>
 		<th>아이디</th>
-		<td><div id="id"><%=mem.getId() %></div> </td>
+		<td>
+			<!-- 세션 패스워드 -->
+			<input type="hidden" id="oldPw" value="<%=mem.getPw() %>">
+			<input type="text" id="id" value='<%=mem.getId() %>' readonly="readonly" class="form-control" >
+			<%-- <div id="id"><%=mem.getId() %></div> --%> 
+		</td>
 	</tr>
 	<tr>
 		<th>이름</th>
-		<td><div id="name"><%=mem.getName() %></div></td>
+		<td>
+			<input type="text" id="name" value='<%=mem.getName() %>' readonly="readonly" class="form-control" >
+			<%-- <div id="name"><%=mem.getName() %></div> --%>
+		</td>
 	</tr>
 	<tr>
 		<th>휴대폰번호</th>
-		<td><input type="text" id="_phoneNum" name="phoneNum" value='<%=mem.getCall_number() %>'>
-			<button type="button" onclick="phoneChange()">변경</button>
+		<td>
+			
+			<input type="text" id="_phoneNum" name="phoneNum" value='<%=mem.getCall_number() %>' class="form-control" style="width:220px; display: inline;">
+			
+			<button type="button" onclick="phoneChange()" class="btn btn-outline-secondary" style="vertical-align: top;">변경</button>
 		</td>
 	</tr>
 	<tr>
@@ -47,8 +73,8 @@ $(function () {
 	</tr>
 	<tr>
 		<th>이메일</th>
-		<td><input type="text" id="_email" name="email" value="<%=mem.getEmail()%>">
-			<button type="button" onclick="emailChange()">변경</button>
+		<td><input type="text" id="_email" name="email" value="<%=mem.getEmail()%>" class="form-control" style="width:220px; display: inline;">
+			<button type="button" onclick="emailChange()" class="btn btn-outline-secondary" style="vertical-align: top;">변경</button>
 		</td>
 	</tr>
 		<tr>
@@ -57,7 +83,7 @@ $(function () {
 	</tr>
 	<tr>
 		<th>비밀번호</th>
-		<td><input type="password" id="pwd1" name="pwd" placeholder="영문+숫자+특수기호 조합 8자이상"></td>
+		<td><input type="password" id="pwd1" name="pwd" placeholder="영문+숫자+특수기호 조합 8자이상" class="form-control" style="display: inline;text-align: center;" ></td>
 	</tr>
 		<tr>
 		<th></th>
@@ -65,8 +91,8 @@ $(function () {
 	</tr>
 	<tr>
 		<td></td>
-		<td><input type="password" id="pwd2" placeholder="입력하신 비밀번호를 다시한번 입력해주세요">
-			<button type="button" id="pwbtn" onclick="pwChange()">변경</button>
+		<td><input type="password" id="pwd2" placeholder="비밀번호 확인" class="form-control" style="width:220px; display: inline;text-align: center;">
+			<button type="button" id="pwbtn" onclick="pwChange()" class="btn btn-outline-secondary" style="vertical-align: top;">변경</button>
 		</td>
 	</tr>
 	<tr>
@@ -76,6 +102,11 @@ $(function () {
 		</td>
 	</tr>	
 </table>
+
+</div>
+
+
+
 <script type="text/javascript">
 $("#phone-notice").hide();
 $("#email-notice").hide();

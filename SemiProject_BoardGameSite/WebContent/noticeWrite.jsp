@@ -8,10 +8,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항 작성</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script> 
 <script type="text/javascript" src="editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+<link rel="stylesheet" href="css/bootstrap.css">
+
 
 <script>
 $(document).ready(function(){
@@ -34,19 +38,27 @@ $(function () {
 })
 </script>
 
-<br><br><br><br>
-<div align = "center">
-<form id="frm" action="noticeWrite" method="post">
+<div align="center" class="container">
+	<br><p class="subject">공지사항 작성</p>
+
+
+
+<form id="frm" action="noticeWrite" method="post"><br>
 <input type = "hidden" name = "command" value= "writeAf">
 <%-- <form id="frm" action="insert.jsp" method="post" > --%>
 	
-		제목 <input type="text" id="title" name="title" style = "width : 750px; height : 20px" placeholder="게시글 제목을 입력하세요">
-	
-<table align = "center" width = "900px" height = "600px">
+<table>
 	<tr>
-		<td></td>
-		<td> 
-			<textarea rows="10" cols="30" id="ir1" name="ir1" style="width:766px; height:412px; align:center"></textarea>
+		<td>
+			<div class="form-group"> 
+			<input type="text" id="title" name="title" style = "width : 660px;" placeholder="게시글 제목을 입력하세요" class="form-control">		
+			</div>
+		</td>
+	</tr>
+	
+	<tr>
+		<td align="center"> 
+			<textarea id="ir1" name="ir1" style="width:650px; height:400px; align:center" ></textarea>
 			<input type = "hidden" name = "wDate" <%-- value = "<%=Date date = new Date(); %>" --%>>
 			<script type="text/javascript">			
 				var oEditors = [];										
@@ -79,14 +91,17 @@ $(function () {
 	</tr>
 	<tr>
 		<td colspan="2" align = "center">
-			<input type="button" id="save" value="저장" onclick="fOnAppLoad(this)">
-			<input type="button" onclick = "location.href='notice.jsp'" value="취소">
+			<br>
+			<input type="button" id="save" value="저장" onclick="fOnAppLoad(this)" class="btn btn-outline-success" style="width: 100px">
+			<span style="margin: 15px;font-size: 400;">|</span>
+			<input type="button" onclick = "location.href='notice.jsp'" value="취소" class="btn btn-outline-warning" style="width: 100px">
+			
 		</td>
 	</tr>
 </table>
 </form>
 </div>
-
+<br><br><br>
 
 </body>
 

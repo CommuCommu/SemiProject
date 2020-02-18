@@ -15,6 +15,13 @@ public class QnaService {
 		return list;
 	}
 	
+	public List<QnaDto> getQnaNoticeList() {
+		QnaDao dao = QnaDao.getInstance();
+		List<QnaDto> getQnaNoticeList = dao.getQnaNoticeList();
+		
+		return getQnaNoticeList;
+	}
+	
 	// 리스트 호출(검색, 페이징 포함)
 	public List<QnaDto> getQnaPagingList(String choice, String searchWord, int pageNumber) {
 		QnaDao dao = QnaDao.getInstance();
@@ -82,9 +89,15 @@ public class QnaService {
 		return commList;
 	}
 
-	public boolean setQnaAnswer(int seq) {
+	public boolean setQnaAnswerEnd(int seq) {
 		QnaDao dao = QnaDao.getInstance();
-		boolean isS = dao.setQnaAnswer(seq);
+		boolean isS = dao.setQnaAnswerEnd(seq);
+		return isS;
+	}
+
+	public boolean setQnaAnswerWait(int seq) {
+		QnaDao dao = QnaDao.getInstance();
+		boolean isS = dao.setQnaAnswerWait(seq);
 		return isS;
 	}
 

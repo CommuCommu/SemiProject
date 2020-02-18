@@ -73,6 +73,7 @@ public class QnaServlet extends HttpServlet {
 
 			// List<QnaDto> list = qnaService.getQnaList();
 			List<QnaDto> list = qnaService.getQnaPagingList(choice, searchWord, pageNumber);
+			List<QnaDto> qnaNoticeList = qnaService.getQnaNoticeList();
 			
 			// int allListCount = qnaService.getQnaListCount();
 			
@@ -80,8 +81,8 @@ public class QnaServlet extends HttpServlet {
 			System.out.println("총 글의 갯수:" + allCount);
 			
 			// 총 게시글의 갯수를 10으로 나누어 필요한 페이지의 갯수(qnaListPage)를 찾음
-			int qnaPage = allCount / 5;	// 예: 22개의 글 -> 3페이지
-			if(allCount % 5 > 0){
+			int qnaPage = allCount / 15;	// 예: 22개의 글 -> 3페이지
+			if(allCount % 15 > 0){
 				qnaPage = qnaPage + 1;
 			}
 			
@@ -95,6 +96,8 @@ public class QnaServlet extends HttpServlet {
 			req.setAttribute("choice", choice);
 			// 검색시 검색어 값
 			req.setAttribute("searchWord", searchWord);
+			
+			req.setAttribute("qnaNoticeList", qnaNoticeList);
 			//req.setAttribute("allListCount", allListCount);
 			forward("qna.jsp", req, resp); // 전송
 			
@@ -141,7 +144,10 @@ public class QnaServlet extends HttpServlet {
 		// Qna 상세보기 페이지
 		else if (action.equals("detail")) {
 			int seq = Integer.parseInt(req.getParameter("seq"));
+			int pageNum = Integer.parseInt(req.getParameter("pageNum"));
+			
 			System.out.println("seq : "+seq);
+			System.out.println("pageNumberpageNumberpageNumberpageNumber : "+pageNum);
 			
 			QnaService qnaService = new QnaService();
 			// 조회수 호출
@@ -153,6 +159,7 @@ public class QnaServlet extends HttpServlet {
 			
 			req.setAttribute("qnaDto", dto);
 			req.setAttribute("commList", commList);
+			req.setAttribute("pageNum", pageNum);
 			forward("qnaDetail.jsp", req, resp);
 		}
 		// Qna 수정 페이지
@@ -223,11 +230,12 @@ public class QnaServlet extends HttpServlet {
 			//forward("qnaCommentAf.jsp", req, resp);
 		} 
 		// Qna 답변 완료 처리
-		else if (action.equals("answer")) {
+		else if (action.equals("answerEnd")) {
 			int qnaSeq = Integer.parseInt(req.getParameter("seq"));
+			int pageNum = Integer.parseInt(req.getParameter("pageNum"));
 		
 			QnaService qnaService = new QnaService();
-			boolean isS = qnaService.setQnaAnswer(qnaSeq);
+			boolean isS = qnaService.setQnaAnswerEnd(qnaSeq);
 			
 			
 			QnaDto dto = qnaService.getQnaDetail(qnaSeq);
@@ -237,6 +245,28 @@ public class QnaServlet extends HttpServlet {
 			req.setAttribute("qnaDto", dto);
 			req.setAttribute("commList", commList);
 			req.setAttribute("qnaAnswerisS", isS);
+			req.setAttribute("pageNum", pageNum); 
+			forward("qnaDetail.jsp", req, resp);
+		
+		
+		}
+		// Qna 답변 대기 처리
+		else if (action.equals("answerWait")) {
+			int qnaSeq = Integer.parseInt(req.getParameter("seq"));
+			int pageNum = Integer.parseInt(req.getParameter("pageNum"));
+		
+			QnaService qnaService = new QnaService();
+			boolean isS = qnaService.setQnaAnswerWait(qnaSeq);
+			
+			
+			QnaDto dto = qnaService.getQnaDetail(qnaSeq);
+			// 댓글 호출
+			List<QnaCommentDto> commList = qnaService.getComment(qnaSeq);
+			
+			req.setAttribute("qnaDto", dto);
+			req.setAttribute("commList", commList);
+			req.setAttribute("qnaAnswerisS", isS);
+			req.setAttribute("pageNum", pageNum);
 			forward("qnaDetail.jsp", req, resp);
 		
 		
