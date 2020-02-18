@@ -28,7 +28,7 @@ public class QnaCommentDao {
 		
 		String sql = " SELECT count(*) "
 				   + " FROM BG_QNA_COMMENTS "
-				   + " WHERE QNANUMBER = ? ";
+				   + " WHERE DEL=0 AND QNANUMBER = ? ";
 		
 		Connection conn = null;
 		PreparedStatement psmt = null;

@@ -31,6 +31,7 @@ int seq = Integer.parseInt(sseq);
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
 
+
 <div id="gnb"></div>
 <script type="text/javascript">
 $(function () {
@@ -97,7 +98,7 @@ List<EpilogueDto> list = null;
 <div align="center">
 
 
-<table align="center" style="vertical-align: center;">
+<table align="center" style="vertical-align: center;" border="1">
 	<colgroup>
 <col width="100"><col width="100"><col width="100"><col width="200"><col width="100"><col width="100">
 	</colgroup>

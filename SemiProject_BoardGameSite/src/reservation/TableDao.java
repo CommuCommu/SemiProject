@@ -58,7 +58,6 @@ public class TableDao {
 	}
 	
 	
-<<<<<<< HEAD
 	public List<TableDto> getAllTableList() {
 		String sql =  " SELECT * "
 					+ " FROM BG_TABLE ";
@@ -97,7 +96,6 @@ public class TableDao {
 		}
 		return list;
 	}
-=======
 	public int tableCount() {
 	String sql =  " SELECT COUNT(*) "
 				+ " FROM BG_TABLE "
@@ -134,5 +132,4 @@ public class TableDao {
 	return tableNum;
 	}
 
->>>>>>> Sim_Css
 }

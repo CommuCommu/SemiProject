@@ -9,6 +9,48 @@
 <title>qnaWrite.jsp</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+<link rel="stylesheet" href="css/bootstrap.css">
+
+<style type="text/css">
+
+	table, tr, td {
+	    border-collapse: separate;
+	    border-spacing: 0px;
+	}
+	table {
+	        width: 100%;
+	border-top: 1px solid #eaeaea;
+	}
+    
+    th {
+    text-align: center;
+	height: 56px;
+    color: #6a6a6a;
+    padding: 10px;
+    background: #f6f6f6;
+    border-bottom: 1px solid #eaeaea;
+   
+    }
+	
+	td {
+	height: 56px;
+    color: #9a9a9a;
+    padding: 10px;
+    background: #ffffff;
+    border-bottom: 1px solid #eaeaea;}
+	
+/* 	
+	height: 56px;
+    color: #6a6a6a;
+    padding: 10px;
+    background: #f6f6f6;
+    border-bottom: 1px solid #eaeaea;
+    font-weight: normal; */
+</style>
+
+
 </head>
 <body>
 
@@ -20,8 +62,9 @@ $(function () {
 })
 </script>
 
-<h1>질문 작성 페이지</h1>
-
+<div class="container">
+	<br><p class="subject">Question</p>
+</div>
 
 <%-- =============== 로그인 세션 호출 =============== --%>
 <%
@@ -46,15 +89,18 @@ $(function () {
 
 
 <%-- =============== QnA 작성 시작 =============== --%>
-<div align="center">
+<div align="center" class="container" style="max-width: 850px">
 <form id="writeForm" action="qnaServlet?action=writeAf" method="post">
 <!-- <form id="writeForm" method="post"> --> 
-	<table border="1">
-	<col width="150"><col width="600">
+	<table>
+	<colgroup>
+	<col width="150"><col>
+	</colgroup>
+	<tbody>
 	<tr>
 		<th>아이디</th>
 		<td>
-			<input type="text" name="_id" size="50px" readonly="readonly" value="<%=mem.getId() %>">
+			<input type="text" class="form-control" name="_id" size="50px" readonly="readonly" value="<%=mem.getId() %>">
 			<%-- <input type="text" name="id" size="50px" value=${login.id } readonly="readonly"> --%>
 			<!-- <input type="text" id="_id" name="_id" required> -->
 		</td>
@@ -63,7 +109,7 @@ $(function () {
 		<%-- =============== 이메일 전송 확인 요 =============== --%>
 		<th>이메일</th>
 		<td>
-			<input type="text" name="email"size="50px" readonly="readonly" value="<%=mem.getEmail() %>">
+			<input type="text" class="form-control" name="email"size="50px" readonly="readonly" value="<%=mem.getEmail() %>">
 			<!-- <input type="text" id="email" name="email" maxlength="50" placeholder="이메일" required> -->
 			<!-- maxlength="50" 필드 최대 문자 갯수 50자 -->
 		</td>
@@ -71,31 +117,34 @@ $(function () {
 	<tr>
 		<th>제목</th>
 		<td>
-			<input type="text" id="title" name="title" size="50px" maxlength="50" placeholder="제목 (최대 50자)" title="hhh" required>
+			<input type="text" class="form-control" id="title" name="title" size="50px" maxlength="50" placeholder="제목 (최대 50자)" title="hhh" required>
 		</td>
 	</tr>
 	<tr>
 		<th>내용</th>
 		<td>
-			<textarea rows="20" cols="70px" id="content" name="content" placeholder="질문" required></textarea>
+			<textarea class="form-control" rows="10" id="content" name="content" placeholder="질문" required ></textarea>
 		</td>
 	</tr>
 	<tr>
 		<th>옵션</th>
 		<td>
-			<label>
-				<input type="checkbox" id="secretChk" >비밀글
+			<div class="form-check-inline">
+			  <label class="form-check-label">
+			    <input type="checkbox" class="form-check-input" id="secretChk" > 비밀글
 				<input type="hidden" id="secret" name="secret" value="0">
-			</label>
+			  </label>
+			</div>
 		</td>
 	</tr>
-	<tr>
-		<td colspan="2">
-			<input type="button" onclick="location.href='qnaServlet?action=list'" value="목록">
-			<input type="submit" id="writeBtn"  value="등록하기">
-		</td>
-	</tr>
+	</tbody>
 	</table>
+	
+	<div style="margin-top: 20px; text-align: center">
+		<input type="submit" id="writeBtn"  value="등록하기" class="btn btn-danger" style="width: 150px">
+		<!-- <input type="button" class="btn btn-outline-danger" onclick="QnaWrite()" value="QnA 등록하기"> -->
+	</div>
+	
 </form>
 </div>
 

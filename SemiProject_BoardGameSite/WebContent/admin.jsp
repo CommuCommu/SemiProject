@@ -269,12 +269,6 @@ $(window).resize(function (){
 	 }
 });
 
-<<<<<<< HEAD
-<a href="auth?command=getMemlist&pageNum=0&item=name&sort=asc">회원리스트보기</a>
-<br>
-<a href="adminServlet?command=tableCheck">매장 테이블 현황과 예약 테이블 설정</a>
-
-=======
 
 var chart = Highcharts.chart('container', {
 
@@ -338,7 +332,7 @@ $('#polar').click(function () {
 
 
 </script>
->>>>>>> Sim_Css
+
 
 </body>
 </html>

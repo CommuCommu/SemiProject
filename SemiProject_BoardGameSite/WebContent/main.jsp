@@ -1,4 +1,3 @@
-<%@page import="dto.MemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -6,245 +5,233 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
-integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
 <style type = "text/css">
-@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
-@import url('https://fonts.googleapis.com/css?family=Amatic+SC');
-
 body {
-	/* font-family: 'Indie Flower', cursive !important; */
-  background-image: url("background.jpg"); /*CAPE HONEY*/
-	margin: 0px;
-	padding: 0px;
+  font-family: "Century Gothic", "Lato", sans-serif;
 }
 
-::selection {
-	background: transparent;
+a {
+  text-decoration: none;
 }
 
-h4 {
-	font-size: 26px;
-	line-height: 1px;
-	/* font-family: 'Amatic SC', cursive !important; */
+.et-hero-tabs,
+.et-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  background: #eee;
+  text-align: center;
+  padding: 0 2em;
+}
+.et-hero-tabs h1,
+.et-slide h1 {
+  font-size: 2rem;
+  margin: 0;
+  letter-spacing: 1rem;
+}
+.et-hero-tabs h3,
+.et-slide h3 {
+  font-size: 1rem;
+  letter-spacing: 0.3rem;
+  opacity: 0.6;
 }
 
-.color1{color:#382746;
-		margin-left: 32px;
-		font-size: 30px;}			/*MOUNTAIN MEADOW*/
-.color2{color:#4a2e61;
-		margin-left: 32px;
-		font-size: 63px;
-		font-style:bold;}		/*TALL POPPY*/
-
-
-.card {
-	color: #013243; /*SHERPA BLUE*/
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 300px;
-	height: 400px;
-	background: #e0e1dc;
-	transform-style: preserve-3d;
-	transform: translate(-50%,-50%) perspective(2000px);
-	box-shadow: inset 300px 0 50px rgba(0,0,0,.5), 20px 0 60px rgba(0,0,0,.5);
-	transition: 1s;
+.et-hero-tabs-container {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 70px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  z-index: 10;
+}
+.et-hero-tabs-container--top {
+  position: fixed;
+  top: 0;
 }
 
-.card:hover {
-	transform: translate(-50%,-50%) perspective(2000px) rotate(15deg) scale(1.2);
-	box-shadow: inset 20px 0 50px rgba(0,0,0,.5), 0 10px 100px rgba(0,0,0,.5);
+.et-hero-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  color: #000;
+  letter-spacing: 0.1rem;
+  transition: all 0.5s ease;
+  font-size: 0.8rem;
+}
+.et-hero-tab:hover {
+  color: white;
+  background: rgba(102, 177, 241, 0.8);
+  transition: all 0.5s ease;
 }
 
-.card:before {
-	content:'';
-	position: absolute;
-	top: -5px;
-	left: 0;
-	width: 100%;
-	height: 5px;
-	background: #BAC1BA;
-	transform-origin: bottom;
-	transform: skewX(-45deg);
+.et-hero-tab-slider {
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 6px;
+  background: #66B1F1;
+  transition: left 0.3s ease;
 }
 
-.card:after {
-	content: '';
-	position: absolute;
-	top: 0;
-	right: -5px;
-	width: 5px;
-	height: 100%;
-	background: #92A29C;
-	transform-origin: left;
-	transform: skewY(-45deg);
+@media (min-width: 800px) {
+  .et-hero-tabs h1,
+.et-slide h1 {
+    font-size: 3rem;
+  }
+  .et-hero-tabs h3,
+.et-slide h3 {
+    font-size: 1rem;
+  }
+
+  .et-hero-tab {
+    font-size: 1rem;
+  }
 }
 
-.card .imgBox {
-	width: 100%;
-	height: 100%;
-	position: relative;
-	transform-origin: left;
-	transition: .7s;
-}
-
-.card .bark {
-	position: absolute;
-	background: #e0e1dc;
-	width: 100%;
-	height: 100%;
-	opacity: 0;
-	transition: .7s;
-}
-
-.card .imgBox img {
-	min-width: 250px;
-	max-height: 400px;
-}
-
-.card:hover .imgBox {
-	transform: rotateY(-135deg);
-}
-
-.card:hover .bark {
-	opacity: 1;
-	transition: .6s;
-  box-shadow: 300px 200px 100px rgba(0, 0, 0, .4) inset;
-}
-
-.card .details {
-	position: absolute;
-	top: 0;
-	left: 0;
-	box-sizing: border-box;
-	padding: 0 0 0 10px;
-	z-index: -1;
-	margin-top: 70px;
-}
-
-.card .details p {
-	font-size: 15px;
-	line-height: 5px;
-	transform: rotate(-10deg);
-	padding: 0 0 0 20px;
-}
-
-.card .details h4 {
-	text-align: center;
-}
-
-.text-right {
-	text-align: right;
-}
 </style>
 </head>
 <body>
 
+  <!-- Hero -->
+  <section class="et-hero-tabs">
+    <h1 style = "font-size:60pt">BIT BOARD GAME</h1>
+    <h3></h3>
+    <div class="et-hero-tabs-container">
+      <a class="et-hero-tab" href="#tab-es6">NOTICE</a>
+      <a class="et-hero-tab" href="#tab-flexbox">GAME LIST</a>
+      <a class="et-hero-tab" href="#tab-react">RESERVATION</a>
+      <a class="et-hero-tab" href="#tab-angular">EPILOGUE</a>
+      <a class="et-hero-tab" href="#tab-other">DIRECTION</a>
+      <span class="et-hero-tab-slider"></span>
+    </div>
+  </section>
 
-<div id="gnb"></div>
-<script type="text/javascript">
-$(function () {
-	$("#gnb").load("./GNB/gnb.jsp");
-})
-</script>
+  <!-- Main -->
+  <main class="et-main">
+    <section class="et-slide" id="tab-es6">
+    	<a href = "notice.jsp"><img src = "notice.jpg"></a>
+    	<br><br>
+      <h1>NOTICE</h1>
+      <h3>최근 소식</h3>
+    </section>
+    
+    <section class="et-slide" id="tab-flexbox">
+    	<a href = "gameList.jsp"><img src = "gamelist.jpg"></a>
+    	<br><br>
+      <h1>GAME LIST</h1>
+      <h3>보유 중인 게임을 확인하세요</h3>
+    </section>
+    
+    <section class="et-slide" id="tab-react">
+    	<a href = "resetvation.jsp"><img src = "reservation.jpg"></a>
+    	<br><br>
+      <h1>RESERVATION</h1>
+      <h3>빠르고 간편하게 예약하세요</h3>
+    </section>
+    
+    <section class="et-slide" id="tab-angular">
+    	<a href = "epilogue.jsp"><img src = "epilogue.jpg"></a>
+    	<br><br>
+      <h1>EPILOGUE</h1>
+      <h3>이용 후기를 남겨보세요</h3>
+    </section>
+    
+    <section class="et-slide" id="tab-other">
+    	<a href = "map.jsp"><img src = "direction.jpg"></a>
+    	<br><br>
+      <h1>DIRECTION</h1>
+      <h3>찾아오시는 길</h3>
+    </section>
+  </main>
+  
+  
+  
+  <script type = "text/javascript">
+  class StickyNavigation {
+		
+		constructor() {
+			this.currentId = null;
+			this.currentTab = null;
+			this.tabContainerHeight = 70;
+			let self = this;
+			$('.et-hero-tab').click(function() { 
+				self.onTabClick(event, $(this)); 
+			});
+			$(window).scroll(() => { this.onScroll(); });
+			$(window).resize(() => { this.onResize(); });
+		}
+		
+		onTabClick(event, element) {
+			event.preventDefault();
+			let scrollTop = $(element.attr('href')).offset().top - this.tabContainerHeight + 1;
+			$('html, body').animate({ scrollTop: scrollTop }, 600);
+		}
+		
+		onScroll() {
+			this.checkTabContainerPosition();
+	    this.findCurrentTabSelector();
+		}
+		
+		onResize() {
+			if(this.currentId) {
+				this.setSliderCss();
+			}
+		}
+		
+		checkTabContainerPosition() {
+			let offset = $('.et-hero-tabs').offset().top + $('.et-hero-tabs').height() - this.tabContainerHeight;
+			if($(window).scrollTop() > offset) {
+				$('.et-hero-tabs-container').addClass('et-hero-tabs-container--top');
+			} 
+			else {
+				$('.et-hero-tabs-container').removeClass('et-hero-tabs-container--top');
+			}
+		}
+		
+		findCurrentTabSelector(element) {
+			let newCurrentId;
+			let newCurrentTab;
+			let self = this;
+			$('.et-hero-tab').each(function() {
+				let id = $(this).attr('href');
+				let offsetTop = $(id).offset().top - self.tabContainerHeight;
+				let offsetBottom = $(id).offset().top + $(id).height() - self.tabContainerHeight;
+				if($(window).scrollTop() > offsetTop && $(window).scrollTop() < offsetBottom) {
+					newCurrentId = id;
+					newCurrentTab = $(this);
+				}
+			});
+			if(this.currentId != newCurrentId || this.currentId === null) {
+				this.currentId = newCurrentId;
+				this.currentTab = newCurrentTab;
+				this.setSliderCss();
+			}
+		}
+		
+		setSliderCss() {
+			let width = 0;
+			let left = 0;
+			if(this.currentTab) {
+				width = this.currentTab.css('width');
+				left = this.currentTab.offset().left;
+			}
+			$('.et-hero-tab-slider').css('width', width);
+			$('.et-hero-tab-slider').css('left', left);
+		}
+		
+	}
 
-
-<!-- GNB 부분 ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ -->
-
-<%
-	// session을 얻어오는 두가지 방법
-	// 1. 내장객체 session을 통해 getAttribute로 접근  
-	Object oLogin = session.getAttribute("login");
-	// 2. request소속의 getSession()으로 
-	// request.getSession();
-	MemberDto mem = null;
-	%>	
-
-
-<%--
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="./main.jsp"><img src="./GNB/icon.png" width="50px" height="50px"></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="./notice.jsp">공지<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="./gameList.jsp">게임목록</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="./resetvation.jsp">예약</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="./epilogue.jsp">후기</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="./map.jsp">위치</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="./qna.jsp">Q & A</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="./admin.jsp">관리자</a>
-      </li>
-     
-  <%     if (oLogin == null) { %>
-  	  <li class="nav-item  form-inline my-2 my-lg-0">
-        <a class="nav-link" href="./login.jsp">로그인</a>
-      </li>
-      <%} else { %>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          내정보
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="login?command=logout">로그아웃</a>
-          <a class="dropdown-item" href="personalInfo.jsp">내정보 보기</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">추가사항</a>
-        </div>
-      </li>
-      <% } %> 
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
-    </ul>
-   
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
- --%>
-
-
-<!-- 본문 부분!!!!!!! -->
-<div style="padding-top: 400px">
-	<div class="card">
-		<div class="imgBox">
-			<div class="bark"></div>
-			<img src="imgmain.png">
-		</div>
-		<div class="details" align = "center">
-			<br><br>
-			<h4 class="color1" align = "center">Your Boardgame</h2>
-			<br><br><br><br><br>
-			<h4 class="color2 margin" align = "center"> Enjoy!</h3>
-			<br><br>
-			<!-- <p>Dear Dad,</p>
-			<p>Let's see.. .</p>
-			<p class="text-right">Happy Birthday, papa!</p>
-			<p class="text-right">♥Sarah</p> -->
-		</div>
-	</div>
-</div>
+	new StickyNavigation();
+  
+  </script>
 
 
 

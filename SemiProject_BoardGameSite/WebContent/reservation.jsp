@@ -65,7 +65,9 @@ public String showPen(int year, int month, int day){
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+<link rel="stylesheet" href="css/bootstrap.css">
 
 <!-- 합쳐지고 최소화된 최신 CSS 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -105,8 +107,9 @@ $(function () {
 </script>
 
 <%--페이지 시작. --%>
-<h1>예약페이지</h1>
-<hr>
+<div class="container">
+<br><p class="subject">Reservation</p>
+</div>
 
 
 <%-- 만약 예약가능한 테이블이 전혀 없다면 페이지를 띄우지 않고 막을 기능이 필요함. --%>
@@ -187,7 +190,7 @@ String nn = String.format("<a href='%s?year=%d&month=%d'>"
 //List<CalendarDto> list = dao.getCalendarList(mem.getId(), year+two(month+""));
 
 %>
-<div align="center">
+<div align="center" class="container">
 <table border="1">
 <col width="100"><col width="100"><col width="100"><col width="100">
 <col width="100"><col width="100"><col width="100">

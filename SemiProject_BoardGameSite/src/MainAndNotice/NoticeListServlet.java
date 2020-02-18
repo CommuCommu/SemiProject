@@ -13,35 +13,40 @@ public class NoticeListServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doGet(req, resp);
+		processFunction(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+		processFunction(req, resp);
 	}
 	
 	
 	public void processFunction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		req.setCharacterEncoding("utf-8");
+		
 		String command = req.getParameter("command");
-		System.out.println("NoticeListServlet command È®ÀÎ = " + command);
-		
-		
-		// °Ë»ö¾î°¡ ¾Æ¹«°Íµµ ³Ñ¾î¿ÀÁö ¾Ê¾ÒÀ» ¶§´Â °øÁö»çÇ× ¸ÞÀÎ(notice.jsp)·Î ÀÌµ¿ÇÏµµ·Ï ÇÑ´Ù.
+		System.out.println("NoticeListServlet command = " + command);
+	
 		if(command == null || command.equals("")) {
 			resp.sendRedirect("notice.jsp");
 			
-		// °Ë»ö¾î°¡ ³Ñ¾î¿Â °æ¿ì, notice.jsp ¿¡¼­ º¸³½ °Ë»ö¾î searchWord, °Ë»öÇ×¸ñÀÎ choice °ªÀ» ¹Þ¾ÆµéÀÎ´Ù.
-		} else if (command == "search") {
+		} else if (command.equals("search")) {
+			String searchWord = req.getParameter("searchWord");
+			String choice = req.getParameter("choice");
+			System.out.println("ê²€ìƒ‰ì–´ = " + searchWord);
+			resp.sendRedirect("notice.jsp?searchWord=" + searchWord + "&choice=" + choice);
+		
+		} else if (command.equals("page")) {
+			String pageNumber = req.getParameter("pageNumber");
 			String searchWord = req.getParameter("searchWord");
 			String choice = req.getParameter("choice");
 			
-			// ¸¸¾à °Ë»öÀÌ ½ÇÇàµÇ¾ú´Âµ¥ °Ë»öÇ×¸ñÀ» ¼±ÅÃÇÏÁö ¾Ê¾Ò´Ù¸é °øÁö»çÇ× ¸ÞÀÎ(notice.jsp)·Î ÀÌµ¿ÇÏµµ·Ï ÇÑ´Ù.
 			if(choice == null || searchWord == null) {
-				resp.sendRedirect("notice.jsp");
+				resp.sendRedirect("notice.jsp?pageNumber=" + pageNumber);
+			} else if(!choice.equals("sel") && !searchWord.equals("")) {
+				resp.sendRedirect("notice.jsp?pageNumber=" + pageNumber + "&searchWord=" + searchWord + "&choice=" + choice);
 			}
 		}
 	}

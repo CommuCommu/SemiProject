@@ -8,6 +8,7 @@
     
     
     
+    
     <%
     // 한글 깨짐 방지
     request.setCharacterEncoding("utf-8");
@@ -59,6 +60,12 @@
 <title>Insert title here</title>
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+<link rel="stylesheet" href="css/bootstrap.css">
+
+
+
 </head>
 <body>
 <%-- GNB --%>
@@ -71,7 +78,6 @@ $(function () {
 <br><br>
 
 <%-- 페이지 시작 --%>
-<h1 align = "center">공지사항</h1>
 
 <div align = "center">
 
@@ -110,7 +116,7 @@ for(int i=0; i<list.size(); i++) {
 <%
 }
 %> --%>
-<table border = "1" style="border-collapse:collapse; width:1200px; height:1300px">
+<%-- <table border = "1" style="border-collapse:collapse; width:1200px; height:1300px">
 	
 	<tr>
 		<th style="text-align:center">
@@ -125,29 +131,59 @@ for(int i=0; i<list.size(); i++) {
 		</td>
 	</tr>
 	
-</table>
+</table> --%>
+
+<br><br>
+
+<div style = "padding-left:400px; padding-right:400px">
+<div class= "card text-center">
+	<div class="card-header">
+		<p class="h4"><%=dto.getTitle() %></p>
+	</div>
+	<div class="card-body">
+		<p class="card-text"> <%=dto.getContent() %> </p>
+	</div>
+	<div class="card-footer text-muted">
+		<b>조회수</b> <%=dto.getReadcount() %> <br>
+		<b>작성자</b> <%=dto.getId() %> <br>
+		<b>작성일</b> <%=dto.getWdate() %>
+	</div>
+</div>
+</div>
+
+
+
+
+
+
+
 
 <form action = "noticeUpdate">
 <input type = "hidden" name = "title" value = "<%=dto.getTitle() %>">
-<input type = "hidden" name = "content" value = "<%=dto.getContent() %>">
+<input type = "hidden" name = "content" value = '<%=dto.getContent() %>'>
 </form>
 
+
+<br><br><br>
 
 <!-- 수정, 삭제 기능 -->
 
 <%
 	/* if(mem.getAuth() == 1) { */
 %>
-	<button onclick = "updateNotice(<%=dto.getSeq() %>)"> 수정 </button>
-	<button onclick = "deleteNotice(<%=dto.getSeq() %>)"> 삭제 </button>
+
+	<button onclick = "updateNotice(<%=dto.getSeq() %>)" class="btn btn-outline-primary"> 수정 </button> &nbsp;&nbsp;
+	<button onclick = "deleteNotice(<%=dto.getSeq() %>)" class="btn btn-outline-primary"> 삭제 </button> &nbsp;&nbsp;
+	
 	
 <%
 	/* } */
 %>	
 
 <!-- 공지사항 리스트로 돌아가기 -->
-	<button type= "button" onclick = "location.href='notice.jsp'"> 목록 </button>
+	<button type= "button" onclick = "location.href='notice.jsp'" class="btn btn-outline-primary"> 목록 </button>
 	
+	<br><br><br><br><br><br>
 </div>
 
 

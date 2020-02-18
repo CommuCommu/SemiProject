@@ -69,7 +69,7 @@ $(function(){
 
 
 $("#newPw").hide();
-var count = 40;
+var count = 1800;
 var time = 0;
 
 // myTimer함수 매 초마다 실시 하도록 설정 
