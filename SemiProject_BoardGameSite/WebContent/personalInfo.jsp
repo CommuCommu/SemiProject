@@ -62,7 +62,6 @@ $(function () {
 		<td><input type="text" name="phoneNum" readonly="readonly" value='<%=phoneNum %>' class="form-control"> </td>
 	</tr>
 	<tr>
-<<<<<<< HEAD
 		<th>이메일:</th> 
 		<td><input type="text" name="email" readonly="readonly" value='<%=email %>'> </td>
 	</tr>
@@ -70,10 +69,12 @@ $(function () {
 		<th>포인트: </th> 
 	<td><input type="text" name="email" readonly="readonly" value='<%=credit %>'> 포인트</td>
 	</tr>
+<%--	
 =======
 		<th>이메일</th> 
 		<td><input type="text" name="email" readonly="readonly" value='<%=email %>' class="form-control"> </td>
 >>>>>>> Jung_Css
+ --%>
 	<tr> 
 		<td colspan="2" style="text-align: center; padding-top: 20px">
 		<div class="btn-group">
@@ -87,14 +88,11 @@ $(function () {
 		</td>
 	</tr>
 </table>
-<<<<<<< HEAD
 <a href="myReserv?command=myReserv&id=<%=id %>&sort=asc&page=0"><button type="button">내 예약</button></a>
 <a href="login?command=logout"><button type="button">로그아웃</button></a>
-=======
 
 </div>
 
->>>>>>> Jung_Css
 
 <script type="text/javascript">
 

@@ -56,8 +56,7 @@ $(function () {
 </script>
 
 
-<<<<<<< HEAD
-=======
+
 <style type="text/css">
 table.type02 {
     border-collapse: separate;
@@ -91,8 +90,6 @@ table.type02 td {
 }
 
 </style>
-
->>>>>>> Jung_Css
 
 </head>
 <body>
@@ -159,11 +156,7 @@ if(len % 10 > 0){
 </table>
 
 <div align="center">
-<<<<<<< HEAD
 <table class="type02" border="1">
-=======
-<table class="type02">
->>>>>>> Jung_Css
 <col width="70"><col width="70"><col width="600"><col width="70"><col width="70"><col width="100"><col width="120">
 
 <tr>

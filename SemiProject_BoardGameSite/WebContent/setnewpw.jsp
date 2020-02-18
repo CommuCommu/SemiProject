@@ -24,32 +24,18 @@ System.out.println("pw:" + oldpw);
 </head>
 
 <body>
-<<<<<<< HEAD
-<%-- GNB --%>
-<div id="gnb"></div>
-=======
 
 <%-- GNB --%>
 <div id="gnb"></div>
 
->>>>>>> Jung_Css
 <script type="text/javascript">
 $(function () {
 	$("#gnb").load("./GNB/gnb.jsp");
 })
 </script>
-<<<<<<< HEAD
 
-<table>
-<col width="300"><col width="100">
 
-<h1>인증번호를 입력해주세요</h1>
-<tr>
-	<input type="hidden" id="_id" value=<%=id %>>
-	<input	type="hidden" id="authKey" value=<%=authNum %>>
-	<td><input type="text" id="inputNum" placeholder="인증번호를 입력해주세요(6자리)"></td>
-	<td><button type="button" id="auth_btn" onclick="authchk()">인증</button></td>
-=======
+
 <%--페이지 시작. --%>
 <div align="center" class="container">
 	<br><p class="subject">인증 번호 확인</p>
@@ -65,7 +51,9 @@ $(function () {
 		<input type="text" id="inputNum" placeholder="이메일로 전송된 인증 번호 (6자리)" class="serchText">
 		<button type="button" onclick="authchk()" class="btn btn-success" style="vertical-align: bottom;">인증</button>
 	</td>
->>>>>>> Jung_Css
+
+
+
 </tr>
 <tr>
 	<td><div id="countdown"></div></td>	

@@ -229,14 +229,10 @@ td{text-align: -webkit-center;}
 	</div>
 	
 	
-<<<<<<< HEAD
-	
-	
-	
-=======
+
 <!-- 임시여백 -->	
 <br><br><br><br>
->>>>>>> Jung_Css
+
 	
 	
 	

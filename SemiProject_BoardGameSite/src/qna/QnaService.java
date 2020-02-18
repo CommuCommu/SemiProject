@@ -101,11 +101,6 @@ public class QnaService {
 		return isS;
 	}
 
-	public boolean setQnaAnswerWait(int seq) {
-		QnaDao dao = QnaDao.getInstance();
-		boolean isS = dao.setQnaAnswerWait(seq);
-		return isS;
-	}
 
 	public List<QnaDto> getNoAnsList(int pageNum) {
 		QnaDao dao = QnaDao.getInstance();

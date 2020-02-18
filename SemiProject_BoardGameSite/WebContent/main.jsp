@@ -131,7 +131,7 @@ a {
     </section>
     
     <section class="et-slide" id="tab-react">
-    	<a href = "resetvation.jsp"><img src = "reservation.jpg"></a>
+    	<a href = "reservation.jsp"><img src = "reservation.jpg"></a>
     	<br><br>
       <h1>RESERVATION</h1>
       <h3>빠르고 간편하게 예약하세요</h3>

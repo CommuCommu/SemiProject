@@ -19,7 +19,6 @@ $(function () {
 })
 </script>
 
-<<<<<<< HEAD
 <h3>게임목록</h3>
 <br><br>
 <div>
@@ -589,14 +588,6 @@ $(function () {
 </a>
  
 
-
-=======
-<%--페이지 시작. --%>
-<div class="container">
-	<br><p class="subject">Game List</p>
-	<h1>수정중</h1>
-</div>
->>>>>>> Jung_Css
 
 </body>
 </html>

@@ -36,21 +36,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<<<<<<< HEAD
+
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
-=======
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
->>>>>>> Jung_Css
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
 <!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
 <link rel="stylesheet" href="css/bootstrap.css">
-<<<<<<< HEAD
-=======
 
-
-
->>>>>>> Jung_Css
 <style type="text/css">
 a {color: #000000;}
 a:hover {text-decoration: none; color: #000000;}
@@ -58,19 +51,7 @@ a:hover {text-decoration: none; color: #000000;}
 th, td{text-align:center;vertical-align: middle !important;}
 
 </style>
-<<<<<<< HEAD
-=======
 
-
-
-
-
-
-
-
-
-
->>>>>>> Jung_Css
 
 <%--
 <!-- 합쳐지고 최소화된 최신 CSS -->
@@ -90,8 +71,7 @@ th, td{text-align:center;vertical-align: middle !important;}
  
 </head>
 <body>
-<<<<<<< HEAD
-=======
+
 
 
 
@@ -118,7 +98,7 @@ th, td{text-align:center;vertical-align: middle !important;}
     	}
     %>
  --%>
->>>>>>> Jung_Css
+
 
 
 <%-- GNB --%>
@@ -133,18 +113,16 @@ $(function () {
 
 
 <%--페이지 시작. --%>
-<<<<<<< HEAD
-=======
+
 <!-- <h1 align = "center"><font style="font-size:29pt">공지사항</font></h1> -->
 
->>>>>>> Jung_Css
 
 <!-- 타이틀 수정 -->
 <div class="container">
 <br><p class="subject">Notice</p>
 </div>
 
-<<<<<<< HEAD
+
 <script type = "text/javascript">
 $(document).ready(function () {
 	var _choice = '<%=choice %>';
@@ -158,8 +136,6 @@ $(document).ready(function () {
 });
 
 </script>
-=======
->>>>>>> Jung_Css
 
 
 
@@ -192,12 +168,10 @@ if(length % 10 > 0) {
 
 <table class="table table-hover">
 	<!-- col width="40"><col width="600" style="text-align:center"><col width = "90"><col width = "90"><col width = "50"> -->
-<<<<<<< HEAD
-	<col width="40"><col width="300"><col width = "90"><col width = "140"><col width = "50">
-=======
+
 	<!-- <col width="40"><col width="400"><col width = "90"><col width = "90"><col width = "50"> -->
 	<col width="60"><col width="400"><col width="100"><col width="180"><col width="100">
->>>>>>> Jung_Css
+
 	<thead align="center">
 		<tr>
 			<!-- 		
@@ -207,11 +181,8 @@ if(length % 10 > 0) {
 			<th scope="col" style = "text-align:center"> 작성일 </th>
 			<th scope="col" style = "text-align:center"> 조회수 </th> 
 			-->
-<<<<<<< HEAD
-			<th>No</th><th>제목</th><th>작성자</th><th>작성일</th><th>조회수</th>
-=======
+
 			<th>No</th><th>제목</th><th>글쓴이</th><th>작성일</th><th>조회수</th>
->>>>>>> Jung_Css
 		</tr>
 	</thead>
 	
@@ -280,18 +251,19 @@ if(length % 10 > 0) {
 	<div align="right">
 		<input type="button" class="btn btn-outline-danger" onclick="location.href='noticeWrite?command=write'" value="글쓰기">
 	</div>
-<<<<<<< HEAD
-
 	
-	<!-- <a href = "noticeWrite?command=write"> <button type = "button"> 글쓰기 </button></a> -->
-	
-	<%
+		<%
 		}
 	%>
 	
 	<%
 	}
 	%>
+	
+
+	<!-- <a href = "noticeWrite?command=write"> <button type = "button"> 글쓰기 </button></a> -->
+	
+
  
  
  
@@ -313,40 +285,7 @@ if(length % 10 > 0) {
 
 
 
-=======
 
-	
-	<!-- <a href = "noticeWrite?command=write"> <button type = "button"> 글쓰기 </button></a> -->
-	
-	<%
-		}
-	%>
-	
-	<%
-	}
-	%>
- 
- 
- 
-<%-- 	<%
-	if(mem.getAuth() == 1) {
-	%>
-		<a href = "noticeWrite?command=write"> <button type = "button"> 글쓰기 </button> </a>
-		
-		< ========== 글쓰기 쓰실때 아래 참고하셔서 사용하시면 부트스트랩 적용됩니다 :) -우철- ========== >
-		<div align="right">
-			<input type="button" class="btn btn-outline-danger" onclick="location.href='noticeWrite?command=write'" value="글쓰기">
-		</div>
-		
-	<%
-	}
-	%>
- --%>
-
-
-
-
->>>>>>> Jung_Css
 
 	<%-- 페이징에 대한 뷰 처리 --%>
 	<ul class="pagination justify-content-center" style="margin:20px 0">
@@ -405,12 +344,9 @@ if(length % 10 > 0) {
 		<option value = "title"> 제목 </option>
 		<option value = "writer"> 작성자 </option>
 		<option value = "content"> 내용 </option>
-<<<<<<< HEAD
+
 	</select>
 	<input type = "text" id = "search" value = "" class="serchText" placeholder="검색어를 입력해주세요 " size="40px">
-=======
-	</select> <input type = "text" id = "search" value = "" class="serchText" placeholder="검색어를 입력해주세요 " size="40px">
->>>>>>> Jung_Css
 	
 	<!-- 검색버튼을 누르면 검색 메소드 searchNotice 호출 (써야함) -->
 	<button type = "button" onclick = "searchNotice()" class="btn btn-outline-dark" style="vertical-align: bottom;">검색 </button>
@@ -420,9 +356,6 @@ if(length % 10 > 0) {
 </div> <!-- 테이블 div 종료 -->
 
 
-<<<<<<< HEAD
-
-=======
 <br><br><br><br>
 >>>>>>> Jung_Css
 

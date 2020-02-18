@@ -2851,7 +2851,7 @@ textarea.form-control.is-invalid {
 }
 
 .btn {
-	width: 135px;
+	width: 155px;
     display: inline-block;
     font-weight: 400;
     color: #212529;
@@ -5246,7 +5246,7 @@ input[type=submit].btn-block {
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem;
-    height : 100px;
+    /* height : 100px; */
 }
 
 .card>hr {

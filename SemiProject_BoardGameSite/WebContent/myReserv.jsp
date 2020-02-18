@@ -40,7 +40,6 @@ $(function () {
 </script>
 
 <%--페이지 시작. --%>
-<<<<<<< HEAD
 <h1>내 예약 보기</h1>
 <table>	
 	<col width="100"><col width="150"><col width="250"><col width="150"><col width="100"><col width="200"><col width="100">
@@ -112,12 +111,6 @@ $(".checkBtn").click(function(){
 	var id = input.eq(2).val();
     	alert("seq:" + seq);
     	alert("id" + id);
-=======
-<div class="container">
-	<br><p class="subject">My Reservation</p>
-	<h1>수정중</h1>
-</div>
->>>>>>> Jung_Css
 
 	
 	$.ajax({

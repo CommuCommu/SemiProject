@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dto.TableDto;
 
-@WebServlet("/adminServlet")
+@WebServlet("/AdminTableUpdateServlet")
 public class AdminTableUpdateServlet extends HttpServlet{
 
 	@Override
