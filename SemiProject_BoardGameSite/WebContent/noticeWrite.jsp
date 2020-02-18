@@ -12,13 +12,17 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script> 
 <script type="text/javascript" src="editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+<link rel="stylesheet" href="css/bootstrap.css">
+
 
 <script>
 $(document).ready(function(){
 	$("#save").click(function(){		
-		alert("save click");
+		//alert("save click");
 		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
-		alert(document.getElementById("ir1").value);
+		//alert(document.getElementById("ir1").value);
 		$("#frm").submit();		
 	})
 })

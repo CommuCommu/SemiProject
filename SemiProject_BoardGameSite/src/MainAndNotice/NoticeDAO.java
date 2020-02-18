@@ -183,8 +183,6 @@ public class NoticeDAO {
 	}
 	
 	
-	// 珥� 怨듭� 湲� 媛쒖닔
-	// 留뚯빟 13媛쒓� �엳�쑝硫� 2�럹�씠吏�. (10媛쒕떦 1�럹�씠吏��씤 寃쎌슦)
 	public int getAllNotice(String choice, String searchWord) {
 		
 		String sql = " SELECT COUNT(*) FROM BG_NOTICE ";
@@ -193,7 +191,7 @@ public class NoticeDAO {
 		
 		if(choice.equals("title")) {
 			sqlWord = " WHERE TITLE LIKE '%" + searchWord.trim() + "%' ";
-		} else if(choice.equals("writer") && !searchWord.equals("")) {
+		} else if(choice.equals("writer")) {
 			sqlWord = " WHERE ID = '" + searchWord.trim() + "'";
 		} else if(choice.equals("content")) {
 			sqlWord = " WHERE CONTENT LIKE '%" + searchWord.trim() + "%' ";
@@ -294,16 +292,12 @@ public class NoticeDAO {
 	
 	
 	
-	// who..........
-	// �젣�씪 源뚰깉�뒪�윭�슫 硫붿냼�뱶.............
-	// 媛�利덉븘........
-	
 	public List<NoticeDto> getNoticePagingList(String choice, String searchWord, int page) {
 		
 	String sql = " SELECT SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL "
 			+ " FROM ";
 	
-		   sql += "(SELECT ROW_NUMBER()OVER(ORDER BY SEQ ASC) AS RNUM, "
+		   sql += "(SELECT ROW_NUMBER()OVER(ORDER BY SEQ DESC) AS RNUM, "
 		   		+ "			SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL "
 		   		+ " FROM BG_NOTICE "
 		   		+ " WHERE DEL = 0 ";
@@ -319,7 +313,7 @@ public class NoticeDAO {
 	}
 	sql += sqlWord;
 	
-	sql += " ORDER BY SEQ ASC )";
+	sql += " ORDER BY SEQ DESC )";
 	sql += " WHERE RNUM >= ? AND RNUM <= ? ";
 	
 	Connection conn = null;

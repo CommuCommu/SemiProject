@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="dto.QnaCommentDto"%>
 <%@page import="java.util.List"%>
 <%@page import="dto.MemberDto"%>
@@ -8,6 +10,8 @@
 <%
 	QnaDto dto = (QnaDto)request.getAttribute("qnaDto");
 	List<QnaCommentDto> commList = (List<QnaCommentDto>)request.getAttribute("commList");
+	int pageNum = (int)request.getAttribute("pageNum");
+	
 	
 	// 댓글 추가 리턴
 	String isS = null;
@@ -34,6 +38,17 @@
 	
 	
 %>     
+
+
+<%-- 시스템 현재 시간(curToday) 추출 --%>
+<%--
+Date now = new Date();
+/* SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss"); */
+SimpleDateFormat sf = new SimpleDateFormat("yyMMdd");
+String today = sf.format(now);
+System.out.println("시스템의 현재시간 : " + today);
+int curTime = Integer.parseInt(today);
+--%>
     
     
 <!DOCTYPE html>
@@ -142,9 +157,20 @@ else if(commDeleteisS.equals("true")){
 
 
 
+<div align="center">
+<input type="button" onclick="changeTest(<%=pageNum%>)" value="목록 돌아가기">
 
 
+</div>
 
+<script type="text/javascript">
+function changeTest(pageNum) {
+	//뒤로갈 히스토리가 있으면,
+	alert(pageNum);
+	location.href="qnaServlet?action=list&pageNumber="+pageNum;
+}
+
+</script>
 
 
 
@@ -154,15 +180,20 @@ else if(commDeleteisS.equals("true")){
 	<table border="1">
 	<col width="150"><col width="600">
 	
+	
+	<%-- ===== 상단 메뉴 버튼 ===== --%>
 	<%	if(mem != null && ( dto.getId().equals(mem.getId()) || mem.getAuth() == 1)) { %>
 	<tr>
 		<td colspan="2">
 			<div align="right">
 				<button type="button" onclick="qnaUpdate(<%=dto.getSeq() %>)">수정</button>
 				<button type="button" onclick="qnaDelete(<%=dto.getSeq() %>)">삭제</button>
-				<% if(mem.getAuth() == 1) { %>
-					<button type="button" onclick="qnaAnswer(<%=dto.getSeq() %>)">답변 대기 전환</button>
+				<% if(dto.getIs_answer() == 0) { %>
+					<button type="button" onclick="qnaAnswerEnd(<%=dto.getSeq() %>,<%=pageNum%>)">답변 완료 전환</button>
+				<% } else if (dto.getIs_answer() == 1) { %>
+					<button type="button" onclick="qnaAnswerWait(<%=dto.getSeq() %>,<%=pageNum%>)">답변 대기 전환</button>
 				<% } %>
+				
 				<%-- <button type="button" onclick="qnaComment(<%=dto.getSeq() %>)">댓글</button> --%>
 				<%-- <button type="button" onclick="test()">test</button> --%>
 			</div>	
@@ -215,19 +246,21 @@ else if(commDeleteisS.equals("true")){
 
 
 
+<%-- ============= 댓글 출력 시작 ============= --%>
+<%-- <% if(dto.get) %> --%>
 <hr>
-<h3>댓글</h3>
-<%-- ============= 댓글 시작 ============= --%>
+<!-- <h3>댓글</h3> -->
 <div align="center">
 
 <table border="1">
-<col width="60"><col width="500"><col width="200"><col width="100">
+
+<col width="150"><col width="500"><col width="150"><col width="100">
 	<tr>
-	   <th>작성자</th><th>내용</th><th>작성일</th><th>버튼</th>
+	  <th>작성자</th><th>내용</th><th>작성일</th><th>버튼부</th>
 	</tr>
 <% if(commList == null || commList.size() == 0){ %>
 	<tr>
-		<td colspan="4">작성된 추가 질문이 없습니다</td>
+		<td colspan="3">작성된 추가 질문이 없습니다</td>
 	</tr>
 <% } else {
 	for(int i = 0;i < commList.size(); i++){
@@ -240,17 +273,42 @@ else if(commDeleteisS.equals("true")){
 	<% if(commDto.getDel() == 0) { %>
 		<% if( commDto.getId().equals("aa") ) { %>
 		<%-- ============================ 수정필요 ============================ --%>
-			<th>관리자</th>
+			<td align="right">관리자 :　</td>
 		<%} else { %>
-			<th><%=commDto.getId() %></th>
+			<td  align="right"><%=commDto.getId() %> :　</td>
 		<% } %>
 		
 		
 		<td><%=commDto.getContent() %></td>
-		<td><%=commDto.getWdate() %> </td>
 		
 		
-		<%	if(mem != null && commDto.getId().equals(mem.getId())) { %>
+		
+		<%-- 
+		작성일(wDate)을 잘라서 년월일 추출 yyMMdd
+		<%
+		  String s1 = commDto.getWdate().substring(2,10);
+		  String p1 = "[-]";
+		  String[] sArray1 = s1.split(p1);
+		  String wDateStr = "";
+		  for( int j = 0; j < sArray1.length; j++ ){
+			  wDateStr += sArray1[j].trim();
+		  }
+		  //System.out.print("스플릿으로 자른 날짜" +sArray1[j].trim());
+		  System.out.println("스플릿으로 자른 날짜 : " + wDateStr);
+		  int wDate = Integer.parseInt(wDateStr);
+		%>
+		
+		<% if(wDate < curTime) { %>
+			<td align="center"><%=commDto.getWdate().substring(2,11) %></td>
+		<% } else { %>
+			<td align="center"><%=commDto.getWdate().substring(11,13) %> : <%=commDto.getWdate().substring(14,16) %></td>
+		<% } %>
+		 --%>
+		
+		<td align="center"><%=commDto.getWdate().substring(5,16) %> </td> 
+		
+		
+		<%	if(mem != null && ( commDto.getId().equals(mem.getId()) || mem.getAuth()==1 ) ) { %>
 			<td><button type="button" onclick="commDelete(<%=commDto.getSeq() %>, <%=dto.getSeq()%>)">삭제</button></td>
 		
 		
@@ -281,10 +339,15 @@ else if(commDeleteisS.equals("true")){
 </div>
 
 <br><br>
+
+
+
+
+<%-- ============= 댓글 작성 부분 시작 ============= --%>
 <div align="center">
-<table >
+<table border="1">
 <%-- 작성자 댓글 부분 --%>
-<%	if(mem != null && ( dto.getId().equals(mem.getId()) ) ) { %>
+<%	if(mem != null && ( dto.getId().equals(mem.getId()) ) && mem.getAuth() == 0 ) { %>
 	<tr>
 		<td colspan="3">
 			<input type="text" id="comment" name="comment" size="100px" required="required">
@@ -360,16 +423,31 @@ function qnaDelete(seq) {
 }
 
 // 질문 답변 완료 함수
-function qnaAnswer(seq) {
+function qnaAnswerEnd(seq, pageNum) {
 	var result = confirm("답변을 완료로 전환 합니다.")
 	if(result) {
-		location.href = "qnaServlet?action=answer&seq="+seq;
+		location.href = "qnaServlet?action=answerEnd&seq="+seq+"&pageNum="+pageNum;
 	} else {
 		
 	}
 	
 	
 }
+
+//질문 답변 대기 함수
+function qnaAnswerWait(seq,pageNum) {
+	var result = confirm("답변 대기 상태로 되돌립니다.")
+	if(result) {
+		location.href = "qnaServlet?action=answerWait&seq="+seq+"&pageNum="+pageNum;
+	} else {
+		
+	}
+	
+	
+}
+
+
+
 
 // 댓글 작성 함수
 function commWrite(seq) {

@@ -82,9 +82,15 @@ public class QnaService {
 		return commList;
 	}
 
-	public boolean setQnaAnswer(int seq) {
+	public boolean setQnaAnswerEnd(int seq) {
 		QnaDao dao = QnaDao.getInstance();
-		boolean isS = dao.setQnaAnswer(seq);
+		boolean isS = dao.setQnaAnswerEnd(seq);
+		return isS;
+	}
+
+	public boolean setQnaAnswerWait(int seq) {
+		QnaDao dao = QnaDao.getInstance();
+		boolean isS = dao.setQnaAnswerWait(seq);
 		return isS;
 	}
 
