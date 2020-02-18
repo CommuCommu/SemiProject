@@ -513,5 +513,106 @@ public List<QnaDto> getQnaPagingList(String choice, String searchWord, int page)
 	}
 	
 	
+public List<QnaDto> getNoAnsList(int page){
+		
+		System.out.println("dao로 들어온 page : " + page);
+		
+		String sql = " SELECT SEQ, ID, TITLE, CONTENT, WDATE, READCOUNT, IS_SECRET, IS_ANSWER, DEL, BESTQNA "
+				   + " FROM ";
+		
+			   sql += "( SELECT ROW_NUMBER()OVER(ORDER BY WDATE ASC) AS RNUM, "
+			   		+ "	SEQ, ID, TITLE, CONTENT, WDATE, READCOUNT, IS_SECRET, IS_ANSWER, DEL, BESTQNA "
+			   		+ " FROM BG_QNA"
+			   		+ " WHERE IS_ANSWER = 0 " 
+			   		+ " ORDER BY WDATE ASC) ";	
+			   sql += " WHERE RNUM >= ? AND RNUM <= ? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		List<QnaDto> list = new ArrayList<QnaDto>();
+		
+		int start, end;
+		//start = 1 + 10 * page;	// 0 -> 1	1 -> 11
+		//end = 10 + 10 * page;	// 0 -> 10  1 -> 20
+		
+		start = 1 + 5 * page;	// 0 -> 1	1 -> 6	 2 -> 11
+		end = 5 + 5 * page;		// 0 -> 5   1 -> 10  2 -> 15
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getQnaPagingList success");
+			
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, start);
+			psmt.setInt(2, end);			
+			System.out.println("2/6 getQnaPagingList success");
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getQnaPagingList success");
+			
+			while(rs.next()) {
+				int i = 1;
+				QnaDto dto = new QnaDto( rs.getInt(i++),
+										 rs.getString(i++),
+										 rs.getString(i++),
+										 rs.getString(i++),
+										 rs.getString(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++),
+										 rs.getInt(i++)	);
+				list.add(dto);
+			}
+			System.out.println("4/6 getQnaPagingList success");
+			
+		} catch (SQLException e) {
+			System.out.println("getQnaPagingList fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);			
+		}	
+		return list;
+	}
+
+public int getNoAnsCount(){
+
+	
+	String sql = " SELECT COUNT(*) "
+			   + " FROM BG_QNA "
+			   + " WHERE IS_ANSWER = 0 ";
+	
+	
+	Connection conn = null;
+	PreparedStatement psmt = null;
+	ResultSet rs = null;
+	
+	int count = 0;
+	
+	try {
+		conn = DBConnection.getConnection();
+		System.out.println("1/6 getQnaPagingList success");
+		
+		psmt = conn.prepareStatement(sql);
+		System.out.println("2/6 getQnaPagingList success");
+		
+		rs = psmt.executeQuery();
+		System.out.println("3/6 getQnaPagingList success");
+		
+		while(rs.next()) {
+			count = rs.getInt(1);
+		}
+		System.out.println("4/6 getQnaPagingList success");
+		
+	} catch (SQLException e) {
+		System.out.println("getQnaPagingList fail");
+		e.printStackTrace();
+	} finally {
+		DBClose.close(psmt, conn, rs);			
+	}	
+	return count;
+}
 	
 }

@@ -62,7 +62,7 @@
       <% if(oLogin != null) { %>
       	<%if(mem.getAuth() == 1) {%>
 	      <li class="nav-item">
-	        <a class="nav-link" href="./admin.jsp">관리자</a>
+	        <a class="nav-link" href="./auth?command=adminMain">관리자</a>
 	      </li>
       	<% } %>
       <% } %>

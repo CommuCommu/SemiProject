@@ -48,7 +48,7 @@ integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9If
         <a class="nav-link" href="./qna.jsp">Q & A</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./admin.jsp">관리자</a>
+        <a class="nav-link" href="./auth?command=adminMain">관리자</a>
       </li>
      
   <%     if (oLogin == null) { %>

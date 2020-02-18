@@ -1,32 +1,17 @@
 <%@page import="dto.ReservationDto"%>
 <%@page import="java.util.List"%>
-<%@page import="dto.MemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-
-	MemberDto mem = (MemberDto)request.getAttribute("dto");
-
-
-List<ReservationDto> list = (List<ReservationDto>)request.getAttribute("myList");
-System.out.println(list.size());
-
-int len = (int)request.getAttribute("len");
-int memPage = len / 10; // 예: 22개의 글 → 3페이지
-if (len % 10 > 0) {
-	memPage = memPage + 1;
-}
-int pageNum = (int)request.getAttribute("page");
-
-
-%>   
-   
+	List<ReservationDto> list = (List<ReservationDto>)request.getAttribute("curList");
+%>    
+  
     
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>예약현황</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style type="text/css">
 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,900);  
@@ -48,7 +33,7 @@ int pageNum = (int)request.getAttribute("page");
 
 .sidemenu a:hover{
 	text-decoration:none !important;
-	color: white;
+	color : white;
   -webkit-transform: scale(1.10);
      -moz-transform: scale(1.10);
       -ms-transform: scale(1.10);
@@ -64,14 +49,13 @@ int pageNum = (int)request.getAttribute("page");
 	  position: relative;
 	  display: block;
   	  -webkit-transition: all 0.1s linear;
-          transition: all 0.1s linear;        
+          transition: all 0.1s linear;
 }
-
 
 </style>
 </head>
-<body>
 
+<body>
 <%-- GNB --%>
 <div id="gnb"></div>
 <script type="text/javascript">
@@ -97,40 +81,12 @@ $(function () {
 
 <%--페이지 시작. --%>
 
-<h1>회원정보 상세보기</h1>
-<table>
-	<col width="100"><col width="200">
-	<tr>
-		<th>아이디</th>
-		<td><%=mem.getId() %></td>
-	</tr>
-	<tr>
-		<th>이름</th>
-		<td><%=mem.getName() %></td>
-	</tr>
-	<tr>
-		<th>휴대폰 번호</th>
-		<td><%=mem.getCall_number() %></td>
-	</tr>
-	<tr>
-		<th>이메일</th>
-		<td><%=mem.getEmail() %></td>
-	</tr>
-	<tr>
-		<th>마일리지</th>
-		<td><%=mem.getBonuscredit() %>	</td>
-	</tr>	
-	<tr>
-		<th>가입일</th>
-		<td><%=mem.getRegdate() %></td>		
-	</tr>
-</table>
 <table>
 	<col width="100"><col width="150"><col width="250"><col width="150"><col width="100"><col width="200"><col width="100">
 	<tr>
-		<th colspan="7" align="center">예약현황</th>
+		<th colspan="7" align="center">현재예약현황</th>
 	<tr>
-		<th>번호</th><th>예약일</th><th>예약시간</th><th>테이블넘버</th><th>인원수</th><th>메모</th><th>예약관리</th>
+		<th>번호</th><th>예약일</th><th>예약시간</th><th>테이블넘버</th><th>인원수</th><th>메모</th><th>아이디</th><th>예약관리</th>
 	</tr>
 	<% if(list.size() == 0){
 	%>
@@ -142,26 +98,28 @@ $(function () {
 	}else{
 		for( int i = 0; i < list.size(); i++){ 
 			String rdate = list.get(i).getRdate();
+			if(list.get(i).getDel() != 1){
 		%>
 		<tr>
 			<td><%=i + 1 %></td><td><%=rdate.substring(0, 10) %></td>
 			<td><%=list.get(i).getStarttime()%>&nbsp;~&nbsp;<%=list.get(i).getEndtime() %></td>
 			<td><%=list.get(i).getTablenumber() %></td><td><%=list.get(i).getNumberpeople() %>명</td>
 			<td><%=list.get(i).getMemo() %></td>
+			<td><%=list.get(i).getId() %></td>
 			<td><input type="button" value="예약취소" class="checkBtn"></td>
 			<td><input type="hidden"  value=<%=list.get(i).getSeq() %>></td>
-			<td><input type="hidden" value=<%=list.get(i).getId() %>></td>	 
+				 
 		</tr>
 		
- 	<% } 
-	} %>
+ 	<% 		} 
+		}
+	} 
+	%>
 
-</table>	
-
-<a href="auth?command=getMemlist&pageNum=0&item=name&sort=asc">리스트로 돌아가기</a>
+</table>
+<a href="authRev?command=pastRev">지난예약 보기</a>
 
 <script type="text/javascript">
-
 var currentPosition = parseInt($("#sidebox").css("top"));
 $(window).scroll(function() { 
 	var position = $(window).scrollTop();
@@ -178,7 +136,10 @@ $(window).resize(function (){
 	 }
 });
 
+
+
 $(".checkBtn").click(function(){ 
+	alert
 	var del = confirm("정말 삭제하시겠습니까? 한번 삭제시 되돌릴 수 없습니다");
 	if(del){
 	// checkBtn.parent() : checkBtn의 부모는 <td>이다.
@@ -187,8 +148,8 @@ $(".checkBtn").click(function(){
 	var tr = checkBtn.parent().parent();
 	var td = tr.children();
 	var input = td.children();
+	var id = td.eq(6).text();
 	var seq = input.eq(1).val();
-	var id = input.eq(2).val();
     	alert("seq:" + seq);
     	alert("id" + id);
 
@@ -200,7 +161,7 @@ $(".checkBtn").click(function(){
 			success : function(data){
 				if(data.result){
 					alert("삭제");
-					location.href="auth?command=getMemDetail&id="+id+"&page=0";
+					location.href="authRev?command=curRev";
 				}else{
 					alert("삭제 실패!");
 				}

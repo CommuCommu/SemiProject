@@ -113,5 +113,174 @@ public class RevDao{
 		}
 		return count > 0 ? true:false; 
 	}
+	public List<ReservationDto> getMyReserv(String id, int page){
+		String sql = " SELECT SEQ, ID, WDATE, RDATE, STARTTIME, ENDTIME, TABLENUMBER, MEMO, NUMBERPEOPLE, DEL "     
+				+ " FROM ";
+
+				sql += "(SELECT ROW_NUMBER()OVER(ORDER BY RDATE ASC) AS RNUM, ";
+				sql += " SEQ, ID, WDATE, RDATE, STARTTIME, ENDTIME, TABLENUMBER, MEMO, NUMBERPEOPLE, DEL  " 
+						+ " FROM BG_RESERVATION "
+						+ "	WHERE ID = ? AND DEL = 0 ";
+				sql += " ORDER BY RDATE ASC) ";
+					
+		        sql += " WHERE RNUM >= ? AND RNUM <= ? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		List<ReservationDto> list = new ArrayList<ReservationDto>();
+		
+		System.out.println("sql: " + sql);
+		
+		int start, end;
+		start = 1 + 10 * page; // 0 → 1 1 → 11 : 각 페이지 첫번째 글
+		end = 10 + 10 * page; // 0 → 1 10 → 20 : 각 페이지 마지막 글
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getMyReserv success!");
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 getMyReserv success!");
+			psmt.setString(1, id);
+			psmt.setInt(2, start);
+			psmt.setInt(3, end);
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getMyReserv success!");
+			while(rs.next()) {
+				int i = 1;
+				ReservationDto dto = new ReservationDto(rs.getInt(i++), 
+														rs.getString(i++), 
+														rs.getString(i++), 
+														rs.getString(i++), 
+														rs.getInt(i++), 
+														rs.getInt(i++), 
+														rs.getInt(i++), 
+														rs.getString(i++), 
+														rs.getInt(i++), 
+														rs.getInt(i++));
+				list.add(dto);
+			}
+			System.out.println("4/6 getMyReserv success!");
+			
+		} catch (SQLException e) {
+			System.out.println("getMyReserv fail!");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return list;
+	}
+	
+	public boolean revDel(int seq) {
+		
+		String sql = " UPDATE BG_RESERVATION "
+				+ " SET DEL = 1 "
+				+ " WHERE SEQ = ? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int count = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 revdel success!");
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 revdel success!");
+			psmt.setInt(1, seq);
+			
+			count = psmt.executeUpdate();
+			System.out.println("3/6 revdel success!");
+			System.out.println(count);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+		return count > 0? true : false;
+	}
+
+	public int getAllreserv(String id) {
+		String sql = " SELECT COUNT(*) " 
+					+ " FROM BG_RESERVATION "
+					+ " WHERE ID = ? " ;
+		
+		Connection conn = null; // DB Connection
+		PreparedStatement psmt = null; // SQL
+		ResultSet rs = null; // result
+
+		int len = 0;
+		try {
+
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getSearchMem success!");
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 getSearchMem success!");
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getSearchMem success!");
+			if (rs.next()) {
+				len = rs.getInt(1);
+			}
+			System.out.println("4/6 getSearchMem success!");
+		} catch (SQLException e) {
+			System.out.println("getSearchMem fail!");
+			e.printStackTrace();
+		} finally {
+
+			DBClose.close(psmt, conn, rs);
+		}
+		return len;
+
+	}
+	
+	public List<ReservationDto> getAllCurRev() {
+
+		String sql =  " SELECT * "
+					+ " FROM BG_RESERVATION "
+					//+ " WHERE RDATE >= SYSDATE 
+					+ " ORDER BY RDATE ASC ";
+
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		List<ReservationDto> list = new ArrayList<ReservationDto>();
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getAllCurRev success");
+			
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 getAllCurRev success");
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getAllCurRev success");
+			
+			while(rs.next()) {
+				int i = 1;
+				ReservationDto dto = new ReservationDto(rs.getInt(i++), 
+														rs.getString(i++), 
+														rs.getString(i++), 
+														rs.getString(i++), 
+														rs.getInt(i++), 
+														rs.getInt(i++), 
+														rs.getInt(i++), 
+														rs.getString(i++), 
+														rs.getInt(i++), 
+														rs.getInt(i++));
+				list.add(dto);
+			}
+			System.out.println("4/6 getAllCurRev success");
+			
+		} catch (SQLException e) {
+			System.out.println("getAllCurRev fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);			
+		}
+		
+		return list;
+	}
 
 }
