@@ -16,9 +16,9 @@
 <script>
 $(document).ready(function(){
 	$("#save").click(function(){		
-		alert("save click");
+		//alert("save click");
 		oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
-		alert(document.getElementById("ir1").value);
+		//alert(document.getElementById("ir1").value);
 		$("#frm").submit();		
 	})
 })
