@@ -47,10 +47,8 @@ if(searchWord == null){
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>epilogue list</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
-<link rel="stylesheet" href="css/bootstrap.css">
 
 <div id="gnb"></div>
-
 <script type="text/javascript">
 $(function () {
 	$("#gnb").load("./GNB/gnb.jsp");
@@ -58,9 +56,7 @@ $(function () {
 </script>
 
 
-
 <style type="text/css">
-
 table.type02 {
     border-collapse: separate;
     border-spacing: 0;
@@ -72,7 +68,7 @@ table.type02 {
   	margin : 20px 10px;
 }
 table.type02 th {
-   // width: 150px; 
+    /* width: 150px; */
     padding: 10px;
     font-weight: bold;
     vertical-align: center;
@@ -84,14 +80,16 @@ table.type02 th {
     text-align: center;
 }
 table.type02 td {
-    // width: 350px;
+    /* width: 350px; */
     padding: 3px;
     line-height: 1.2;
     vertical-align: center;
     border-top: 0.1px solid #ccc;
     border-bottom: 0.1px solid #ccc;
+}
 
 </style>
+
 
 </head>
 <body>
@@ -103,7 +101,7 @@ table.type02 td {
 	if(ologin == null){				
 		%>
 		<script type="text/javascript">
-		alert("로그인이 필요한 서비스입니다. 로그인 후 이용해주세요.");
+		alert("로그인 해 주십시오");
 		location.href = "login.jsp";
 		</script>
 		<%
@@ -145,25 +143,25 @@ if(len % 10 > 0){
 	epiloguePage = epiloguePage + 1;
 }
 %>
+<table class="type02" style="width:95%; border: none">
+<tr>
+<td align="left" style="border: none; font-size: 20px; font-style: bold ">방문후기 페이지</td>
+<td align="right" style="border: none">
+	환영합니다 <%=mem.getId() %>님
+</td>
+</tr>
+<tr>
+<td align="left" style="border: none; font-size: 20px; font-style: bold"><font color="gray">총 방문 후기 수 / <%=len %></font></td>
+</tr>
+</table>
 
-<!-- 타이틀 추가 -->
-<div class="container">
-<br><p class="subject">Epilogue</p>
-&nbsp;&nbsp;&nbsp;&nbsp;<a style="border: none; font-size: 20px; font-style: bold"><font color="gray">총 방문 후기 수 / <%=len %></font></a>
-</div>
+<div align="center">
+<table class="type02">
+<col width="70"><col width="70"><col width="600"><col width="70"><col width="70"><col width="100"><col width="120">
 
-<div align="center" class="container">
-<!-- <table class="type02"> -->
-<table class="table table-hover">
-<col width="70"><col width="70"><col width="400"><col width="70"><col width="70"><col width="100"><col width="100">
-
-<thead align="center">
 <tr>
 	<th>번호</th><th style="font-size: 9pt">Image</th><th>제목</th><th>댓글수</th><th>조회수</th><th>작성자</th><th>등록일</th>
 </tr>
-</thead>
-
-<tbody>
 <% 
 if(list == null || list.size() == 0){
 %>
@@ -182,27 +180,21 @@ for(int i = 0;i < list.size(); i++){
 	<div class="test" hidden="true"><%=epilogue.getContent() %></div>
 	<tr>			
 <%
-
+if(epilogue.getStep() == 0 ){
 %>
 		
-		<th><%=epilogue.getSeq() %></th>
+		<th><%=++count %></th>
 		 <td align = "center"> 
 		 
 					 <%
-						 String str=epilogue.getContent().trim();
-						 String[] array=str.split("http");
-						 String url="";
-						 String strUrl="";
-						 System.out.println("array1.length"+array.length);
-						 
-						 if(array.length==1){
-							 url="./image/dice2.jpg";
-						 }else{
-							 str=array[1];
-							 array=str.split("/");
-							 strUrl=(array[7].trim()).substring(0, 58);
-							 url="editor/multiupload/"+strUrl;
-						 }
+					 String str=epilogue.getContent().trim();
+					 String[] array=str.split("http");
+							str=array[1];
+							array=str.split("/");
+					 String url="";
+					 String strUrl=(array[7].trim()).substring(0, 58);
+ 			 	     url="editor/multiupload/"+strUrl;
+
 					 %>
 					 
 				 <a target="_blank" href="epiloguedetail.jsp?seq=<%=epilogue.getSeq() %>">	
@@ -221,7 +213,7 @@ for(int i = 0;i < list.size(); i++){
 				</td> 
 			<% } %>
 			
-		 <% int replyCount = dao.getReplyCount(epilogue.getSeq()); %>
+		 <% int replyCount = dao.getReplyCount(epilogue.getRef()) - 1; // 댓글수%>
 		 
 		<td align = "center"><%=replyCount %></td> 
 		<td align = "center"><%=epilogue.getReadcount() %> </td>
@@ -230,15 +222,14 @@ for(int i = 0;i < list.size(); i++){
 	</tr>
 	<%
 	}
+  }
 }
 %>
-</tbody>
+
 </table>
-<ul class="pagination justify-content-center" style="margin:20px 0">
+
 <%
-
-for(int i = 0;i < epiloguePage; i++){
-
+for(int i = 0;i < epiloguePage; i++){	
 	if(pageNumber == i){		
 		%>
 		<span style="font-size: 15pt; color: #0000ff; font-weight: bold;">
@@ -253,27 +244,25 @@ for(int i = 0;i < epiloguePage; i++){
 		</a>&nbsp;
 		<%		
 	}
-	
 }
 %>
-</ul>
-
-<div align="right">
-	<input type="button" class="btn btn-outline-danger" onclick="location.href='epiloguewrite.jsp'" value="방문후기를 작성">
+<br><br>
+<a href="epiloguewrite.jsp">방문후기를 작성</a>
 </div>
-
-<%-- 검색창 시작 --%>
+<br>
 <div align="center">
-<select id="choice" class="searchSelect">
+
+<select id="choice" style="height: 25px">
 	<option value="sel">선택</option>
 	<option value="title">제목</option>
 	<option value="writer">작성자</option>
 	<option value="content">내용</option>
 </select>
-<input type="text" id="search" value="" class="searchText" placeholder="검색어를 입력해주세요 " size="40px">
-<button type="button" onclick="searchEpilogue()" class="btn btn-outline-dark" style="vertical-align: bottom;">검색</button>
-</div> <%-- 검색창 끝 --%>
 
+<input style="height: 20px" type="text" id="search" value="">
+<button onclick="searchEpilogue()">검색</button>
+
+</div>
 <br><br><br>
 <script type="text/javascript">
 

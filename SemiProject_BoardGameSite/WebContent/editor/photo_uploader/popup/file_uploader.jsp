@@ -1,5 +1,3 @@
-
-<%@page import="org.apache.commons.fileupload.servlet.ServletFileUpload"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.io.FileOutputStream"%>
@@ -11,7 +9,7 @@
 <%@page import="org.apache.commons.fileupload.FileItem"%>
 <%@page import="java.util.List"%>
 <%@page import="org.apache.commons.fileupload.disk.DiskFileItemFactory"%>
-
+<%@page import="org.apache.commons.fileupload.servlet.ServletFileUpload"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -100,7 +98,6 @@ if (ServletFileUpload.isMultipartContent(request)){
 response.sendRedirect(return1+return2+return3);
 
 System.out.println("여기 들어 오남?");
-
 
 %>
 

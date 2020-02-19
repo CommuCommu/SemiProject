@@ -45,7 +45,7 @@ public class LoginServ extends HttpServlet {
 			if(dto != null) {
 				
 				session.setAttribute("login", dto);
-				resp.sendRedirect("main.jsp");
+				resp.sendRedirect("epiloguelist.jsp");
 			}else if(dto == null) {
 				req.setAttribute("loginFail", "0");
 				RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");

@@ -118,7 +118,7 @@ public class EpilogueDao {
 	public void readcount(int seq) {
 		
 		String sql = "  UPDATE BG_EPILOGUE"
-					+ "	SET READCOUNT=READCOUNT+1 "
+					+ "	SET READCOUNT = READCOUNT + 1 "
 					+ " WHERE SEQ=? ";
 		
 		Connection conn = null;
@@ -130,7 +130,7 @@ public class EpilogueDao {
 				
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, seq);			
-			System.out.println("2/6 readcount success");
+			System.out.println("2/6 readcount success");  
 			
 			psmt.executeUpdate();
 			System.out.println("3/6 readcount success");
@@ -148,17 +148,18 @@ public class EpilogueDao {
 	
 		String sql1 = " UPDATE BG_EPILOGUE "
 					+ " SET STEP=STEP+1 "
-					+ " WHERE REF = (SELECT REF FROM BG_EPILOGUE WHERE SEQ=?) "
-					+ "		AND STEP > (SELECT STEP FROM BG_EPILOGUE WHERE SEQ=?) ";
+					+ " WHERE REF = ? "
+					+ "	AND STEP > (SELECT STEP FROM BG_EPILOGUE WHERE SEQ=?) ";
 		
 
 		String sql2 = " INSERT INTO BG_EPILOGUE "
 					+ " (SEQ, ID, REF, STEP, DEPTH, "
 					+ "  THUMBNAIL, TITLE, CONTENT, WDATE, DEL, READCOUNT) "
-					+ " VALUES(SEQ_BG_EPILOGUE.NEXTVAL, ?, "
-					+ "		(SELECT REF FROM BG_EPILOGUE WHERE SEQ=?), "
+					+ "  VALUES(SEQ_BG_EPILOGUE.NEXTVAL, ?, "
+					+ "		( ? ), "					
+				//  + "		(SELECT REF  FROM BG_EPILOGUE WHERE SEQ=?), "
 					+ "		(SELECT STEP FROM BG_EPILOGUE WHERE SEQ=?) + 1, "
-					+ "		(SELECT DEPTH FROM BG_EPILOGUE WHERE SEQ=?) + 1, "
+					+ "		(SELECT DEPTH FROM BG_EPILOGUE WHERE SEQ=?) + 1, " 
 					+ "		  ' ', ?, ?, SYSDATE, 0, 0) ";
 		
 		Connection conn = null;
@@ -193,7 +194,7 @@ public class EpilogueDao {
 			psmt.setString(5, epilogue.getTitle());
 			psmt.setString(6, epilogue.getContent());
 
-			System.out.println("4/6 epilogueReply success");
+			System.out.println("4/6 epilogueReply success" );
 			
 			count = psmt.executeUpdate();
 			System.out.println("5/6 epilogueReply success");
@@ -288,7 +289,7 @@ public class EpilogueDao {
 
 	public int getAllEpilogue(String choice, String searchWord) {
 		
-		String sql = " SELECT COUNT(*) FROM BG_EPILOGUE ";
+		String sql = " SELECT COUNT(*) FROM BG_EPILOGUE WHERE STEP = 0";
 		
 		String sqlWord = "";
 		if(choice.equals("title")) {
@@ -334,15 +335,16 @@ public class EpilogueDao {
 			   		+ "	SEQ, ID, REF, STEP, DEPTH, "
 			   		+ " THUMBNAIL, TITLE, CONTENT, WDATE, "
 			   		+ " DEL, READCOUNT "
-			   		+ " FROM BG_EPILOGUE ";	
+			   		+ " FROM BG_EPILOGUE "
+			   		+ " WHERE STEP = 0 ";	
 		
 		String sqlWord = "";
 		if(choice.equals("title")) {
-			sqlWord = " WHERE TITLE LIKE '%" + searchWord.trim() + "%' ";
+			sqlWord = "AND TITLE LIKE '%" + searchWord.trim() + "%' ";
 		}else if(choice.equals("writer") && !searchWord.equals("")) {
-			sqlWord = " WHERE ID='" + searchWord.trim() + "'";
+			sqlWord = "AND ID='" + searchWord.trim() + "'";
 		}else if(choice.equals("content")) {
-			sqlWord = " WHERE CONTENT LIKE '%" + searchWord.trim() + "%' ";
+			sqlWord = " AND CONTENT LIKE '%" + searchWord.trim() + "%' ";
 		}
 		sql += sqlWord;
 		
@@ -356,11 +358,13 @@ public class EpilogueDao {
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
 		
-		List<EpilogueDto> list = new ArrayList<EpilogueDto>();
+		List<EpilogueDto> list = new ArrayList<EpilogueDto>();			
 		
 		int start, end;
 		start = 1 + 10 * page;	
 		end = 10 + 10 * page;	
+		
+		
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -405,7 +409,7 @@ public class EpilogueDao {
 
 	public List<EpilogueDto> getEpilogueReplies(int seq) {
 		String sql = "  SELECT * FROM BG_EPILOGUE "
-					+ " WHERE REF = ? AND THUMBNAIL <> 'Main' ";
+					+ " WHERE REF = ? ";
 	
 		
 		Connection conn = null;
@@ -416,17 +420,16 @@ public class EpilogueDao {
 		
 		try {
 			conn = DBConnection.getConnection();
-				System.out.println("1/6 getEpilogueDetail success");
+				System.out.println("1/6 getEpilogueReplies success, seq =" + seq);
 		
 			psmt = conn.prepareStatement(sql);
-				System.out.println("2/6 getEpilogueDetail success");
+				System.out.println("2/6 getEpilogueReplies success");
 			psmt.setInt(1, seq);
 			
 			rs = psmt.executeQuery();
-				System.out.println("3/6 getEpilogueDetail success");
-			
-			psmt.setInt(1, seq);	
+				System.out.println("3/6 getEpilogueReplies success");
 				
+					
 			while(rs.next()) {
 				int i = 1;
 				EpilogueDto dto = new EpilogueDto(rs.getInt(i++), 
@@ -441,11 +444,12 @@ public class EpilogueDao {
 												rs.getInt(i++), 
 												rs.getInt(i++));
 				list.add(dto);
+				System.out.println("4/6 getEpilogueReplies success = dto :" + dto );
 			}
-			System.out.println("4/6 getEpilogueDetail success");
+			
 			
 		} catch (SQLException e) {
-			System.out.println("getEpilogueDetail fail");
+			System.out.println("getEpilogueReplies fail");
 			e.printStackTrace();
 		} finally {
 			DBClose.close(psmt, conn, rs);			
@@ -453,10 +457,10 @@ public class EpilogueDao {
 		return list;
 	}
 
-public int getReplyCount(int ref) {
+public int getReplyCount(int seq) {
 		
 		String sql = "  SELECT COUNT(REF) FROM BG_EPILOGUE"
-				    + " WHERE REF=? ";
+				    + " WHERE REF=?  AND  THUMBNAIL <> 'Main' " ;
 		
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -468,8 +472,8 @@ public int getReplyCount(int ref) {
 			System.out.println("1/6 getReplyCount success" + sql);
 				
 			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, ref);			
-			System.out.println("2/6 getReplyCount success + ref = " +ref );
+			psmt.setInt(1, seq);			
+			System.out.println("2/6 getReplyCount success + ref = " +sql );
 			rs=psmt.executeQuery();
 			
 			if(rs.next()) { 

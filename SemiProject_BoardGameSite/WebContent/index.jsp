@@ -19,7 +19,7 @@
 
 <%
 
-	response.sendRedirect("main.jsp");
+	response.sendRedirect("login.jsp");
 %>
 
 
