@@ -72,7 +72,7 @@ initial-scale 속성은 페이지가 처음 로드될 때 줌 레벨을 조정�
         <a class="nav-link" href="./epiloguelist.jsp">후기</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./mapEx.jsp">위치</a>
+        <a class="nav-link" href="./map.jsp">위치</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="qnaServlet?action=list">Q & A</a>

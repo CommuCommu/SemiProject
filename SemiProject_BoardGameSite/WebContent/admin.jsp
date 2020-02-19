@@ -6,6 +6,8 @@
 	int revNum = (int)request.getAttribute("revNUm");
 	int noAnswerNum =(int)request.getAttribute("noAnswerNum");
 	int tableNum = (int)request.getAttribute("tableNum");
+	int[] revMonth = (int[])request.getAttribute("revMonth");
+	String[] rdate = (String[])request.getAttribute("rdate");
 %>    
           
 <!DOCTYPE html>
@@ -20,6 +22,7 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
 <link rel="stylesheet" href="admin.css">
 <style type="text/css">
 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,900);  
@@ -178,7 +181,7 @@ $(function () {
 	<div class="sidemenu"><a href="authRev?command=pastRev">지난예약</a></div>
 	<div class="sidemenu"><a href="auth?command=noAnswer">미응답 Q&A</a></div>
 	<div class="sidemenu"><a href="#">게임관리</a></div>
-	<div class="sidemenu"><a href="#">테이블관리</a></div>
+	<div class="sidemenu"><a href="auth?command=tableCheck">테이블관리</a></div>
 	<hr>
 	<div class="sidemenu"><a href="#">맨 위로</a></div>
 	<hr>
@@ -237,7 +240,7 @@ $(function () {
 	    <h5 class="card-title">테이블관리</h5>
 	    <p class="card-text1" >예약테이블</p>
 	    <p class="card-text"> <%=tableNum %>개</p>
-	    <a href="#" class="btn btn-primary">테이블관리 바로가기</a>
+	    <a href="auth?command=tableCheck" class="btn btn-primary">테이블관리 바로가기</a>
 	  </div>
 	</div>
 </div>
@@ -281,13 +284,17 @@ var chart = Highcharts.chart('container', {
     },
 */
     xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        categories: 
+        	[<%=rdate[0] %>, <%=rdate[1] %>, <%=rdate[2] %>, <%=rdate[3] %>, <%=rdate[4] %>, <%=rdate[5] %>, <%=rdate[6] %>, 
+        	<%=rdate[7] %>, <%=rdate[8] %>, <%=rdate[9] %>, <%=rdate[10] %>, <%=rdate[11] %>]
     },
 
     series: [{
+    	name: '예약건수',
         type: 'column',
         colorByPoint: true,
-        data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+        data: [<%=revMonth[0] %>, <%=revMonth[1] %>, <%=revMonth[2] %>, <%=revMonth[3] %>, <%=revMonth[4] %>, <%=revMonth[5] %>, <%=revMonth[6] %>,
+    		<%=revMonth[7] %>, <%=revMonth[8] %>, <%=revMonth[9] %>, <%=revMonth[10] %>, <%=revMonth[11] %>],
         showInLegend: false
     }]
 

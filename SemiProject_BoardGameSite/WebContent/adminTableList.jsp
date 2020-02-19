@@ -94,7 +94,7 @@ $(function () {
 
 
 <input type="button" onclick="location.href='AdminTable?command=update'" value="수정">
-<input type="button" onclick="location.href='AdminTable?command=TableList'" value="삭제">
+<input type="button" onclick="location.href='AdminTable?command=delete'" value="삭제">
 <input type="button" onclick="location.href='AdminTable?command=back'" value="뒤로가기">
 
 </div>

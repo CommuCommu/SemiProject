@@ -15,12 +15,11 @@
 
 <% DBConnection.initConnection(); %>
 
+ <%-- response.sendRedirect("./auth?command=adminMain"); --%>
 
 
-<%
+	<% response.sendRedirect("main.jsp"); %>
 
-	response.sendRedirect("main.jsp");
-%>
 
 
 
