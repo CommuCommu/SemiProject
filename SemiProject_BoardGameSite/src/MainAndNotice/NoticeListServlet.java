@@ -24,7 +24,7 @@ public class NoticeListServlet extends HttpServlet {
 	
 	public void processFunction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		req.setCharacterEncoding("utf-8");
+		resp.setCharacterEncoding("utf-8");
 		
 		String command = req.getParameter("command");
 		System.out.println("NoticeListServlet command = " + command);

@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
 
 </head>
 <body>
@@ -86,15 +87,9 @@ $(function () {
 <% } %>
 </table>
 
-<br><br>
-123
-<br><br>
-123
-<br><br>
-
 
 <input type="button" onclick="location.href='AdminTable?command=update'" value="수정">
-<input type="button" onclick="location.href='AdminTable?command=TableList'" value="삭제">
+<input type="button" onclick="location.href='AdminTable?command=delete'" value="삭제">
 <input type="button" onclick="location.href='AdminTable?command=back'" value="뒤로가기">
 
 </div>

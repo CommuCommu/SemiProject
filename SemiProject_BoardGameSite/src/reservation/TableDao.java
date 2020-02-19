@@ -132,4 +132,98 @@ public class TableDao {
 	return tableNum;
 	}
 
+	public boolean callNumUpdate(String id, String phoneNum) {
+		String sql = " UPDATE BG_MEMBER " + " SET CALL_NUMBER=? " + " WHERE ID=? ";
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int count = 0;
+
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 callNumUpdate success!");
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 callNumUpdate success!");
+			psmt.setString(1, phoneNum);
+			psmt.setString(2, id);
+			count = psmt.executeUpdate();
+			System.out.println("3/6 callNumUpdate success!");
+
+		} catch (SQLException e) {
+			System.out.println("callNumUpdate fail!");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+
+		return count > 0 ? true : false;
+
+	}
+
+	public boolean AdminTableUpdate(int[] tnValues, int[] pnValues, int[] isRev, int[] originalPk) {
+		String sql =  " UPDATE BG_TABLE " 
+					+ " SET TABLENUMBER = ? , NUMBERPEOPLE = ? , ISRESERVAITONTABLE = ?  " 
+					+ " WHERE TABLENUMBER = ? ";
+		
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int count = 0;
+
+		try {
+			conn = DBConnection.getConnection();
+			conn.setAutoCommit(false);
+			System.out.println("1/6 AdminTableUpdate success!");
+			
+			
+			for(int i = 0; i < originalPk.length; i++) {
+				
+				psmt = conn.prepareStatement(sql);
+				System.out.println("2/6 AdminTableUpdate success!");
+
+				psmt.setInt(1, tnValues[i]);
+				psmt.setInt(2, pnValues[i]);
+				psmt.setInt(3, isRev[i]);
+				psmt.setInt(4, originalPk[i]);
+				
+				int temp = psmt.executeUpdate();
+				count += temp;
+				System.out.println("3/6 AdminTableUpdate success!");
+			}
+			
+			for(int i = originalPk.length; i < tnValues.length; i++) {
+				sql =  " INSERT INTO BG_TABLE(TABLENUMBER , NUMBERPEOPLE , ISRESERVAITONTABLE) " 
+						+ " VALUES(? , ?, ? ) "; 
+				
+				psmt = conn.prepareStatement(sql);
+				System.out.println("4/6 AdminTableUpdate success!");
+
+				psmt.setInt(1, tnValues[i]);
+				psmt.setInt(2, pnValues[i]);
+				psmt.setInt(3, isRev[i]);
+				
+				int temp = psmt.executeUpdate();
+				count += temp;
+				System.out.println("5/6 AdminTableUpdate success!");
+			}
+			
+			System.out.println(count + "개의 데이터가 수정되거나 삽입되었습니다.");
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.out.println("AdminTableUpdate fail!");
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			count = 0;
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);
+		}
+
+		return count > 0 ? true : false;
+
+	}
+	
 }

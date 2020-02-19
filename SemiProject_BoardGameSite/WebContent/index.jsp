@@ -15,12 +15,14 @@
 
 <% DBConnection.initConnection(); %>
 
+<a href="adminServlet?command=tableCheck">테스트용 어드민 테이블</a> <br><br>
+
+<a href="main.jsp">메인으로</a>
 
 
-<%
-
+<%--
 	response.sendRedirect("main.jsp");
-%>
+--%>
 
 
 
