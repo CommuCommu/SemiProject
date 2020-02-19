@@ -99,14 +99,18 @@ public class AuthServ extends HttpServlet {
 			if(sPageNum != null) {
 			   pageNum = Integer.parseInt(sPageNum);	
 			}
+			
 			List<QnaDto> list = qnaService.getNoAnsList(pageNum);
 			int allCount =  qnaService.getNoAnsCount();
 			
 			System.out.println("listSize: " + list.size());
+			System.out.println("pageNum : " + pageNum);
+			System.out.println("allCount : " + allCount);
 			req.setAttribute("pageNum", pageNum);
 			req.setAttribute("allCount", allCount);
-			req.setAttribute("list", list);
+			req.setAttribute("noAnswerList", list);
 			forward("qnaNoAnswer.jsp", req, resp);
+			
 		}else if (command.equals("adminMain")){
 			// 회원 수 구하기 
 			int memNum = memService.getAllMem(); 

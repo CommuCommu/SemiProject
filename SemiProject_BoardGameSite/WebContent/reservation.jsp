@@ -33,7 +33,7 @@ public String showPen(int year, int month, int day){
 	String str = "";
 		
 	//String image = "<img src='../image/pen2.png' width='15px' height='15px'>";
-	String image = "[예약]";
+	String image = "<br><span class='badge badge-pill badge-danger'>예약가능</span>";
 	
 	str = String.format("<a href='%s?year=%d&month=%d&day=%d' style='text-decoration:none' >%s</a>", 
 							"ReservationServlet", year, month, day, image);
@@ -68,6 +68,13 @@ public String showPen(int year, int month, int day){
 <!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
 <!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
 <link rel="stylesheet" href="css/bootstrap.css">
+
+<style type="text/css">
+/* tr {height: 80%} */
+th {text-align: -webkit-center}
+img {vertical-align: unset}
+</style>
+
 
 <!-- 합쳐지고 최소화된 최신 CSS 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -167,23 +174,23 @@ System.out.println("Calendar.DAY_OF_WEEK : " +dayOfWeek);
 System.out.println("------------------------------");
 
 // <<	year--
-String pp = String.format("<a href='%s?year=%d&month=%d'>"
-							+ "<img src=' /* 이미지 삽입 부분 */' width='18px' height='18px'>" +
+/* String pp = String.format("<a href='%s?year=%d&month=%d'>"
+							+ "<img src='  이미지 삽입 부분 ' width='18px' height='18px'>" +
 						  "</a>", 
-						  		  "reservation.jsp", year-1, month);  
+						  		  "reservation.jsp", year-1, month);   */
 										//%s,		 %d, 	%d 
 // <	month--
 String p = String.format("<a href='%s?year=%d&month=%d'>"
-							+ "<img src='/* 이미지 삽입 부분 */' width='18px' height='18px'>" +
+							+ "<img src='./image/reservP.png' width='30px' height='30px'>" +
 						  "</a>", "reservation.jsp", year, month-1);
 // >	month++
 String n = String.format("<a href='%s?year=%d&month=%d'>"
-							+ "<img src='/* 이미지 삽입 부분 */' width='18px' height='18px'>" +
+							+ "<img src='./image/reservN.png' width='30px' height='30px'>" +
 						  "</a>", "reservation.jsp", year, month+1);
 // >>	year++
-String nn = String.format("<a href='%s?year=%d&month=%d'>"
+/* String nn = String.format("<a href='%s?year=%d&month=%d'>"
 							+ "<img src='../image/last.gif' width='18px' height='18px'>" +
-						  "</a>", "reservation.jsp", year+1, month);
+						  "</a>", "reservation.jsp", year+1, month); */
 
 //CalendarDao dao = CalendarDao.getInstance();
 
@@ -198,24 +205,26 @@ String nn = String.format("<a href='%s?year=%d&month=%d'>"
 
 <%-- << < yyyy년 mm월 > >> 처리  --%>
 <tr height="100">
-	<td colspan="7" align="center" style="padding-top: 20px">
-		<%=pp %>&nbsp;&nbsp;<%=p %>&nbsp;
+	<td colspan="7" align="center">
+		<%-- <%=pp %>&nbsp;&nbsp;<%=p %>&nbsp; --%>
+		<%=p %>&nbsp;&nbsp;&nbsp;
 		<font color="black" style="font-size: 50px">
-			<%=String.format("%d년&nbsp;&nbsp;%2d월", year, month) %>
+			<%=String.format("%d.&nbsp;&nbsp;%2d", year, month) %>
 		</font>
-		<%=n %>&nbsp;&nbsp;<%=nn %>
+		&nbsp;&nbsp;<%=n %>
+		<%-- <%=n %>&nbsp;&nbsp;<%=nn %> --%>
 	</td>
 </tr>
 
 <%-- 요일 처리 --%>
-<tr height="50">
-	<th align="center">일</th>
-	<th align="center">월</th>
-	<th align="center">화</th>
-	<th align="center">수</th>
-	<th align="center">목</th>
-	<th align="center">금</th>
-	<th align="center">토</th>
+<tr height="30px">
+	<th>Sun</th>
+	<th>Mon</th>
+	<th>Tue</th>
+	<th>Wed</th>
+	<th>Thu</th>
+	<th>Fri</th>
+	<th>Sat</th>
 </tr>
 
 
@@ -253,13 +262,13 @@ for(int i = 1; i <= lastday; i++){
 				<% if(i > todayDate) {%>
 					&nbsp;<%=showPen(year, month, i) %> 
 				<% }else { %>
-					&nbsp;[X]
+					<br><span class="badge badge-pill badge-secondary">예약불가</span>
 				<% } %>
 			<% }else { %>
-				&nbsp;[X]
+				<br><span class="badge badge-pill badge-secondary">예약불가</span>
 			<% } %>
 		<% }else { %>
-			&nbsp;[X]
+			<br><span class="badge badge-pill badge-secondary">예약불가</span>
 		<% } %>
 
 	</td>	
@@ -291,6 +300,7 @@ for(int i = 0 ; i < 7 - weekday; i++){
 </table>
 </div>
 
+<br><br><br>
 
 </body>
 </html>

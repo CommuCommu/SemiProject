@@ -73,7 +73,7 @@ public class QnaDao {
 		
 		String sql = " SELECT SEQ, ID, TITLE, CONTENT, WDATE, READCOUNT, IS_SECRET, IS_ANSWER, DEL, BESTQNA "
 				   + " FROM BG_QNA "
-				   + " WHERE ID IN (SELECT ID FROM BG_MEMBER WHERE AUTH=1) "
+				   + " WHERE ID IN (SELECT ID FROM BG_MEMBER WHERE AUTH=1) AND DEL=0"
 				   + " ORDER BY WDATE DESC ";
 		
 		Connection conn = null;
@@ -314,15 +314,15 @@ public class QnaDao {
 	}
 	
 	public int getQnaListCount(String choice, String searchWord) {
-		String sql = " SELECT COUNT(*) FROM BG_QNA ";
+		String sql = " SELECT COUNT(*) FROM BG_QNA A, BG_MEMBER B ";
 		
-		String sqlWord = "";
+		String sqlWord = "WHERE 1=1 AND A.DEL=0 AND A.ID=B.ID AND B.AUTH != '1' ";
 		if(choice.equals("title")) {
-			sqlWord = " WHERE TITLE LIKE '%" + searchWord.trim() + "%' ";
+			sqlWord = " AND TITLE LIKE '%" + searchWord.trim() + "%' ";
 		}else if(choice.equals("writer") && !searchWord.equals("")) {
-			sqlWord = " WHERE ID='" + searchWord.trim() + "'";
+			sqlWord = " AND ID='" + searchWord.trim() + "'";
 		}else if(choice.equals("content")) {
-			sqlWord = " WHERE CONTENT LIKE '%" + searchWord.trim() + "%' ";
+			sqlWord = " AND CONTENT LIKE '%" + searchWord.trim() + "%' ";
 		}
 		sql += sqlWord;
 		
@@ -354,25 +354,25 @@ public class QnaDao {
 	
 public List<QnaDto> getQnaPagingList(String choice, String searchWord, int page){
 		
-		System.out.println("dao로 들어온 choice : " + choice);
-		System.out.println("dao로 들어온 searchWord : " + searchWord);
-		System.out.println("dao로 들어온 page : " + page);
+		//System.out.println("dao로 들어온 choice : " + choice);
+		//System.out.println("dao로 들어온 searchWord : " + searchWord);
+		//System.out.println("dao로 들어온 page : " + page);
 		
 
 		String sql = " SELECT SEQ, ID, TITLE, CONTENT, WDATE, READCOUNT, IS_SECRET, IS_ANSWER, DEL, BESTQNA "
 				   + " FROM ";
 		
-			   sql += "( SELECT ROW_NUMBER()OVER(ORDER BY WDATE DESC) AS RNUM, "
-			   		+ "	SEQ, ID, TITLE, CONTENT, WDATE, READCOUNT, IS_SECRET, IS_ANSWER, DEL, BESTQNA "
-			   		+ " FROM BG_QNA ";	
+			   sql += "( SELECT ROW_NUMBER()OVER(ORDER BY A.WDATE DESC) AS RNUM, " + 
+			   		"     A.SEQ, A.ID, A.TITLE, A.CONTENT, A.WDATE, A.READCOUNT, A.IS_SECRET, A.IS_ANSWER, A.DEL, A.BESTQNA  " + 
+			   		"     FROM BG_QNA  A , BG_MEMBER B ";	
 		
-		String sqlWord = "";
+		String sqlWord = "WHERE 1=1 AND A.DEL=0 AND A.ID = B.ID AND B.AUTH != 1 "; //삭제 제외
 		if(choice.equals("title")) {
-			sqlWord = " WHERE TITLE LIKE '%" + searchWord.trim() + "%' ";
+			sqlWord = " AND TITLE LIKE '%" + searchWord.trim() + "%' ";
 		}else if(choice.equals("writer") && !searchWord.equals("")) {
-			sqlWord = " WHERE ID='" + searchWord.trim() + "'";
+			sqlWord = " AND ID='" + searchWord.trim() + "'";
 		}else if(choice.equals("content")) {
-			sqlWord = " WHERE CONTENT LIKE '%" + searchWord.trim() + "%' ";
+			sqlWord = " AND CONTENT LIKE '%" + searchWord.trim() + "%' ";
 		}
 		sql += sqlWord;
 		
@@ -399,7 +399,7 @@ public List<QnaDto> getQnaPagingList(String choice, String searchWord, int page)
 		try {
 			conn = DBConnection.getConnection();
 			System.out.println("1/6 getQnaPagingList success");
-			
+			System.out.println(sql);
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, start);
 			psmt.setInt(2, end);			
@@ -566,18 +566,19 @@ public List<QnaDto> getQnaPagingList(String choice, String searchWord, int page)
 	}
 
 public List<QnaDto> getNoAnsList(int page){
-		
-		System.out.println("dao로 들어온 page : " + page);
+	
+			
+		System.out.println("getNoAnsList : " + page);
 		
 		String sql = " SELECT SEQ, ID, TITLE, CONTENT, WDATE, READCOUNT, IS_SECRET, IS_ANSWER, DEL, BESTQNA "
 				   + " FROM ";
 		
-			   sql += "( SELECT ROW_NUMBER()OVER(ORDER BY WDATE ASC) AS RNUM, "
-			   		+ "	SEQ, ID, TITLE, CONTENT, WDATE, READCOUNT, IS_SECRET, IS_ANSWER, DEL, BESTQNA "
-			   		+ " FROM BG_QNA"
-			   		+ " WHERE IS_ANSWER = 0 " 
-			   		+ " ORDER BY WDATE ASC) ";	
-			   sql += " WHERE RNUM >= ? AND RNUM <= ? ";
+			   sql += "( SELECT ROW_NUMBER()OVER(ORDER BY A.WDATE ASC) AS RNUM, " 
+			   + " A.SEQ, A.ID, A.TITLE, A.CONTENT, A.WDATE, A.READCOUNT, A.IS_SECRET, A.IS_ANSWER, A.DEL, A.BESTQNA " 
+			   + " FROM BG_QNA  A , BG_MEMBER B "
+			   + " WHERE A.IS_ANSWER=0 AND A.ID = B.ID AND B.AUTH != 1 ) "
+			   + " WHERE RNUM >= ? AND RNUM <= ? "
+			   + " ORDER BY WDATE ASC ";
 		
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -589,8 +590,8 @@ public List<QnaDto> getNoAnsList(int page){
 		//start = 1 + 10 * page;	// 0 -> 1	1 -> 11
 		//end = 10 + 10 * page;	// 0 -> 10  1 -> 20
 		
-		start = 1 + 5 * page;	// 0 -> 1	1 -> 6	 2 -> 11
-		end = 5 + 5 * page;		// 0 -> 5   1 -> 10  2 -> 15
+		start = 1 + 15 * page;	// 0 -> 1	1 -> 6	 2 -> 11
+		end = 15 + 15 * page;		// 0 -> 5   1 -> 10  2 -> 15
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -630,12 +631,9 @@ public List<QnaDto> getNoAnsList(int page){
 	}
 
 public int getNoAnsCount(){
+	String sql = " SELECT COUNT(*) FROM BG_QNA A, BG_MEMBER B "
+			  + " WHERE A.IS_ANSWER=0 AND A.ID=B.ID AND B.AUTH != '1' ";
 
-	
-	String sql = " SELECT COUNT(*) "
-			   + " FROM BG_QNA "
-			   + " WHERE IS_ANSWER = 0 ";
-	
 	
 	Connection conn = null;
 	PreparedStatement psmt = null;

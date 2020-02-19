@@ -10,7 +10,18 @@
 <%
 	QnaDto dto = (QnaDto)request.getAttribute("qnaDto");
 	List<QnaCommentDto> commList = (List<QnaCommentDto>)request.getAttribute("commList");
-	int pageNum = (int)request.getAttribute("pageNum");
+	
+	
+	int pageNum = 1;
+	if(request.getAttribute("pageNum")!=null){
+		pageNum=(int)request.getAttribute("pageNum");
+	}
+	System.out.println("detail !!!!!!!!!!! pageNum : " + pageNum);
+	
+	
+	String enter = "";
+	enter = (String)request.getAttribute("enter");
+	System.out.println("enter :" + enter);
 	
 	
 	// 댓글 추가 리턴
@@ -28,12 +39,14 @@
 	
 	// 게스트의 로그인 세션 처리
 	String curSessionId = "";
-	//String curSessionAuth = "";
+	String curSessionAuth = "";
 	MemberDto mem = (MemberDto)request.getSession().getAttribute("login");
 	if(mem != null) {
 		curSessionId = mem.getId();
-		//curSessionAuth = Integer.toString(mem.getAuth());
 		
+		//관리자 페이지에서의 세션처리		
+		curSessionAuth = Integer.toString(mem.getAuth());
+
 	}
 	
 	
@@ -57,12 +70,58 @@ int curTime = Integer.parseInt(today);
 <meta charset="UTF-8">
 <title>qnaDetail.jsp</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+<link rel="stylesheet" href="css/bootstrap.css">
+
+
+<style type="text/css">
+
+	table, tr, td {
+	    border-collapse: separate;
+	    border-spacing: 0px;
+	}
+	table {
+	        width: 100%;
+	border-top: 1px solid #eaeaea;
+	}
+    
+    th {
+    text-align: center;
+	height: 56px;
+    color: #6a6a6a;
+    padding: 10px;
+    background: #f6f6f6;
+    border-bottom: 1px solid #eaeaea;
+   
+    }
+	
+	td {
+	height: 56px;
+    color: #545b62;
+    padding: 10px;
+    background: #ffffff;
+    border-bottom: 1px solid #eaeaea;}
+	
+	.commtd{ 	
+	/* height: 56px; */
+    color: #6a6a6a;
+   /*  padding: 10px; */
+    background: #f6f6f6;
+    border-bottom: 1px solid #eaeaea;
+    font-weight: normal;
+    }
+</style>
+
+
+
 </head>
 <body>
 
 
-<%-- 세션 ID 저장--%>
+<%-- 세션 ID / Auth 저장--%>
 <input type="hidden" value="<%=curSessionId %>" id="sId">
+<input type="hidden" value="<%=curSessionAuth %>" id="sAuth">
 
 
 
@@ -75,31 +134,9 @@ $(function () {
 })
 </script>
 
-<h1>질문 상세내용</h1>
-
-
-<%-- 댓글 추가 후처리 --%>
-<%
-if (isS == null){
-	
-}
-else if(isS.equals("true")){
-%>
-	<script type="text/javascript">
-		//alert("작성한 QnA가 추가 되었습니다.")
-		location.href = "qnaServlet?action=detail&seq="+<%=dto.getSeq()%>;
-	</script>
-<%	
-} else if (isS.equals("false")){
-%>
-	<script type="text/javascript">
-		alert("추가되지 않았습니다")
-		location.href = "qnaServlet?action=detail&seq="+<%=dto.getSeq()%>;
-	</script>
-<%
-} 
-%>
-
+<div class="container">
+	<br><p class="subject">Question</p>
+</div>
 
 
 
@@ -115,7 +152,7 @@ else if(commDeleteisS.equals("true")){
 %>
 	<script type="text/javascript">
 		//alert("댓글 삭제 완료")
-		location.href = "qnaServlet?action=detail&seq="+<%=dto.getSeq()%>;
+		location.href = "qnaServlet?action=detail&seq="+<%=dto.getSeq()%>+"&pageNum="+<%=pageNum%>+"&enter="+<%=enter%>;
 	</script>
 <%	
 } else if (commDeleteisS.equals("false")){
@@ -158,42 +195,49 @@ else if(commDeleteisS.equals("true")){
 
 
 <div align="center">
-<input type="button" onclick="changeTest(<%=pageNum%>)" value="목록 돌아가기">
-
-
+<input type="button" class="btn btn-light" onclick="returnList(<%=pageNum%>,'<%=enter %>')" value="목록 돌아가기">
+<%-- <input type="button" class="btn btn-light" onclick="returnList(<%=pageNum%>,'<%=enter %>')" value="목록 돌아가기"> --%>
 </div>
 
 
 <script type="text/javascript">
-function changeTest(pageNum) {
-	//뒤로갈 히스토리가 있으면,
-	alert(pageNum);
-	location.href="qnaServlet?action=list&pageNumber="+pageNum;
+function returnList(pageNum, enter) {
+	//alert("디테일 pageNum : " + pageNum);
+	alert("enter : " + enter);
+	if(enter=="qnaPublic") {	
+		location.href="qnaServlet?action=list&pageNumber="+pageNum;
+	} else {
+		location.href="auth?command=noAnswer&pageNum="+pageNum;
+	}	
 }
 
 
 </script>
 
 
-
-
-<div align="center">
+<div align="center" class="container" style="max-width: 850px">
 <form action="">
-	<table border="1">
-	<col width="150"><col width="600">
+	<table>
+	<colgroup>
+	<col width="150"><col>
+	</colgroup>
+	<!-- <col width="150"><col width="600"> -->
 	
 	
 	<%-- ===== 상단 메뉴 버튼 ===== --%>
-	<%	if(mem != null && ( dto.getId().equals(mem.getId()) || mem.getAuth() == 1)) { %>
+	<%--	if(mem != null && ( dto.getId().equals(mem.getId()) || mem.getAuth() == 1)) { --%>
+	<%	if(mem != null && (dto.getId().equals(mem.getId()) || mem.getAuth() ==1 ) ) { %>
 	<tr>
 		<td colspan="2">
 			<div align="right">
-				<button type="button" onclick="qnaUpdate(<%=dto.getSeq() %>)">수정</button>
-				<button type="button" onclick="qnaDelete(<%=dto.getSeq() %>)">삭제</button>
-				<% if(dto.getIs_answer() == 0) { %>
-					<button type="button" onclick="qnaAnswerEnd(<%=dto.getSeq() %>,<%=pageNum%>)">답변 완료 전환</button>
-				<% } else if (dto.getIs_answer() == 1) { %>
-					<button type="button" onclick="qnaAnswerWait(<%=dto.getSeq() %>,<%=pageNum%>)">답변 대기 전환</button>
+				<button type="button" class="btn btn-light" onclick="qnaUpdate(<%=dto.getSeq() %>)">수정</button>
+				<button type="button" class="btn btn-light" onclick="qnaDelete(<%=dto.getSeq() %>)">삭제</button>
+				
+				
+				<% if(mem.getAuth()==1 && dto.getIs_answer() == 0) { %>
+					<button type="button" class="btn btn-light" onclick="qnaAnswerEnd(<%=dto.getSeq() %>,<%=pageNum%>)">답변 완료 전환</button>
+				<% } else if (mem.getAuth()==1 && dto.getIs_answer() == 1) { %>
+					<button type="button" class="btn btn-light" onclick="qnaAnswerWait(<%=dto.getSeq() %>,<%=pageNum%>)">답변 대기 전환</button>
 				<% } %>
 				
 				<%-- <button type="button" onclick="qnaComment(<%=dto.getSeq() %>)">댓글</button> --%>
@@ -227,7 +271,8 @@ function changeTest(pageNum) {
 		<th>내용</th>
 		<%-- <td><input type="text" readonly="readonly"><%=dto.getContent() %></td> --%>
 		<td>
-		<textarea rows="15" cols="80" readonly="readonly"><%=dto.getContent() %></textarea>
+		<%-- <textarea rows="15" cols="80" readonly="readonly"><%=dto.getContent() %></textarea> --%>
+		<%=dto.getContent() %>
 		</td>
 	</tr>
 	</table> 
@@ -237,32 +282,24 @@ function changeTest(pageNum) {
 
 
 
-
-
-<div id="testtest">
-
-
-</div>
-
-
-
-
-
 <%-- ============= 댓글 출력 시작 ============= --%>
 <%-- <% if(dto.get) %> --%>
-<hr>
+
 <!-- <h3>댓글</h3> -->
-<div align="center">
+<br>
+<div class="container" style="max-width: 850px">
+<!-- <hr> -->
+<table>
 
-<table border="1">
-
-<col width="150"><col width="500"><col width="150"><col width="100">
-	<tr>
+	<tbody>
+	
+	<col width="130"><col width="500"><col width="150"><col width="100">
+	<!-- <tr>
 	  <th>작성자</th><th>내용</th><th>작성일</th><th>버튼부</th>
-	</tr>
+	</tr> -->
 <% if(commList == null || commList.size() == 0){ %>
 	<tr>
-		<td colspan="3">작성된 추가 질문이 없습니다</td>
+		<td>작성된 추가 질문이 없습니다</td>
 	</tr>
 <% } else {
 	for(int i = 0;i < commList.size(); i++){
@@ -273,7 +310,7 @@ function changeTest(pageNum) {
 	<tr>
 		<%-- <th><%=i+1 %></th> --%>
 	<% if(commDto.getDel() == 0) { %>
-		<% if( commDto.getId().equals("aa") ) { %>
+		<% if( commDto.getId().equals("aa") || commDto.getId().equals("admin")) { %>
 		<%-- ============================ 수정필요 ============================ --%>
 			<td align="right">관리자 :　</td>
 		<%} else { %>
@@ -311,7 +348,7 @@ function changeTest(pageNum) {
 		
 		
 		<%	if(mem != null && ( commDto.getId().equals(mem.getId()) || mem.getAuth()==1 ) ) { %>
-			<td><button type="button" onclick="commDelete(<%=commDto.getSeq() %>, <%=dto.getSeq()%>)">삭제</button></td>
+			<td><button type="button" class="btn btn-light" onclick="commDelete(<%=commDto.getSeq() %>, <%=dto.getSeq()%>,<%=pageNum%>,'<%=enter%>')">삭제</button></td>
 		
 		
 		<%} %>
@@ -335,32 +372,29 @@ function changeTest(pageNum) {
 	}
 }
 %>
-
+</tbody>
 </table>
 
-</div>
-
-<br><br>
 
 
 
 
 <%-- ============= 댓글 작성 부분 시작 ============= --%>
-<div align="center">
-<table border="1">
+
+<table>
 <%-- 작성자 댓글 부분 --%>
 <%	if(mem != null && ( dto.getId().equals(mem.getId()) ) && mem.getAuth() == 0 ) { %>
-	<tr>
-		<td colspan="3">
-			<input type="text" id="comment" name="comment" size="100px" required="required">
-			
-		</td>
+	<tr align="center">
 		<td>
+			<input type="text" id="comment" name="comment" size="80px" required="required">
+			<button type="button" class="btn btn-light" onclick="commWrite(<%=dto.getSeq() %>,<%=pageNum%>,'<%=enter%>')">질문추가</button>
+		</td>
+		<%-- <td>
 			<div align="center">
-				<button type="button" onclick="commWrite(<%=dto.getSeq() %>)">질문추가</button>
+				<button type="button" class="btn btn-secondary" onclick="commWrite(<%=dto.getSeq() %>,<%=pageNum%>)">질문추가</button>
 				<!-- <button type="button" onclick="test()">test</button> -->	
 			</div>			
-		</td>
+		</td> --%>
 	</tr>
 <% } // if 끝 %>	
 
@@ -373,16 +407,19 @@ function changeTest(pageNum) {
 
 <%-- 관리자 답변 부분 --%>
 <%	if(mem != null && ( mem.getAuth() == 1 ) ) { %>
-	<tr>
-		<td colspan="3">
-			<input type="text" id="comment" name="comment" size="100px" required="required">
+	<tr align="center">
+		<td>
+			<input type="text" id="comment" name="comment" size="80px" required="required">
+			
+				<button type="button" class="btn btn-light" onclick="commWrite(<%=dto.getSeq() %>,<%=pageNum%>,'<%=enter%>')">답변 작성</button>
+				<!-- <button type="button" onclick="test()">test</button> -->	
 			
 		</td>
-		<td>
+		<td><%-- 
 			<div align="center">
-				<button type="button" onclick="commWrite(<%=dto.getSeq() %>)">답변 추가</button>
+				<button type="button" onclick="commWrite(<%=dto.getSeq() %>,<%=pageNum%>)">답변 작성</button>
 				<!-- <button type="button" onclick="test()">test</button> -->	
-			</div>			
+			</div>	 --%>		
 		</td>
 	</tr>
 <% } // if 끝 %>	
@@ -455,25 +492,30 @@ function qnaAnswerWait(seq,pageNum) {
 
 
 // 댓글 작성 함수
-function commWrite(seq) {
+function commWrite(seq, pageNum, enter) {
+	//alert("seq : " + seq);
+	//alert("pageNum : " + pageNum);
+	
 	var comment = $("#comment").val();
+	//alert(comment);
 	var commId = $("#sId").val();
-	//alert(seq);
+	//alert(commId)
 	//alert(comment);
 	//alert(commId);
 	var result = confirm("댓글을 추가 합니다.")
 	if(result) {
-		location.href = "qnaServlet?action=commentAf&seq="+seq+"&comment="+comment+"&commId="+commId;
+		location.href = "qnaServlet?action=commentAf&seq="+seq+"&comment="+comment+"&commId="+commId+"&pageNum="+pageNum+"&enter="+enter;
 	} else {
-		
+	
 	}
+	
 }
 
 // 댓글 삭제 함수
-function commDelete(commSeq, qnaSeq) {
+function commDelete(commSeq, qnaSeq, pageNum, enter) {
 	var result = confirm("댓글을 삭제 합니다.")
 	if(result) {
-		location.href = "qnaCommServlet?action=commDelete&commSeq="+commSeq+"&qnaSeq="+qnaSeq;
+		location.href = "qnaCommServlet?action=commDelete&commSeq="+commSeq+"&qnaSeq="+qnaSeq+"&pageNum="+pageNum+"&enter="+enter;
 	} else {
 		
 	}

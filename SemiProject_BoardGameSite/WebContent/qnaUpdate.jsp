@@ -11,6 +11,46 @@
 <meta charset="UTF-8">
 <title>qnaUpdate.jsp</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<style type="text/css">
+
+	table, tr, td {
+	    border-collapse: separate;
+	    border-spacing: 0px;
+	}
+	table {
+	        width: 100%;
+	border-top: 1px solid #eaeaea;
+	}
+    
+    th {
+    text-align: center;
+	height: 56px;
+    color: #6a6a6a;
+    padding: 10px;
+    background: #f6f6f6;
+    border-bottom: 1px solid #eaeaea;
+   
+    }
+	
+	td {
+	height: 56px;
+    color: #9a9a9a;
+    padding: 10px;
+    background: #ffffff;
+    border-bottom: 1px solid #eaeaea;}
+	
+/* 	
+	height: 56px;
+    color: #6a6a6a;
+    padding: 10px;
+    background: #f6f6f6;
+    border-bottom: 1px solid #eaeaea;
+    font-weight: normal; */
+</style>
+
 </head>
 <body>
 <%-- GNB --%>
@@ -20,7 +60,9 @@ $(function () {
 	$("#gnb").load("./GNB/gnb.jsp");
 })
 </script>
-<h1>QnA 수정</h1>
+<div class="container">
+	<br><p class="subject">Question 수정</p>
+</div>
 
 <%
 	Object ologin = session.getAttribute("login");
@@ -39,47 +81,63 @@ $(function () {
 
 %>
 
-<div align="center">
+<div align="center" class="container" style="max-width: 800px">
 <form action="qnaServlet?action=updateAf" method="post" >
-	<table border="1">
-	<col width="150"><col width="600">
+	<table>
+	<colgroup>
+	<col width="150"><col>
+	</colgroup>
+	<!-- col width="150"><col width="600"> -->
+	<tbody>
 	<tr>	
 		<th>아이디</th>
 		<td>
-			<input type="text" name="_id" readonly="readonly" value="<%=dto.getId() %>">
+			<input type="text" class="form-control" size="50px" name="_id" readonly="readonly" value="<%=dto.getId() %>">
 		</td>
 	</tr>
 	<tr>	
 		<th>제목</th>
 		<td>
-			<input type="text" name="title" size="80px" value="<%=dto.getTitle() %>" required="required">
+			<input type="text" class="form-control" size="50px" name="title" value="<%=dto.getTitle() %>" required="required">
 		</td>
 	</tr>
 	<tr>	
 		<th>내용</th>
 		<td>
-			<textarea rows="15" cols="80" name="content" required="required"><%=dto.getContent() %></textarea>
+			<%-- <textarea rows="15" cols="80" name="content" required="required"><%=dto.getContent() %></textarea> --%>
+			<textarea class="form-control" rows="10" id="content" name="content" placeholder="질문" required ><%=dto.getContent() %></textarea>
 		</td>
 	</tr>
 	<tr>
 		<th>옵션</th>
 		<td>
+			<div class="custom-control custom-checkbox">
+			  
+			    <input type="checkbox" class="custom-control-input" id="secretChk" > 
+				<input type="hidden" id="secret" name="secret" value="0">
+				<label class="custom-control-label" for="secretChk">비밀글</label>
+			 
+			</div>
+		<!-- 
 			<label>
 				<input type="checkbox" id="secretChk" >비밀글
 				<input type="hidden" id="secret" name="secret" value="0">
-			</label>
+			</label> -->
 		</td>
 	</tr>
-	<tr>
+	
+	</tbody>
+	</table>
+	<div style="margin-top: 20px; text-align: center">
 		<td colspan="2">
 			<!-- <input type="button" onclick="location.href='qnaList'" value="목록"> -->
-			<input type="button" onclick="location.href='javascript:history.back()'" value="목록">
+			<input type="button" class="btn btn-light" onclick="location.href='javascript:history.back()'" value="이전">
 			<input type="hidden" name="seq" value="<%=dto.getSeq() %>">
-			<input type="submit" value="수정하기">
+			<input type="submit" class="btn btn-danger" value="수정하기">
 			
 		</td>
-	</tr>
-	</table>
+	</div>
+	
 	<%-- <button type="button" value="<% session.invalidate(); %>">세션 삭제</button> --%> 
 </form>
 

@@ -14,7 +14,7 @@ public class QnaService {
 		
 		return list;
 	}
-	
+	// 관리자 작성글(공지사항 호출)
 	public List<QnaDto> getQnaNoticeList() {
 		QnaDao dao = QnaDao.getInstance();
 		List<QnaDto> getQnaNoticeList = dao.getQnaNoticeList();

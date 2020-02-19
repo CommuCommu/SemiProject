@@ -334,7 +334,8 @@ public class EpilogueDao {
 			   		+ "	SEQ, ID, REF, STEP, DEPTH, "
 			   		+ " THUMBNAIL, TITLE, CONTENT, WDATE, "
 			   		+ " DEL, READCOUNT "
-			   		+ " FROM BG_EPILOGUE ";	
+			   		+ " FROM BG_EPILOGUE "
+			   		+ " WHERE STEP = 0 "; 	
 		
 		String sqlWord = "";
 		if(choice.equals("title")) {
