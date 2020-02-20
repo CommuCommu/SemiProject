@@ -50,6 +50,8 @@ a {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   background: #fff;
   z-index: 10;
+  position:absolute;
+ 	top:0px;
 }
 .et-hero-tabs-container--top {
   position: fixed;
@@ -65,6 +67,7 @@ a {
   letter-spacing: 0.1rem;
   transition: all 0.5s ease;
   font-size: 0.8rem;
+  
 }
 .et-hero-tab:hover {
   color: white;
@@ -101,14 +104,22 @@ a {
 <body>
 
   <!-- Hero -->
-  <section class="et-hero-tabs">
-    <h1 style = "font-size:60pt">BIT BOARD GAME</h1>
+  <section class="et-hero-tabs" 
+  style="background-image: url('https://cdn.pixabay.com/photo/2015/03/26/09/43/living-room-690174_1280.jpg'); 
+  background-repeat:no-repeat;
+  -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;">
+    
+    <h1 id="typing" style = "font-size:80pt; color:#ffffff"></h1>
     <h3></h3>
     <div class="et-hero-tabs-container">
       <a class="et-hero-tab" href="#tab-es6">NOTICE</a>
       <a class="et-hero-tab" href="#tab-flexbox">GAME LIST</a>
       <a class="et-hero-tab" href="#tab-react">RESERVATION</a>
-      <a class="et-hero-tab" href="#tab-angular">EPILOGUE</a>
+      <a class="et-hero-tab" href="#tab-angular">REVIEW</a>
+      <a class="et-hero-tab" href="#tab-qqq">Q&A</a>
       <a class="et-hero-tab" href="#tab-other">DIRECTION</a>
       <span class="et-hero-tab-slider"></span>
     </div>
@@ -116,7 +127,7 @@ a {
 
   <!-- Main -->
   <main class="et-main">
-    <section class="et-slide" id="tab-es6">
+    <section class="et-slide" id="tab-es6" style = "padding-top:30px">
     	<a href = "notice.jsp"><img src = "notice.jpg"></a>
     	<br><br>
       <h1>NOTICE</h1>
@@ -138,14 +149,21 @@ a {
     </section>
     
     <section class="et-slide" id="tab-angular">
-    	<a href = "epilogue.jsp"><img src = "epilogue.jpg"></a>
+    	<a href = "epiloguelist.jsp"><img src = "epilogue.jpg"></a>
     	<br><br>
-      <h1>EPILOGUE</h1>
+      <h1>REVIEW</h1>
       <h3>이용 후기를 남겨보세요</h3>
     </section>
     
+    <section class ="et-slide" id = "tab-qqq">
+    	<a href = "qnaServlet?action=list"><img src = "qna.jpg"></a>
+    	<br><br>
+      <h1>Q&A</h1>
+      <h3>질문과 답변</h3>
+    </section>
+    
     <section class="et-slide" id="tab-other">
-    	<a href = "map.jsp"><img src = "direction.jpg"></a>
+    	<a href = "mapEx.jsp"><img src = "direction.jpg"></a>
     	<br><br>
       <h1>DIRECTION</h1>
       <h3>찾아오시는 길</h3>
@@ -232,9 +250,18 @@ a {
 	new StickyNavigation();
   
   </script>
+  
+  <script type="text/javascript">
+  var str = "BIT BOARD GAME";
+  var c = 0;
 
-
-
+  setInterval(function(){
+        if(c < 20)
+           $('#typing').append(str[c]);
+        c++;
+  }, 78);
+  
+  </script>
 
 </body>
 </html>

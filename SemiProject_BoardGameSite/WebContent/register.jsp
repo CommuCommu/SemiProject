@@ -229,10 +229,9 @@ td{text-align: -webkit-center;}
 	</div>
 	
 	
-
-<!-- 임시여백 -->	
-<br><br><br><br>
-
+	
+	
+	
 	
 	
 	
@@ -520,7 +519,7 @@ td{text-align: -webkit-center;}
 									alert("이미 존재하는 휴대폰번호 입니다. 다시 확인해주세요.");	
 								
 								} else if(data.emailChk == false && data.emailChk == false){
-									// alert("이메일, 번호 확인이 완료되었습니다")
+									alert("이메일, 번호 확인이 완료되었습니다")
 								
 									document.getElementById('frm').submit();
 								}

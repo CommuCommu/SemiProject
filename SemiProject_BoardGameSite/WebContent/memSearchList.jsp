@@ -20,47 +20,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<style type="text/css">
-@import url(https://fonts.googleapis.com/css?family=Lato:100,300,900);  
-#sidebox { background-color:rgba(0,0,75,.4); 
-		   position:absolute; 
-		   width:12%; 
-		   top:280px; 
-		   left:85%; 
-		   padding: 3px 10px;
-}
-#sidebox2 { background-color:rgba(0,0,75,.4); 
-			position:absolute; 
-			width:12%; 
-			top:280px; 
-			left:1200px; 
-			padding: 3px 10px;
-			display:none;
-}
-
-.sidemenu a:hover{
-	text-decoration:none !important;
-	color: white;
-  -webkit-transform: scale(1.10);
-     -moz-transform: scale(1.10);
-      -ms-transform: scale(1.10);
-       -o-transform: scale(1.10);
-          transform: scale(1.10);  
-}
-
-.sidemenu a {
-	  padding: 10px;
-	  text-transform: uppercase;
-	  color: white;
-	  text-decoration: none;
-	  position: relative;
-	  display: block;
-  	  -webkit-transition: all 0.1s linear;
-          transition: all 0.1s linear;
-}
-
-</style>
-
 </head>
 <body>
 
@@ -72,22 +31,6 @@ $(function () {
 	$("#gnb").load("./GNB/gnb.jsp");
 })
 </script>
-
-<%-- asideBox --%>
-<div id="sidebox" align="center"> 
-	<div id="mainPg" class="sidemenu" style="font-size:1.3em;" ><a href="./auth?command=adminMain">관리자 메인</a></div>
-	<div class="sidemenu" ><a href="auth?command=getMemlist&pageNum=0&item=name&sort=asc">회원관리</a></div>
-	<div class="sidemenu"><a href="authRev?command=curRev">예약관리</a></div>
-	<div class="sidemenu"><a href="authRev?command=pastRev">지난예약</a></div>
-	<div class="sidemenu"><a href="auth?command=noAnswer">미응답 Q&A</a></div>
-	<div class="sidemenu"><a href="#">게임관리</a></div>
-	<div class="sidemenu"><a href="#">테이블관리</a></div>
-	<hr>
-	<div class="sidemenu"><a href="#">맨 위로</a></div>
-	<hr>
-	<img src="./GNB/profile.png" width="40px" height="40px">
-</div>
-
 
 <%--페이지 시작. --%>
 
@@ -153,23 +96,6 @@ $(function () {
 	<a href="auth?command=getMemlist&pageNum=0&item=name&sort=asc">전체리스트로 돌아가기</a>
 
 <script type="text/javascript">
-
-var currentPosition = parseInt($("#sidebox").css("top"));
-$(window).scroll(function() { 
-	var position = $(window).scrollTop();
-	$("#sidebox").stop().animate({"top":position+currentPosition+"px"},400); 
-});
-
-$(window).resize(function (){
-	 var width_size = window.outerWidth;
-	 
-	 if (width_size <= 800) {
-		 $("#sidebox").attr("id","sidebox2");
-	 }else {
-		 $("#sidebox2").attr("id","sidebox");
-	 }
-});
-
 function goPage( pageNum) {
 	//alert("pageNum:" + pageNum);
 	var pItem = $("#pItem").val();

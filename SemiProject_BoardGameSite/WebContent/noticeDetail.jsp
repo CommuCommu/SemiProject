@@ -66,7 +66,6 @@
 
 
 
-
 </head>
 <body>
 <%-- GNB --%>
@@ -134,6 +133,9 @@ for(int i=0; i<list.size(); i++) {
 	
 </table> --%>
 
+<button class="btn btn-outline-primary" style = "margin-right:900px"> 이전글 </button>
+<button class="btn btn-outline-primary"> 다음글 </button>
+
 <br><br>
 
 <div style = "padding-left:400px; padding-right:400px">
@@ -152,7 +154,7 @@ for(int i=0; i<list.size(); i++) {
 </div>
 </div>
 
-
+<% System.out.println(dto.getContent()); %>
 
 
 

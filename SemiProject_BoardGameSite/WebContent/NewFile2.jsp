@@ -25,7 +25,7 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 130px;
+  height: 0vh;
   position: relative;
   /* background: #eee; */
   text-align: center;
@@ -37,7 +37,7 @@ a {
   font-size: 2rem;
   margin: 0;
   letter-spacing: 1rem;
-  z-index: 3;
+  z-index:3;
 }
 .et-hero-tabs h3,
 .et-slide h3 {
@@ -174,31 +174,23 @@ a {
 	}
 %>
 
-<div align = "right" style = "padding-left: calc(90% - 120px); padding-top:15px; text-align:left" class="dropdown">
+<div align = "right" style = "padding-left: calc(90% - 120px); padding-top:15px" class="dropdown">
 <img class = "dropImage" src = "./GNB/people.png" style = "width:40px; height: 33px;">
 	<div class = "dropdown-content">
 	<% if(oLogin == null) { %>
-		<a href = "main.jsp"> 메인으로 </a>
-		<hr>
 		<a href = "login.jsp"> 로그인 </a>
-		<a href = "addmember?command=add"> 회원가입 </a>
+		<a href = "personalInfo.jsp"> 마이페이지 </a>
 	<% } else { %>
-		<a href = "main.jsp"> 메인으로 </a>
-		<hr>
-		<a href = "personalInfo.jsp"> 내정보 </a>
-		<a href = "login?command=logout"> 로그아웃 </a>
-		<% if (mem.getAuth() == 1) { %>
-		<hr>
-		<a href = "auth?command=adminMain"> 관리자 페이지 </a>
-		<% } %>
+		<a href = "login.jsp"> 내정보 </a>
+		<a href = "personalInfo.jsp"> 로그아웃 </a>
 	<% } %>
 		
 	</div>
 	<% if(oLogin == null) { %>
-		안녕하세요, <font color="ff7a14"><b>Guest</b></font>님
+		안녕하세요, Guest님
 	<% } else { %>
 		
-		안녕하세요, <font color="ff7a14"><b><%=mem.getName() %></b></font>님
+		안녕하세요, <%=mem.getName() %>님
 	<% } %>
 	
 </div>
@@ -209,8 +201,8 @@ a {
       <a class="et-hero-tab" href="notice.jsp">NOTICE</a>
       <a class="et-hero-tab" href="gameList.jsp">GAME LIST</a>
       <a class="et-hero-tab" href="reservation.jsp">RESERVATION</a>
-      <a class="et-hero-tab" href="epiloguelist.jsp">REVIEW</a>
-      <a class="et-hero-tab" href="qnaServlet?action=list">Q&A</a>
+      <a class="et-hero-tab" href="epilogue.jsp">EPILOGUE</a>
+      <a class="et-hero-tab" href="qna.jsp">Q&A</a>
       <a class="et-hero-tab" href="mapEx.jsp">DIRECTION</a>
       <span class="et-hero-tab-slider"></span>
     </div>

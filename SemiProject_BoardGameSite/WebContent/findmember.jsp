@@ -67,20 +67,14 @@ $(function () {
 		<td><input type="text" id="_email" placeholder="이메일" class="form-control"></td>
 	</tr>
 	<tr>
-		<%--<td align="center"><button type="button" onclick="findId()" class="btn btn-danger" style="width: 250px">아이디찾기</button></td>  --%>
-		<td align="center"><button type="button" onclick="findId()" class="btn btn-info" style="width: 250px">아이디찾기</button></td>
+		<td align="center"><button type="button" onclick="findId()" class="btn btn-danger" style="width: 250px">아이디찾기</button></td>
 	</tr>
 	<tr>
-		<td align="center">
-			<!-- <div id="foundId">☆</div> -->
-		</td>
+		<td align="center"><div id="foundId"></div></td>
 	</tr>
 </table>
 
-<!-- 아이디 찾기 결과 --> 
-<div id="foundId" style="font-weight: bold; margin-top: 10px"></div>
-</div>
-
+<div id="foundId"></div>
 
 </div>
 
@@ -95,21 +89,17 @@ $(function () {
 		<td><input type="text" id="idEmail" placeholder="이메일 " class="form-control"></td>
 	</tr>
 	<tr>
-
-		<%-- <td align="center"><button type="button" onclick="findPw()" class="btn btn-danger" style="width: 250px">비밀번호찾기</button></td> --%>
-		<td align="center"><button type="button" onclick="findPw()" class="btn btn-info" style="width: 250px">비밀번호찾기</button></td>
+		<td align="center"><button type="button" onclick="findPw()" class="btn btn-danger" style="width: 250px">비밀번호찾기</button></td>
 	</tr>
 </table>
 
 </div>
 
 
-<div align="center">
-	<p style="margin-top: 300px;font-weight: bold;" >● 가입하신 이메일이 기억나지 않을 고객센터(080-00A-000B)로 연락주세요 ●</p>
+
+<div align="center"><span>가입하신 이메일이 기억나지 않을 고객센터(1111-0000)로 연락주세요.</span></div>
+
 </div>
-
-
-
 
 
 

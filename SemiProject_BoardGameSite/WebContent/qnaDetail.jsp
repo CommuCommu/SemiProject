@@ -158,11 +158,12 @@ else if(commDeleteisS.equals("true")){
 
 
 <div align="center">
-<input type="button" onclick="changeTest(<%=pageNum%>)" value="목록 돌아가기">
+<!-- <input type="button" onclick="changeTest(<%=pageNum%>)" value="목록 돌아가기"> -->
+<button type = "button" onclick = "changeTest(<%=pageNum%>)" class="btn btn-outline-primary"> 목록 </button>
 
+<br><br>
 
 </div>
-
 
 <script type="text/javascript">
 function changeTest(pageNum) {
@@ -171,8 +172,46 @@ function changeTest(pageNum) {
 	location.href="qnaServlet?action=list&pageNumber="+pageNum;
 }
 
-
 </script>
+
+
+
+<div class = "card text-center" align = "center">
+	<div class = "card-header" style = "text-align:right">
+		<ul class = "nav nav-pills card-header-pills" style = "text-align:right">
+		
+			<li class = "nav-item" style = "text-align:right">
+				<a class = "nav-link" onclick = "qnaUpdate(<%=dto.getSeq() %>)" style="text-align:center"> 수정 </a>
+			</li>
+	
+			<li class = "nav-item">
+				<a class = "nav-link" onclick = "qnaDelete(<%=dto.getSeq() %>)"> 삭제 </a>
+			</li>
+			
+			<% if(dto.getIs_answer() == 0) { %>
+			<li class = "nav-item">
+				<a class = "nav-link" onclick="qnaAnswerEnd(<%=dto.getSeq() %>,<%=pageNum%>)"> 답변 완료 전환 </a>
+			</li>
+			<% } else if (dto.getIs_answer() == 1) { %>
+			<li class = "nav-item">
+				<a class = "nav-link" onclick="qnaAnswerWait(<%=dto.getSeq() %>,<%=pageNum%>)"> 답변 대기 전환 </a>
+			</li>
+			<% } %>
+		</ul>
+	</div>
+	<div class = "card-body">
+		<h3 class = "card-title"> <%=dto.getTitle() %></h3>
+		<p class = "card-text"> </p>
+	</div>
+</div>
+
+
+
+
+
+
+
+
 
 
 
@@ -188,12 +227,12 @@ function changeTest(pageNum) {
 	<tr>
 		<td colspan="2">
 			<div align="right">
-				<button type="button" onclick="qnaUpdate(<%=dto.getSeq() %>)">수정</button>
-				<button type="button" onclick="qnaDelete(<%=dto.getSeq() %>)">삭제</button>
+				<button type="button" onclick="qnaUpdate(<%=dto.getSeq() %>)" class="btn btn-outline-primary">수정</button>
+				<button type="button" onclick="qnaDelete(<%=dto.getSeq() %>)" class="btn btn-outline-primary">삭제</button>
 				<% if(dto.getIs_answer() == 0) { %>
-					<button type="button" onclick="qnaAnswerEnd(<%=dto.getSeq() %>,<%=pageNum%>)">답변 완료 전환</button>
+					<button type="button" onclick="qnaAnswerEnd(<%=dto.getSeq() %>,<%=pageNum%>)" class="btn btn-outline-primary">답변 완료 전환</button>
 				<% } else if (dto.getIs_answer() == 1) { %>
-					<button type="button" onclick="qnaAnswerWait(<%=dto.getSeq() %>,<%=pageNum%>)">답변 대기 전환</button>
+					<button type="button" onclick="qnaAnswerWait(<%=dto.getSeq() %>,<%=pageNum%>)" class="btn btn-outline-primary">답변 대기 전환</button>
 				<% } %>
 				
 				<%-- <button type="button" onclick="qnaComment(<%=dto.getSeq() %>)">댓글</button> --%>
@@ -203,7 +242,7 @@ function changeTest(pageNum) {
 	</tr>
 	<% } // if 끝 %>
 	
-	<tr>	
+	<tr class="table-warning">	
 		<th>아이디</th>
 		<%-- <td><input type="text" readonly="readonly" value="<%=dto.getId() %>"></td> --%>
 		<td><%=dto.getId() %></td>
@@ -371,6 +410,9 @@ function changeTest(pageNum) {
 
 
 
+
+
+
 <%-- 관리자 답변 부분 --%>
 <%	if(mem != null && ( mem.getAuth() == 1 ) ) { %>
 	<tr>
@@ -392,16 +434,10 @@ function changeTest(pageNum) {
  
 <br><br><br>
 
-<%--추가 보류!--%>
-
-<%--관리자 미응답 리스트 넘어가기 
-<%	if(mem != null && ( mem.getAuth() == 1 ) ) { %>
-	<a href="auth?command=noAnswer">미응답 Q & A 리스트로 돌아가기</a> 
 
 
-<% } // if 끝 %>	
 
---%>
+
 
 <script type="text/javascript">
 var testbutton = 0;

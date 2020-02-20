@@ -16,12 +16,10 @@
 <% DBConnection.initConnection(); %>
 
 
-
 <%
 
 	response.sendRedirect("main.jsp");
 %>
-
 
 
 </body>

@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 작성</title>
+<title>Insert title here</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script> 
 <script type="text/javascript" src="editor/js/HuskyEZCreator.js" charset="utf-8"></script>
@@ -38,27 +38,19 @@ $(function () {
 })
 </script>
 
-<div align="center" class="container">
-	<br><p class="subject">공지사항 작성</p>
-
-
-
-<form id="frm" action="noticeWrite" method="post"><br>
+<br><br><br><br>
+<div align = "center">
+<form id="frm" action="noticeWrite" method="post">
 <input type = "hidden" name = "command" value= "writeAf">
 <%-- <form id="frm" action="insert.jsp" method="post" > --%>
 	
-<table>
-	<tr>
-		<td>
-			<div class="form-group"> 
-			<input type="text" id="title" name="title" style = "width : 660px;" placeholder="게시글 제목을 입력하세요" class="form-control">		
-			</div>
-		</td>
-	</tr>
+		제목 <input type="text" id="title" name="title" style = "width : 750px; height : 20px" placeholder="게시글 제목을 입력하세요">
 	
+<table align = "center" width = "900px" height = "600px">
 	<tr>
-		<td align="center"> 
-			<textarea id="ir1" name="ir1" style="width:650px; height:400px; align:center" ></textarea>
+		<td></td>
+		<td> 
+			<textarea rows="10" cols="30" id="ir1" name="ir1" style="width:766px; height:412px; align:center"></textarea>
 			<input type = "hidden" name = "wDate" <%-- value = "<%=Date date = new Date(); %>" --%>>
 			<script type="text/javascript">			
 				var oEditors = [];										
@@ -91,17 +83,14 @@ $(function () {
 	</tr>
 	<tr>
 		<td colspan="2" align = "center">
-			<br>
-			<input type="button" id="save" value="저장" onclick="fOnAppLoad(this)" class="btn btn-outline-success" style="width: 100px">
-			<span style="margin: 15px;font-size: 400;">|</span>
-			<input type="button" onclick = "location.href='notice.jsp'" value="취소" class="btn btn-outline-warning" style="width: 100px">
-			
+			<input type="button" id="save" value="저장" onclick="fOnAppLoad(this)">
+			<input type="button" onclick = "location.href='notice.jsp'" value="취소">
 		</td>
 	</tr>
 </table>
 </form>
 </div>
-<br><br><br>
+
 
 </body>
 

@@ -1,35 +1,21 @@
 <%@page import="dto.MemberDto"%>
 <%@page import="dto.NoticeDto"%>
 <%@page import="java.util.List"%>
-<%@page import="MainAndNotice.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-    <% 
-    request.setCharacterEncoding("utf-8");
- 	response.setCharacterEncoding("utf-8");
-    %>
-    	
-    	
     <%
-    // 검색
-    String searchWord = request.getParameter("searchWord");
-    String choice = request.getParameter("choice");
+    List<NoticeDto> list = (List<NoticeDto>)request.getAttribute("searchList");
     
-    // sel 을 지정하는 이유는, 검색옵션을 제목이나 작성자가 아닌 select 를 선택했을 경우에
-    // 아무것도 수행하지 않게 하기 위해서이다.
-    if(choice == null || choice.equals("")) {
-    	choice = "sel";
+    int length = (int)request.getAttribute("length");
+    int paging = length / 10;
+    if(length % 10 > 0) {
+    	paging = paging + 1;
     }
     
-    // 검색타입을 지정하지 않고 choice 가 넘어왔을 때
-    if(choice.equals("sel")) {
-    	searchWord = "";
-    }
-    if(searchWord == null) {
-    	searchWord = "";
-    	choice = "sel";
-    }
+    int pageNumber = (int)request.getAttribute("pageNumber");
+    String choice = (String)request.getAttribute("choice");
+    String searchWord = (String)request.getAttribute("searchWord");
     %>
     
 <!DOCTYPE html>
@@ -37,38 +23,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
-<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
-<link rel="stylesheet" href="css/bootstrap.css">
-<style type="text/css">
-a {color: #000000;}
-a:hover {text-decoration: none; color: #000000;}
-
-th, td{text-align:center;vertical-align: middle !important;}
-
-</style>
-
-<%--
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet"
-   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-<!-- 부가적인 테마 -->
-<link rel="stylesheet"
-   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script
-   src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
- --%>
- 
- 
 </head>
 <body>
-
 
 <%-- GNB --%>
 <div id="gnb"></div>
@@ -79,56 +35,9 @@ $(function () {
 </script>
 
 
+<%-- 공지 검색 페이지 시작! --%>
 
-
-<%--페이지 시작. --%>
-
-<!-- 타이틀 수정 -->
-<div class="container">
-<br><p class="subject">Notice</p>
-</div>
-
-<script type = "text/javascript">
-$(document).ready(function () {
-	var _choice = '<%=choice %>';
-	var _searchWord = '<%=searchWord %>';
-	if(_choice != '' && _choice != 'sel') {
-		if(_searchWord != "") {
-			$("#choice").val(_choice);
-			$("#search").val(_searchWord);
-		}
-	}
-});
-
-</script>
-
-
-
-<%
-// paging list unpacking
-
-String sPageNumber = request.getParameter("pageNumber");
-int pageNumber = 0;
-if(sPageNumber != null && !sPageNumber.equals("")) {
-	pageNumber = Integer.parseInt(sPageNumber);
-}
-
-NoticeDAO dao = NoticeDAO.getInstance();
-
-List<NoticeDto> list = dao.getSearchAllList(choice, searchWord, pageNumber);
-
-int length = dao.getSearchCount(choice, searchWord);
-System.out.println("총 글의 개수는 = " + length);
-
-int noticePage = length / 10;
-if(length % 10 > 0) {
-	noticePage = noticePage + 1;
-}
-%>
-
-
-
-	<!-- 테이블 div 시작 -->
+<!-- 테이블 div 시작 -->
 	<div align="center" class="container"> 
 	
 	<table class="table table-hover">
@@ -248,8 +157,8 @@ if(length % 10 > 0) {
 	<%-- 페이징에 대한 뷰 처리 --%>
 	<ul class="pagination justify-content-center" style="margin:20px 0">
 	<%
-		System.out.println("공지사항 메인에서 페이징 개수 = " + noticePage);
-		for(int i=0; i<noticePage; i++) {
+		System.out.println("공지사항 메인에서 페이징 개수 = " + paging);
+		for(int i=0; i<paging; i++) {
 			if(pageNumber == i) {
 	%>
 	<%-- 
@@ -366,6 +275,7 @@ function goPage( pageNum ) {
 
 
 </script>
+
 
 </body>
 </html>

@@ -16,83 +16,43 @@ System.out.println("pw:" + oldpw);
 <html>
 <head>
 <meta charset="UTF-8">
-<title>인증번호 확인</title>
+<title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
-<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
-<link rel="stylesheet" href="css/bootstrap.css">
 </head>
-
 <body>
-
-<%-- GNB --%>
-<div id="gnb"></div>
-
-<script type="text/javascript">
-$(function () {
-	$("#gnb").load("./GNB/gnb.jsp");
-})
-</script>
-
-
-
-<%--페이지 시작. --%>
-<div align="center" class="container">
-	<br><p class="subject">인증 번호 확인</p>
-
-
-
 <table>
-<!-- <col width="200"><col width="200"> -->
+<col width="300"><col width="100">
+<h1>인증번호를 입력해주세요</h1>
 <tr>
-	<td colspan="2">
-		<input type="hidden" id="_id" value=<%=id %>>
-		<input	type="hidden" id="authKey" value=<%=authNum %>>
-		<input type="text" id="inputNum" placeholder="이메일로 전송된 인증 번호 (6자리)" class="serchText">
-		<button type="button" onclick="authchk()" class="btn btn-success" style="vertical-align: bottom;">인증</button>
-	</td>
-
-
-
+	<input type="hidden" id="_id" value=<%=id %>>
+	<input	type="hidden" id="authKey" value=<%=authNum %>>
+	<td><input type="text" id="inputNum" placeholder="인증번호를 입력해주세요(6자리)"></td>
+	<td><button type="button" onclick="authchk()">인증</button></td>
 </tr>
 <tr>
 	<td><div id="countdown"></div></td>	
 	<td></td>
 </table>
-
-</div>
-
-
-<div id="newPw" align="center">
-<br><br><p class="subject">새 비밀번호 입력</p>
+<div id="newPw">
+<h1>새로운 비밀번호 입력</h1>
 <table>
 	<tr>
-		<td>
 		<input	type="hidden" id="oldpw" value=<%=oldpw %>>
-		<input type="password" id="pwd1" placeholder="영문+숫자+특수문자조합 8자이상" class="serchText" style="width:340px; margin-bottom: 10px">
+		<td><input type="password" id="pwd1" placeholder="새 비밀번호(영문+숫자+특수문자조합 8자이상)">
 		</td>
 	</tr>
 	<tr>
-		<td>
-			<input type="password" id="pwd2" placeholder="새 비밀번호 확인" class="serchText" style="width:340px; margin-bottom: 10px">
+		<td><input type="password" id="pwd2" placeholder="새 비밀번호 확인" >
 		</td>
 	</tr>
 	<tr>
-		<td align="right">
-			<button type="button" onclick="pwChange()" class="btn btn-success">변경 완료</button>
-		</td>
+		<td><button type="button" onclick="pwChange()">변경</button></td>
 	</tr>
 </table>
 </div>
 
 
 <script type="text/javascript">
-$(function(){
-	alert("입력하신 이메일주소로 인증번호가 발송되었습니다");
-});
-
-
-
 $("#newPw").hide();
 var count = 1800;
 var time = 0;
@@ -106,28 +66,26 @@ $(document).ready(function(){
 function myTimer(){
 	count = count - 1;
 
-    	document.getElementById("countdown").innerHTML = "( 남은 시간 : " + parseInt(count/60) + "분 " + count%60 + "초 )";
+    	document.getElementById("countdown").innerHTML = "남은시간: " + parseInt(count/60) + "분" + count%60 + "초";
 	if(count == 0){
 		clearInterval(time);
-		document.getElementById("countdown").innerHTML = "인증시간 초과! 다시 인증해주세요";
-		
+		document.getElementById("countdown").innerHTML = "인증시간 초과!";
 	}
 }
 
 function authchk() {
 	var inputNum = $("#inputNum").val();
 	var authNum = $("#authKey").val();
-	if(inputNum == authNum && count != 0){ // 인증번호 같은 경우 
+	if(inputNum == authNum){ // 인증번호 같은 경우 
 		alert("인증되었습니다");
 		$("#newPw").show();
 		clearInterval(time);
 		document.getElementById("countdown").innerHTML = "인증완료";
 	}else if (count == 0){ // 인증시간 만료된경우 
 		alert("인증시간이 초과되었습니다. 다시 인증해주세요");
-	
 	}else{	// 인증번호 틀린경우 
 		alert("인증번호를 다시 확인해주세요");
-	}	
+	}		
 	
 }
 

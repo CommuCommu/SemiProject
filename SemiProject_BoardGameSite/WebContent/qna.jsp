@@ -17,7 +17,6 @@ int qnaPage = (int)request.getAttribute("qnaPage");
 System.out.println("뷰에서의 qnaPage : " + qnaPage);
 // 리스트 호출
 List<QnaDto> list = (List<QnaDto>)request.getAttribute("qnaList");
-List<QnaDto> qnaNoticeList = (List<QnaDto>)request.getAttribute("qnaNoticeList");
 System.out.println("뷰에서 리스트 호출");
 
 // 게스트의 로그인 세션 처리
@@ -76,10 +75,11 @@ QnaCommentDao qcDao = QnaCommentDao.getInstance();
 
 a {color: #000000;}
 a:hover {text-decoration: none; color: #000000;}
-/* img {vertical-align: sub;} */
+img {vertical-align: sub;}
 
 .badge.badge-secondary {display: unset; padding:0.3em 0.8em; vertical-align: bottom;}
 .badge.badge-warning {color:#fff; background-color:#ff7307; display: unset; padding:0.3em 0.8em; vertical-align: bottom;}
+
 
 </style>
 
@@ -135,57 +135,55 @@ $(document).ready(function () {
 	</thead>
 
 
-
-
 	<tbody>
 <% if(list == null || list.size() == 0){ %>
 	<tr>
 		<td colspan="6">작성된 글이 없습니다</td>
 	</tr>
-
-<% } else { for(int i = 0;i < qnaNoticeList.size(); i++){
-				QnaDto noticeDto = qnaNoticeList.get(i); %>
+<% } else {
+	for(int i = 0;i < list.size(); i++){
+		QnaDto dto = list.get(i);
+		if(dto.getDel() == 0) { 
+			
+			/* 작성일(wDate)을 잘라서 년월일 추출 yyMMdd */
+			
+			  String s1 = dto.getWdate().substring(2,10);
+			  String p1 = "[-]";
+			  String[] sArray1 = s1.split(p1);
+			  String wDateStr = "";
+			  for( int j = 0; j < sArray1.length; j++ ){
+				  wDateStr += sArray1[j].trim();
+			  }
+			  //System.out.print("스플릿으로 자른 날짜" +sArray1[j].trim());
+			  System.out.println("스플릿으로 자른 날짜 : " + wDateStr);
+			  int wDate = Integer.parseInt(wDateStr);
+			
+			
+			
+			if(dto.getId().equals("aa")) {%>
 			<tr>
 				<td align="center"><img src="./image/qnaNotice2.png" width="21"></td>
-				<td><a href='#' onclick="userChek(<%=noticeDto.getIs_secret() %>, '<%=noticeDto.getId() %>', <%=noticeDto.getSeq() %>, <%=pageNumber%>)">
-					<%=noticeDto.getTitle() %></a></td>
+				<td><a href='#' onclick="userChek(<%=dto.getIs_secret() %>, '<%=dto.getId() %>', <%=dto.getSeq() %>, <%=pageNumber%>)">
+			<%=dto.getTitle() %></a></td>
 				<td align="center">관리자</td>
 				<td align="center">공지</td>
-					<% /* 작성일(wDate)을 잘라서 년월일 추출 yyMMdd */
-					
-					  String s1 = noticeDto.getWdate().substring(2,10);
-					  String p1 = "[-]";
-					  String[] sArray1 = s1.split(p1);
-					  String wDateStr = "";
-					  for( int j = 0; j < sArray1.length; j++ ){
-						  wDateStr += sArray1[j].trim();
-					  }
-					  //System.out.print("스플릿으로 자른 날짜" +sArray1[j].trim());
-					  System.out.println("스플릿으로 자른 날짜 : " + wDateStr);
-					  int wDate = Integer.parseInt(wDateStr);
-					  
-					  if(wDate < curTime) { %>
-						<td align="center"><%=noticeDto.getWdate().substring(2,11) %></td>
+					<% if(wDate < curTime) { %>
+						<td align="center"><%=dto.getWdate().substring(2,11) %></td>
 					<% } else { %>
-						<td align="center"><%=noticeDto.getWdate().substring(11,13) %> : <%=noticeDto.getWdate().substring(14,16) %></td>
+						<td align="center"><%=dto.getWdate().substring(11,13) %> : <%=dto.getWdate().substring(14,16) %></td>
 					<% } %>
 				
 			
 			</tr>
-			
-			
-			<% } 
-
-				for(int i = 0;i < list.size(); i++){
-					QnaDto dto = list.get(i);
-					if(dto.getDel() == 0) { %>
+			<%} else {%>
 			
 	<tr>
 		<td style="text-align:center"><%=dto.getSeq() %></td>
+		
 		<td>
 		<%-- 글 구분 --%>
 			<% if(dto.getIs_secret() == 1) { %>
-				<img src="./image/qnaLock.png" width="17" style="vertical-align: sub;">
+				<img src="./image/qnaLock.png" width="17">
 			<% } %>
 			<a href='#' onclick="userChek(<%=dto.getIs_secret() %>, '<%=dto.getId() %>', <%=dto.getSeq() %>, <%=pageNumber%>)">
 			<%=dto.getTitle() %></a>
@@ -194,6 +192,7 @@ $(document).ready(function () {
 			<% if(qcDao.getQnaCount(dto.getSeq()) > 0) {%>
 				<span style="color:#ff0000;font-size:15px;font-weight:500" >+<%=qcDao.getQnaCount(dto.getSeq()) %></span>
 			<% } %>
+			
 		
 			<%-- 세션 ID 저장--%>
 			<input type="hidden" value="<%=curSessionId %>" id="sId">
@@ -216,22 +215,11 @@ $(document).ready(function () {
 		<% } %>
 		
 		<%-- 작성일 --%>
-
-		<% /* 작성일(wDate)을 잘라서 년월일 추출 yyMMdd */
 		
-		  String s1 = dto.getWdate().substring(2,10);
-		  String p1 = "[-]";
-		  String[] sArray1 = s1.split(p1);
-		  String wDateStr = "";
-		  for( int j = 0; j < sArray1.length; j++ ){
-			  wDateStr += sArray1[j].trim();
-		  }
-		  //System.out.print("스플릿으로 자른 날짜" +sArray1[j].trim());
-		  System.out.println("스플릿으로 자른 날짜 : " + wDateStr);
-		  int wDate = Integer.parseInt(wDateStr);
-		  
-		  if(wDate < curTime) { %>
-
+		
+	
+		
+		<% if(wDate < curTime) { %>
 			<td align="center"><%=dto.getWdate().substring(2,11) %></td>
 		<% } else { %>
 			<td align="center"><%=dto.getWdate().substring(11,13) %> : <%=dto.getWdate().substring(14,16) %></td>
@@ -252,7 +240,7 @@ $(document).ready(function () {
 <%
 			}
 	}
-
+	}
 }// list의 for문 끝
 %>
 </tbody>

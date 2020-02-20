@@ -6,12 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 정보 수정</title>
+<title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
-<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
-<link rel="stylesheet" href="css/bootstrap.css">
-
 </head>
 <body>
 <%-- GNB --%>
@@ -23,14 +19,9 @@ $(function () {
 </script>
 
 <%--페이지 시작. --%>
-<div align="center" class="container">
-<!-- <br><p class="subject">정보보호를 위해 비밀번호를 입력해주세요</p> -->
-	<br><p class="subject">Confirm Password</p>
-	<div><input type="password" id="pwd" placeholder="정보보호를 위해 비밀번호를 재확인 합니다" class="form-control" style="width: 500px;text-align: center;"></div>
-	<div><button type="button" onclick="pwdcheck()" class="btn btn-outline-secondary" style="margin-top: 15px">비밀번호 확인</button></div>
-</div>
-
-
+<h1>정보보호를 위해 비밀번호를 입력해주세요</h1>
+<div><input type="password" id="pwd"></div>
+<div><button type="button" onclick="pwdcheck()">비밀번호 확인</button></div>
 
 <script type="text/javascript">
 

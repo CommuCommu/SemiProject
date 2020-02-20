@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.net.httpserver.Authenticator.Result;
 
 import java.sql.Connection;
 
@@ -510,10 +511,10 @@ public class MemberDao {
 		sql += " SEQ, ID, CALL_NUMBER, NAME, EMAIL, BONUSCREDIT, REGDATE, AUTH, DEL " + " FROM BG_MEMBER ";
 		
 		if (item.equals("id")) {
-			sql += " WHERE ID LIKE '%" + searchWord.trim() + "%' ";
-	
+			sql += " WHERE ID = ? ";
+
 		} else if (item.equals("name")) {
-			sql += " WHERE NAME LIKE '%" + searchWord.trim() + "%' ";
+			sql += " WHERE NAME = ? ";
 
 		}
 		sql += " ORDER BY AUTH DESC, NAME ASC) ";
@@ -535,9 +536,9 @@ public class MemberDao {
 			System.out.println("1/6 searchList success!");
 			psmt = conn.prepareStatement(sql);
 			System.out.println("2/6 searchList success!");
-			//psmt.setString(1, searchWord);
-			psmt.setInt(1, start);
-			psmt.setInt(2, end);
+			psmt.setString(1, searchWord);
+			psmt.setInt(2, start);
+			psmt.setInt(3, end);
 			
 			rs = psmt.executeQuery();
 			System.out.println("3/6 searchList success!");

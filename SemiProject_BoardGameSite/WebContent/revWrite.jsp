@@ -42,21 +42,6 @@
 <meta charset="UTF-8">
 <title>revWrite.jsp</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
-<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
-<link rel="stylesheet" href="css/bootstrap.css">
-
-<style type="text/css">
-td {text-align: center;width: 70px}
-
-
-
-
-
-
-</style>
-
-
 </head>
 <body>
 
@@ -88,10 +73,6 @@ $(function () {
 })
 </script>
 
-<%--페이지 시작. --%>
-<div class="container">
-<br><p class="subject">Reservation</p>
-<!-- &nbsp;&nbsp;&nbsp;&nbsp;<h4 style="display: inline;"><img src="./image/qnaNotice2.png" width="30">&nbsp;<b>매장 운영 시간은 09시 ~ 22시 입니다.</b></h4> -->
 
 
 
@@ -107,11 +88,10 @@ $(function () {
 
 <form action="RevWriteServlet" id="revForm">
 	<div>
-		<h3><img src="./image/qnaNotice2.png" width="30">&nbsp;&nbsp;<b>매장 운영 시간은 09시 ~ 22시 입니다.</b></h3>
-		<br>
-		<span style="font-size:14pt; font-weight: bold;">1. 테이블을 선택해주세요.</span>&nbsp;
-		<!-- <h5 style="display: inline;"><b>1. 테이블을 선택해주세요 : </b></h5>&nbsp; -->
-		<select id="tableSelect" name="tableSelect" class="serchSelect">
+		<b>매장 운영 시간은 09~22시 입니다.</b>
+		<br><br><br>
+		<b>1. 테이블을 선택해주세요.</b> 
+		<select id="tableSelect" name="tableSelect">
 			<option value="none">선택</option>
 			<% for(int i = 0; i < list.size(); i++) { %>
 			<% TableDto dto = list.get(i); %>
@@ -128,7 +108,7 @@ $(function () {
 		</div>
 	</div>
 </form>
-</div>
+
 
 
 <script type="text/javascript">
@@ -184,7 +164,7 @@ $("#tableSelect").on("change", function () {	//테이블 선택 변경
 	
 	        	$("#sf").append('<br>');
 	        	
-	        	$("#sf").append('<table border="1" id="revTable" class="table table-bordered">');
+	        	$("#sf").append('<table border="1" id="revTable">');
 	        	
 	            $("#revTable").append('<tr>');
 	            for(var i = 0; i < (revCheck.length + 1); i++) {
@@ -197,9 +177,9 @@ $("#tableSelect").on("change", function () {	//테이블 선택 변경
 	            $("#revTable").append('<tr>');
 	            for(var i = 0; i < revCheck.length; i++) {
 	            	if(revCheck[i] == 0) {
-	            		$("#revTable").append('<td>' + "<span class='badge badge-info'> 예약가능 </span>" + '</th>');
+	            		$("#revTable").append('<td>' + "예약가능" + '</th>');
 	            	}else {
-	            		$("#revTable").append('<td>' + "<span class='badge badge-secondary'> 예약불가 </span>" + '</th>');
+	            		$("#revTable").append('<td>' + "예약불가" + '</th>');
 	            	}
 	            }
 	            $("#revTable").append('<td>' + '</th>');
@@ -212,14 +192,11 @@ $("#tableSelect").on("change", function () {	//테이블 선택 변경
 		        if(isP) {
 	
 		        	$("#sf").append('<br><br>');
-		        	
-		        	/* $("#sf").append('<b>2.이용할 시간과 이용 인원을 선택해주세요.</b><br><br>'); */
-		        	$("#sf").append('<span style="font-size:14pt; font-weight: bold;">2. 이용 시간과 인원을 선택해주세요.</span>');
-		        	
-		        	$("#sf").append('<br><b>◎ 이용 시간 : </b>');
+		        	$("#sf").append('<b>2.이용할 시간과 이용 인원을 선택해주세요.</b><br><br>');
+		        	$("#sf").append('<b>이용 시간 : </b>');
 		             
 		        	
-		        	$("#sf").append('<select id="startTime" name="startTime" class="serchSelect">');
+		        	$("#sf").append('<select id="startTime" name="startTime">');
 		        	$("#startTime").append('<option value="none">선택</option>');
 		        	for(i = 0; i < revCheck.length; i++) {
 		        		if(revCheck[i] == 0) {
@@ -238,8 +215,8 @@ $("#tableSelect").on("change", function () {	//테이블 선택 변경
 		        	
 		        	
 		        	$("#sf").append('<br>');
-		        	$("#sf").append('<b>◎ 인원수 : </b>');
-		        	$("#sf").append('<select id="peopleNumber" name="peopleNumber" class="serchSelect">');
+		        	$("#sf").append('<b>인원수 : </b>');
+		        	$("#sf").append('<select id="peopleNumber" name="peopleNumber">');
 		        	for(i = 1; i <= numberPeoples; i++) {
 		        		$("#peopleNumber").append('<option value=' + i + '>' + i + '명</option>');
 		        	}
@@ -279,7 +256,7 @@ $(document).on("change", "#startTime", function () {
 		st *= 1;
 		alert(st);
 		
-	   	$("#endSpan").append('<select id="endTime" name="endTime" class="serchSelect">');
+	   	$("#endSpan").append('<select id="endTime" name="endTime">');
 	   	$("#endTime").append('<option value="none">선택</option>');
 	   	for(i = st; i < revCheck.length; i++) {
 	   		if(revCheck[i] == 0) {
@@ -310,7 +287,7 @@ $(document).on("change", "#endTime", function () {
 		$("#sf").append('<div id="third">');
 			$("#third").append('<br><br>');
 	
-			$("#third").append('<span style="font-size:14pt; font-weight: bold;">3. 예약과 함께 남길 메모를 작성해주세요.</span><br><br>');
+			$("#third").append('<b>3.예약과 함께 남길 메모를 작성해주세요.</b><br><br>');
 			
 			$("#third").append('예약자 이름 : <%=mem.getName() %>');
 			$("#third").append('<br>');
@@ -318,7 +295,7 @@ $(document).on("change", "#endTime", function () {
 			$("#third").append('<br>');
 			$("#third").append('예약시간 : ' + (st+9) + '시 ~ ' + (et+9) + '시');
 			$("#third").append('<br>');
-			$("#third").append('메모 : <input type="text" value="여기에 메모를 남겨주세요" id="memo" name="memo" class="serchText">');
+			$("#third").append('메모 : <input type="text" value="여기에 메모를 남겨주세요" id="memo" name="memo" style="weight:400px">');
 			$("#third").append('<br><br>');
 			
 			$("#third").append('<button id="revGo">예약하기</button>');
