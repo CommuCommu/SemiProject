@@ -568,11 +568,14 @@ public class MemberDao {
 	}
 	
 	public int getSearchMem(String item, String searchWord ) {
-		String sql = " SELECT COUNT(*) " + " FROM BG_MEMBER ";
+	  System.out.println("searchWord: " + searchWord);
+		
+		String sql = " SELECT COUNT(*) " 
+					+ " FROM BG_MEMBER ";
 		if(item.equals("id")) {
-				sql += " WHERE ID = ? ";
+				sql += " WHERE ID LIKE '%" + searchWord.trim() + "%' ";
 		} else if(item.equals("name")) {
-				sql += " WHERE NAME = ? ";
+				sql += " WHERE NAME LIKE '%" + searchWord.trim() + "%' ";
 		}
 		Connection conn = null; // DB Connection
 		PreparedStatement psmt = null; // SQL
@@ -586,13 +589,16 @@ public class MemberDao {
 			System.out.println("1/6 getSearchMem success!");
 			psmt = conn.prepareStatement(sql);
 			System.out.println("2/6 getSearchMem success!");
-			psmt.setString(1, searchWord);
+			// psmt.setString(1, searchWord);
 			rs = psmt.executeQuery();
+			
 			System.out.println("3/6 getSearchMem success!");
 			if (rs.next()) {
 				len = rs.getInt(1);
 			}
+			System.out.println("len: " + len);
 			System.out.println("4/6 getSearchMem success!");
+			
 		} catch (SQLException e) {
 			System.out.println("getSearchMem fail!");
 			e.printStackTrace();

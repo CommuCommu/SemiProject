@@ -41,4 +41,8 @@ public class ReservationService {
 		TableDao tDao = new TableDao();
 		return tDao.tableCount();
 	}
+	
+	public int revMonthCount(String date) {
+		return rDao.revMonthCount(date);
+	}
 }

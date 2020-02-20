@@ -282,5 +282,51 @@ public class RevDao{
 		
 		return list;
 	}
+	
+	public int revMonthCount (String date) {
+
+		String sql =  " SELECT RDATE "
+				+ " FROM BG_RESERVATION "
+				+ " WHERE TO_CHAR(RDATE , 'YYYYMM') =  ?  ";
+
+		/*
+		String sql =  " SELECT COUNT(*) "
+					+ " FROM BG_RESERVATION "
+					+ " WHERE TO_CHAR(RDATE , 'YYYYMM') =  ?  ";
+		/**/
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		// String rdate[] = null;
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 getAllCurRev success");
+			
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 getAllCurRev success");
+			
+			psmt.setString(1, date.trim());
+			rs = psmt.executeQuery();
+			System.out.println("3/6 getAllCurRev success");
+			
+			// int w = 0;
+			
+			while(rs.next()) {
+				// System.out.println(rs.getString(1));
+				count++;
+			}
+			System.out.println("4/6 getAllCurRev success");
+			System.out.println("count: " + count);
+		} catch (SQLException e) {
+			System.out.println("getAllCurRev fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);			
+		}
+		
+		//return rdate;
+		return count;
+	}
 
 }

@@ -12,6 +12,7 @@
    License: none (public domain)
 */
 
+
 /*
 
 html, body, div, span, applet, object, iframe,
@@ -35,6 +36,8 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 
+/* HTML5 display-role reset for older browsers */
+
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
@@ -57,11 +60,13 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
 */
 
 
 
-#footer {width:100%; padding:40px 0; text-align:center; background:#333; line-height:1.6; heigth:]}
+
+#footer {width:100%; padding:40px 0; text-align:center; background:#333; line-height:1.6;}
 #footer img,footer-logo {}
 #footer address {font-size:17px; color:#fff; margin-top:20px;}
 #footer p.copyright {font-size:17px; color:#fff;}
