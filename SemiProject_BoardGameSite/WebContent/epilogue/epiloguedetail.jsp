@@ -24,17 +24,17 @@ int seq = Integer.parseInt(sseq);
 %>
 
 <!DOCTYPE html>
-<html>/
+<html>
 <head>
 <meta charset="UTF-8">
 <title>epilogue detail</title>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
 
-
-
+<div id="gnb"></div>
 <script type="text/javascript">
 $(function () {
-	$("#").load("./GNB/.jsp");
+	$("#gnb").load("./GNB/gnb.jsp");
 })
 </script>
 
@@ -78,6 +78,8 @@ table.type02 td {
 <body>
 
 
+<link type="text/css" rel="stylesheet" href="./css/ui.css">
+
 <%
 MemberDto mem = (MemberDto)request.getSession().getAttribute("login");
 
@@ -95,7 +97,7 @@ List<EpilogueDto> list = null;
 <div align="center">
 
 
-<table style ="align: center" style="vertical-align: center;" border="1">
+<table align="center" style="vertical-align: center;">
 	<colgroup>
 <col width="100"><col width="100"><col width="100"><col width="200"><col width="100"><col width="100">
 	</colgroup>
@@ -110,23 +112,15 @@ List<EpilogueDto> list = null;
 </tr>
 <tr>
 	<th align="center">제목</th>
-	<td colspan="3"><%=epilogue.getTitle() %></td>
-	<th align="center">글번호</th>
-	<td align="center"><%=epilogue.getSeq() %></td>
+	<td colspan="5"><%=epilogue.getTitle() %></td>
 </tr>
-
 <tr align="center">
 	<th>내용</th>
 	<td colspan="5">
-	
-	<div style="overflow:scroll; width:700px; height:400px; visibility: visible; 
-				image:visible; name:content; readonly:readonly">
-				<%=epilogue.getContent() %>
-	</div>
-	
+	<div style="overflow:scroll; width:700px; height:400px;" image="visible" name="content"
+				readonly="readonly"><%=epilogue.getContent() %></div>
 	</td>
 </tr>
-
 </table>
 
 
@@ -141,9 +135,9 @@ if(epilogue.getId().equals(mem.getId())){
 %>
 <hr>
 <table class="type02"  style="line-height: 10px; vertical-align: center">
-<col width="90"><col width="700"><col width="100"><col width="120">
+<col width="90"><col width="600"><col width="90"><col width="100"><col width="120">
 <tr>
-	<th>댓글번호</th><th>제목 : 내용</th><th>작성자</th><th>등록일</th>
+	<th>댓글번호</th><th>제목 : 내용</th><th>조회수</th><th>작성자</th><th>등록일</th>
 </tr>
 <% 
 	list = dao.getEpilogueReplies(seq);
@@ -157,35 +151,25 @@ if(list == null || list.size() ==0){
 }else{
 	System.out.println("seq : " + seq);
 	System.out.println("list : " + list);
-	int c=1;
-for(int i = 0; i < list.size() ; i++){
-	
-	EpilogueDto epilogueReply = list.get(i);	
-				System.out.println("list.get(i) : " + list.get(i));
-				System.out.println("epilogueReply : " + epilogueReply);
 
-				%>
-<% 
-if(epilogueReply.getSeq() != epilogueReply.getRef()){
+for(int i = 0; i < list.size() ; i++){
+
+	EpilogueDto epilogueReplay = list.get(i);	
+				System.out.println("list.get(i) : " + list.get(i));
+				System.out.println("epilogueReplay : " + epilogueReplay);
 %>
 
 <tr style="line-height: 10px">
-
-	<th style = "align: center"> 
-	<%=epilogueReply.getStep() %>
-	</th>
-	
+	<th align = "center"><%=epilogueReplay.getStep() %></th>
 	<td style="font-size: 12px">
-		<b><font size="2.5px" face="돋움" ><%=epilogueReply.getTitle() %></font></b>
+		<b><font size="2.5px" face="돋움" ><%=epilogueReplay.getTitle() %></font></b>
 		<br> 
-		<%=epilogueReply.getContent() %>
-	</td>	
-
-	<td align = "center"><%=epilogueReply.getId() %></td>
-	<td align = "center" style="font-size: 12px"><%=epilogueReply.getWdate() %></td>
+		<%=epilogueReplay.getContent() %></td>	
+	<td align = "center"><%=epilogueReplay.getReadcount() %></td>
+	<td align = "center"><%=epilogueReplay.getId() %></td>
+	<td align = "center" style="font-size: 12px"><%=epilogueReplay.getWdate() %></td>
 </tr>
 <%
- }
 }
 }
 %>
@@ -204,8 +188,12 @@ if(epilogueReply.getSeq() != epilogueReply.getRef()){
 			location.href = "epilogueupdate.jsp?seq=" + seq;
 		}
 		function deleteEpilogue( seq ) {
-			location.href = "epiloguedelete.jsp?seq=" + seq;		
+			location.href = "epiloguedelete.jsp?seq=" + seq;
 		}
 </script>
 </body>
 </html>
+
+
+
+

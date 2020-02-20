@@ -65,23 +65,21 @@ if(mem == null){
 		<td> 
 			<textarea rows="10" cols="30" id="ir1" name="ir1" style="width:766px; height:412px; "></textarea>
 			<script type="text/javascript">			
-			var oEditors = [];										
+				var oEditors = [];										
 				$(function(){
-						
 				nhn.husky.EZCreator.createInIFrame({
 					oAppRef: oEditors,
 					elPlaceHolder: "ir1",
 					//SmartEditor2Skin.html 파일이 존재하는 경로
 					sSkinURI:"editor/SmartEditor2Skin.html",
-				
+					
 					htParams:{
 						// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
 						bUseToolbar:true,				
 						// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
 						bUseVerticalResizer:true,		
 						// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-						bUseModeChanger:true,	
-						
+						bUseModeChanger:true,			
 						fOnBeforeUnload:function(){							
 						}
 					}, 
@@ -92,7 +90,6 @@ if(mem == null){
 					fCreator:"createSEditor2"
 				});
 				});	
-								
 			</script>											
 		</td>
 	</tr>

@@ -49,9 +49,7 @@ $(function () {
 	
 <tr>
 	<th align="center">제목</th>
-	<td colspan="3">${_epilogue.title }</td>
-	<th align="center">글번호</th>
-	<td align="center">${_epilogue.seq }</td>
+	<td colspan="5">${_epilogue.title }</td>
 </tr>
 
 <tr align="center">

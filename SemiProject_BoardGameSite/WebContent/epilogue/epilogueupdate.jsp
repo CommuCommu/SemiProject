@@ -107,10 +107,7 @@ mem = (MemberDto)ologin;
 <tr>
 	<th align="center">수정할 내용</th>
 	<td align="center"> 
-			<div rows="10" cols="30" id="ir1" name="ir1" style="overflow:scroll; width:700px; height:400px; visibility: visible; 
-				image:visible;" >
-				<%=epilogue.getContent() %>
-			</div>
+			<textarea rows="10" cols="30" id="ir1" name="ir1" style="width:100%; height:412px;" ></textarea>
 			
 			<script type="text/javascript">			
 				var oEditors = [];										

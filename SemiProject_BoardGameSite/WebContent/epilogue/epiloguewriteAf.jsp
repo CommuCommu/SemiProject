@@ -25,24 +25,10 @@ String id = request.getParameter("id");
 String title = request.getParameter("title");
 String content = request.getParameter("ir1");
 
-if(content.equals("<p>&nbsp;</p>")){
-	content="";
-}
-
 System.out.println("id:" + id);
 System.out.println("title:" + title);
 System.out.println("content:" + content);
 
-if(title == null || title == "" || content == "" || content == null){
-%>
-	<script type="text/javascript">
-	alert("제목과 내용을 모두 작성해 주세요");
-	location.href = "epiloguewrite.jsp";
-	</script>
-	<%
-}else{
-%>
-<%
 EpilogueDao dao = EpilogueDao.getInstance();
 
 boolean isS = dao.writeEpilogue(new EpilogueDto(id, title, content));
@@ -63,7 +49,6 @@ if(isS){
 	location.href = "epiloguewrite.jsp";
 	</script>
 	<%
-}
 }
 %>
 </body>
