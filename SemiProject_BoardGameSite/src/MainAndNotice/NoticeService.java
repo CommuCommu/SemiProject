@@ -8,42 +8,49 @@ public class NoticeService {
 	
 	NoticeDAO dao = NoticeDAO.getInstance();
 	
-	// ÀÛ¼º
+	// ï¿½Û¼ï¿½
 	public boolean writeNotice(NoticeDto dto) {
 		return dao.writeNotice(dto);
 	}
 	
-	// ¼öÁ¤
+	// ï¿½ï¿½ï¿½ï¿½
 	public boolean updateNotice(String title, String content, int seq) {
 		return dao.updateNotice(title, content, seq);
 	}
 	
-	// »èÁ¦
+	// ï¿½ï¿½ï¿½ï¿½
 	public boolean deleteNotice(int seq) {
 		return dao.deleteNotice(seq);
 	}
 	
-	// °Ë»öµÈ ¸®½ºÆ®µé °¡Á®¿À±â
-	public List<NoticeDto> getNoticeList(String choice, String searchWord) {
-		return dao.getNoticeList(choice, searchWord);
+//	// ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	public List<NoticeDto> getNoticeList(String choice, String searchWord) {
+//		return dao.getNoticeList(choice, searchWord);
+//	}
+	
+	// ê²€ìƒ‰ê²°ê³¼ ê°œìˆ˜
+	public int getSearchCount(String choice, String searchWord) {
+		return dao.getSearchCount(choice, searchWord);
 	}
 	
-	public int getAllNotice(String choice, String searchWord) {
-		return dao.getAllNotice(choice, searchWord);
-	}
-	
-	// Á¶È¸¼ö
+	// ì¡°íšŒìˆ˜
 	public void viewCount(int seq) {
 		
 	}
 	
-	// ±Û »ó¼¼Á¶È¸
+	// ìƒì„¸ì¡°íšŒ
 	public NoticeDto noticeDetail(int seq) {
 		return dao.noticeDetail(seq);
 	}
 	
+	// í˜ì´ì§• ê¸€ ê°œìˆ˜
+	public List<NoticeDto> getSearchAllList(String choice, String searchWord, int pageNumber) {
+		return dao.getSearchAllList(choice, searchWord, pageNumber);
+	}
 	
-	public List<NoticeDto> getNoticePagingList(String choice, String searchWord, int page) {
-		return dao.getNoticePagingList(choice, searchWord, page);
+	
+	// ê²€ìƒ‰ ìƒê´€ì—†ì´ ëª¨ë“  ê¸€ ì „ë¶€ ë‹¤ ë¶ˆëŸ¬ì˜¤ê¸° (ë‹¨, ì‚­ì œí•œ ê¸€ del = 1 ì€ ì œì™¸í•˜ê³ )
+	public List<NoticeDto> showAllNotice(int pageNumber) {
+		return dao.showAllNotice(pageNumber);
 	}
 }

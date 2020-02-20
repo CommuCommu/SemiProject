@@ -39,7 +39,7 @@ integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9If
         <a class="nav-link" href="./resetvation.jsp">예약</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./epiloguelist.jsp">후기</a>
+        <a class="nav-link" href="./epilogue.jsp">후기</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="./map.jsp">위치</a>

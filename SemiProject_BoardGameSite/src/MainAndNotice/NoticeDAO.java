@@ -130,71 +130,73 @@ public class NoticeDAO {
 	}
 	
 	
+//	
+//	public List<NoticeDto> getNoticeList(String choice, String searchWord) {
+//		
+//		String sql = " SELECT SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL "
+//				+ " FROM BG_NOTICE ";
+//		
+//		String sqlWord = "";
+//		
+//		if(choice.equals("title")) {
+//			sqlWord = " WHERE TITLE LIKE '%" + searchWord.trim() + "%' ";
+//		} else if(choice.equals("writer")) {
+//			sqlWord = " WHERE ID ='" + searchWord.trim() + "'";
+//		} else if(choice.equals("content")) {
+//			sqlWord = " WHERE CONTENT LIKE '%" + searchWord.trim() + "%' ";
+//		}
+//		sql += sqlWord;
+//		
+//		Connection conn = null;
+//		PreparedStatement psmt = null;
+//		ResultSet rs = null;
+//		
+//		List<NoticeDto> list = new ArrayList<NoticeDto>();
+//		
+//		
+//		try {
+//			conn = DBConnection.getConnection();
+//			psmt = conn.prepareStatement(sql);
+//			rs = psmt.executeQuery();
+//			
+//			while(rs.next()) {
+//				int i = 1;
+//				NoticeDto dto = new NoticeDto(rs.getInt(i++), 
+//											  rs.getString(i++), 
+//											  rs.getString(i++), 
+//											  rs.getString(i++), 
+//											  rs.getString(i++), 
+//											  rs.getInt(i++),
+//											  rs.getInt(i++));
+//				list.add(dto);
+//			}
+//			System.out.println("getNoticeList Finally Success");
+//			
+//		} catch (SQLException e) {
+//			System.out.println("getNoticeList Failed");
+//			e.printStackTrace();
+//		} finally {
+//			DBClose.close(psmt, conn, rs);
+//		}
+//		return list;
+//	}
 	
-	// 怨듭� 寃��깋
-	public List<NoticeDto> getNoticeList(String choice, String searchWord) {
+	
+	// 검색한 글의 개수
+	public int getSearchCount(String choice, String searchWord) {
 		
-		String sql = " SELECT SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL "
-				+ " FROM BG_NOTICE ";
+		String sql = " SELECT COUNT(*) "
+				+ " FROM BG_NOTICE "
+				+ " WHERE DEL = 0 ";
 		
 		String sqlWord = "";
 		
 		if(choice.equals("title")) {
-			sqlWord = " WHERE TITLE LIKE '%" + searchWord.trim() + "%' ";
+			sqlWord = " AND TITLE LIKE '%" + searchWord.trim() + "%' ";
 		} else if(choice.equals("writer")) {
-			sqlWord = " WHERE ID ='" + searchWord.trim() + "'";
+			sqlWord = " AND ID = '" + searchWord.trim() + "'";
 		} else if(choice.equals("content")) {
-			sqlWord = " WHERE CONTENT LIKE '%" + searchWord.trim() + "%' ";
-		}
-		sql += sqlWord;
-		
-		Connection conn = null;
-		PreparedStatement psmt = null;
-		ResultSet rs = null;
-		
-		List<NoticeDto> list = new ArrayList<NoticeDto>();
-		
-		
-		try {
-			conn = DBConnection.getConnection();
-			psmt = conn.prepareStatement(sql);
-			rs = psmt.executeQuery();
-			
-			while(rs.next()) {
-				int i = 1;
-				NoticeDto dto = new NoticeDto(rs.getInt(i++), 
-											  rs.getString(i++), 
-											  rs.getString(i++), 
-											  rs.getString(i++), 
-											  rs.getString(i++), 
-											  rs.getInt(i++),
-											  rs.getInt(i++));
-				list.add(dto);
-			}
-			System.out.println("getNoticeList Finally Success");
-			
-		} catch (SQLException e) {
-			System.out.println("getNoticeList Failed");
-			e.printStackTrace();
-		} finally {
-			DBClose.close(psmt, conn, rs);
-		}
-		return list;
-	}
-	
-	
-	public int getAllNotice(String choice, String searchWord) {
-		
-		String sql = " SELECT COUNT(*) FROM BG_NOTICE ";
-		
-		String sqlWord = "";
-		
-		if(choice.equals("title")) {
-			sqlWord = " WHERE TITLE LIKE '%" + searchWord.trim() + "%' ";
-		} else if(choice.equals("writer")) {
-			sqlWord = " WHERE ID = '" + searchWord.trim() + "'";
-		} else if(choice.equals("content")) {
-			sqlWord = " WHERE CONTENT LIKE '%" + searchWord.trim() + "%' ";
+			sqlWord = " AND CONTENT LIKE '%" + searchWord.trim() + "%' ";
 		}
 		
 		sql += sqlWord;
@@ -291,8 +293,8 @@ public class NoticeDAO {
 	}
 	
 	
-	
-	public List<NoticeDto> getNoticePagingList(String choice, String searchWord, int page) {
+	// 검색결과 불러오기
+	public List<NoticeDto> getSearchAllList(String choice, String searchWord, int pageNumber) {
 		
 	String sql = " SELECT SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL "
 			+ " FROM ";
@@ -305,11 +307,11 @@ public class NoticeDAO {
 	String sqlWord = "";
 	
 	if(choice.equals("title")) {
-		sqlWord = " WHERE TITLE LIKE '%" + searchWord.trim() + "%' ";
+		sqlWord = "AND TITLE LIKE '%" + searchWord + "%' ";
 	} else if(choice.equals("writer")) {
-		sqlWord = " WHERE ID='" + searchWord.trim() + "'";
+		sqlWord = " AND ID='" + searchWord + "'";
 	} else if(choice.equals("content")) {
-		sqlWord = " WHERE CONTENT LIKE '%" + searchWord.trim() + "%' ";
+		sqlWord = " AND CONTENT LIKE '%" + searchWord + "%' ";
 	}
 	sql += sqlWord;
 	
@@ -324,8 +326,8 @@ public class NoticeDAO {
 	
 	int start, end;
 	
-	start = 1 + 10 * page;
-	end = 10 + 10 * page;
+	start = 1 + 10 * pageNumber;
+	end = 10 + 10 * pageNumber;
 	
 	try {
 		conn = DBConnection.getConnection();
@@ -362,5 +364,70 @@ public class NoticeDAO {
 	return list;
 	
 		
+	}
+	
+	
+	// 검색 상관없이 모든 글 전부 다 불러오기 (단, 삭제한 글 del = 1 은 제외하고)
+	
+	public List<NoticeDto> showAllNotice(int pageNumber) {
+		
+		String sql = " SELECT SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL "
+				+ " FROM ";
+				
+		sql += "(SELECT ROW_NUMBER()OVER(ORDER BY SEQ DESC) AS RNUM, "
+		   		+ "			SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL "
+		   		+ " FROM BG_NOTICE "
+		   		+ " WHERE DEL = 0 ";
+		   
+		String sqlWord = "";
+		
+		sql += sqlWord;
+		
+		sql += " ORDER BY SEQ DESC )";
+		sql += " WHERE RNUM >= ? AND RNUM <= ? ";
+			
+		ResultSet rs = null;
+		PreparedStatement psmt = null;
+		Connection conn = null;
+		
+		List<NoticeDto> list = new ArrayList<NoticeDto>();
+		
+		int start, end;
+		
+		start = 1 + 10 * pageNumber;
+		end = 10 + 10 * pageNumber;
+		
+		try {
+			conn = DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			
+			
+			psmt.setInt(1, start);
+			psmt.setInt(2, end);
+			
+			
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				NoticeDto dto = new NoticeDto(rs.getInt(1), 
+											  rs.getString(2), 
+											  rs.getString(3), 
+											  rs.getString(4), 
+											  rs.getString(5), 
+											  rs.getInt(6), 
+											  rs.getInt(7));
+				list.add(dto);
+			}
+			
+			System.out.println("showAllNotice Finally Succeed");
+			
+		} catch (SQLException e) {
+			System.out.println("showAllNotice Failed!");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return list;
 	}
 }
