@@ -85,6 +85,7 @@ public class QnaServlet extends HttpServlet {
 			if(allCount % 15 > 0){
 				qnaPage = qnaPage + 1;
 			}
+			System.out.println("qnaPage:" + qnaPage);
 			
 			// 페이지 클릭에 따른 해당 넘버 
 			req.setAttribute("pageNumber", pageNumber);
@@ -145,9 +146,14 @@ public class QnaServlet extends HttpServlet {
 		else if (action.equals("detail")) {
 			int seq = Integer.parseInt(req.getParameter("seq"));
 			int pageNum = Integer.parseInt(req.getParameter("pageNum"));
-			
+			String enter = req.getParameter("enter"); 
+			/* System.out.println("enter : "+ enter); */
+
 			System.out.println("seq : "+seq);
-			System.out.println("pageNumberpageNumberpageNumberpageNumber : "+pageNum);
+			System.out.println("pageNum ★★★ : " + pageNum);
+			
+			
+			
 			
 			QnaService qnaService = new QnaService();
 			// 조회수 호출
@@ -160,8 +166,53 @@ public class QnaServlet extends HttpServlet {
 			req.setAttribute("qnaDto", dto);
 			req.setAttribute("commList", commList);
 			req.setAttribute("pageNum", pageNum);
+			
+			req.setAttribute("enter", enter); 
 			forward("qnaDetail.jsp", req, resp);
 		}
+		// Qna 댓글 처리
+		else if (action.equals("commentAf")) {
+			String commId = req.getParameter("commId");
+			String comment = req.getParameter("comment");
+			int qnaSeq = Integer.parseInt(req.getParameter("seq"));
+			int pageNum = Integer.parseInt(req.getParameter("pageNum")); 
+			String enter = req.getParameter("enter"); 
+			req.setAttribute("enter", enter);
+			
+			System.out.println("==== enter : " + enter);
+			System.out.println("==== commId : " + commId);
+			System.out.println("==== comment : " + comment);
+			System.out.println("==== seq : " + qnaSeq);
+			System.out.println("==== pageNum : " + pageNum);
+						
+			QnaService qnaService = new QnaService();
+			boolean isS = qnaService.setQnaComment(new QnaCommentDto(commId, comment, qnaSeq));
+						
+			
+			// 조회수 호출
+			qnaService.getReadCount(qnaSeq);
+			// 질문글 호출
+			QnaDto dto = qnaService.getQnaDetail(qnaSeq);
+			// 댓글 호출
+			List<QnaCommentDto> commList = qnaService.getComment(qnaSeq);
+			
+			
+			
+			
+			
+			req.setAttribute("qnaDto", dto);
+			req.setAttribute("commList", commList);
+			req.setAttribute("isS", isS);
+			req.setAttribute("pageNum", pageNum); 
+			forward("qnaDetail.jsp", req, resp);
+
+			//resp.sendRedirect("qnaDetail.jsp?isS="+isS);
+			//resp.sendRedirect("qnaCommentAf.jsp?isS="+isS);
+			//req.setAttribute("isS", isS);
+			//forward("qnaCommentAf.jsp", req, resp);
+		} 
+
+		
 		// Qna 수정 페이지
 		else if (action.equals("update")) {
 			int seq = Integer.parseInt(req.getParameter("seq"));
@@ -200,34 +251,7 @@ public class QnaServlet extends HttpServlet {
 			
 			resp.sendRedirect("qnaDelete.jsp?isS="+isS);
 		}
-		// Qna 댓글 처리
-		else if (action.equals("commentAf")) {
-			String commId = req.getParameter("commId");
-			String comment = req.getParameter("comment");
-			int qnaSeq = Integer.parseInt(req.getParameter("seq"));
-			
-			QnaService qnaService = new QnaService();
-			boolean isS = qnaService.setQnaComment(new QnaCommentDto(commId, comment, qnaSeq));
-			//String.valueOf(isS);
-			
-			
-			// 조회수 호출
-			qnaService.getReadCount(qnaSeq);
-			// 질문글 호출
-			QnaDto dto = qnaService.getQnaDetail(qnaSeq);
-			// 댓글 호출
-			List<QnaCommentDto> commList = qnaService.getComment(qnaSeq);
-			
-			req.setAttribute("qnaDto", dto);
-			req.setAttribute("commList", commList);
-			req.setAttribute("isS", isS);
-			forward("qnaDetail.jsp", req, resp);
-
-			//resp.sendRedirect("qnaDetail.jsp?isS="+isS);
-			//resp.sendRedirect("qnaCommentAf.jsp?isS="+isS);
-			//req.setAttribute("isS", isS);
-			//forward("qnaCommentAf.jsp", req, resp);
-		} 
+		
 		// Qna 답변 완료 처리
 		else if (action.equals("answerEnd")) {
 			int qnaSeq = Integer.parseInt(req.getParameter("seq"));

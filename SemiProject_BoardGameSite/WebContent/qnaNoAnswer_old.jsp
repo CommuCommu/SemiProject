@@ -4,19 +4,17 @@
     pageEncoding="UTF-8"%>
 <%
 // 미응답 건 담은 리스트 
-List<QnaDto> list = (List<QnaDto>)request.getAttribute("noAnswerList");
+List<QnaDto> list = (List<QnaDto>)request.getAttribute("list");
 
 /* 페이징 시작 */
 //총 게시글의 갯수
 int pageNumber = (int)request.getAttribute("pageNum");
-System.out.println("관리자페이지에서 pageNumber : " + pageNumber);
+System.out.println("뷰에서의 pageNumber : " + pageNumber);
 //총 게시글의 갯수에 따른 페이지의 갯수
 int allCount = (int)request.getAttribute("allCount");
-System.out.println("allcount : " + allCount);
 
-
-int qnaPage = allCount / 15;	// 예: 22개의 글 -> 3페이지
-if(allCount % 15 > 0){
+int qnaPage = allCount / 5;	// 예: 22개의 글 -> 3페이지
+if(allCount % 5 > 0){
 	qnaPage = qnaPage + 1;
 }
 
@@ -73,9 +71,6 @@ if(allCount % 15 > 0){
           transition: all 0.1s linear;
 }
 
-th {text-align: center;}
-.badge.badge-secondary {display: unset; padding:0.3em 0.8em; vertical-align: bottom;}
-.badge.badge-warning {color:#fff; background-color:#ff7307; display: unset; padding:0.3em 0.8em; vertical-align: bottom;}
 </style>
 </head>
 <body>
@@ -102,8 +97,11 @@ $(function () {
 </div>
 
 <%--페이지 시작. --%>
+<h1>관리자페이지 작업중</h1>
+
+<%--페이지 시작. --%>
 <div class="container">
-<br><p class="subject">관리자 | 미응답 질문</p>
+<br><p class="subject">미응답 Q & A 관리</p>
 </div>
 
 
@@ -112,9 +110,9 @@ $(function () {
 
 <div align="center">
 <table border="1">
-<col width="50"><col width="100"><col width="300"><col width="100"><col width="100"><col width="150">
+<col width="50"><col width="600"><col width="60"><col width="100"><col width="150"><col width="100">
 <tr>
-   <th>번호</th><th>글 구분</th><th>제목</th><th>글쓴이</th><th>진행</th><th>작성일</th>
+   <th>번호</th><th>제목</th><th>글쓴이</th><th>진행</th><th>작성일</th><th>글 구분</th>
 </tr>
 
 <% if(list == null || list.size() == 0){ %>
@@ -124,30 +122,22 @@ $(function () {
 <% } else {
 	for(int i = 0;i < list.size(); i++){
 		QnaDto dto = list.get(i);
-	%>
+%>
 	<tr>
-		<th><%=dto.getSeq() %></th>
-		
-		<%-- 글 구분 --%>
-		<% if(dto.getIs_secret() == 0) { %>
-			<td align="center">공개</td>
-		<% } else { %>
-			<td align="center">비공개</td>
-		<% } %>
-		
-		
+		<th><%=i+1 %></th>
 	<% if(dto.getDel() == 0) { %>	
 			<td>
 			
-				<!-- style="text-decoration:none" -->
-				<a href='#' onclick="goDetail(<%=dto.getSeq() %>, <%=pageNumber%>)" ><%=dto.getTitle() %></a>
-				
+				<%-- <a href="qnadetail?seq=<%=dto.getSeq() %>"><%=dto.getTitle() %></a> --%>
+				<%-- <a href="qnaServlet?action=detail&seq=<%=dto.getSeq() %>"><%=dto.getTitle() %></a> --%>
+				<%-- <a href='javascript:void(0);' onclick="userChek(<%=dto.getIs_secret() %>, '<%=dto.getId() %>')"><%=dto.getTitle() %></a> --%>
+				<a href='#' onclick="goDetail(<%=dto.getSeq() %>)" style="text-decoration:none">
+				<%=dto.getTitle() %>
 				
 			</td>		 
 	<% } else { %>
 		 	<td>
-		 		<a href='#' onclick="goDetail(<%=dto.getSeq() %>, <%=pageNumber%>)" ><%=dto.getTitle() %><font color="#ff0000"> (삭제 된 글)</font></a>
-		 		
+		 		<font color="#ff0000">이 글은 작성자에 의해서 삭제되었습니다</font>
 		 	</td> 
 	<% } %>	
 		 
@@ -155,53 +145,52 @@ $(function () {
 		<td align="center"><%=dto.getId() %></td>
 		
 		<%-- 답변상태 --%>
-		<% if(dto.getIs_answer() == 0) {
-				if(dto.getId().equals("aa") || dto.getId().equals("admin")) { %>
-					<td align="center"><h6><span class="badge badge-warning">공지 글</span></h6></td>
-				
-				<%} else {%>
-				<td align="center"><h6><span class="badge badge-secondary">답변대기</span></h6></td>		
-				<% } 
-			}%>
+		<% if(dto.getIs_answer() == 0) { %>
+			<td align="center">답변대기☆</td>
+		<% } else { %>
+			<td align="center">답변완료★</td>
+		<% } %>
 		
 		<%-- 작성일 --%>
 		<%-- <td align="center"><%=dto.getWdate().substring(0,10) %></td> --%>
 			
 		<td align="center"><%=dto.getWdate().substring(0,16) %></td>
 		
-		
+		<%-- 글 구분 --%>
+		<% if(dto.getIs_secret() == 0) { %>
+			<td align="center">공개</td>
+		<% } else { %>
+			<td align="center">비공개</td>
+		<% } %>
 
 	</tr>
 	<%
 	} // list의 for문 끝
 }
-
 %>
 </table>
 <!-- <input type="button" onclick="location.href='qnaWrite?action=write'" value="등록하기"> -->
 
 
 <%-- 페이징에 대한 뷰 처리 --%>
-<ul class="pagination justify-content-center" style="margin:20px 0">
-<% for(int i = 0;i < qnaPage; i++) {		// [1] 2 [3]
-	if(pageNumber == i) { // 현재 페이지	%>			
-		<li class="page-item active">
-			<a class="page-link" href="#">
-				<%=i + 1 %>
-			</a>
-		</li>
-		
-<%	 } else {	// 그 외의 페이지 	%>
-		<li class="page-item">
-			<a class="page-link" href="#none" title="<%=i+1 %>페이지" onclick="goPage(<%=i %>)">
-				<%=i + 1 %>
-			</a>
-		</li>
-<%		
+<%
+for(int i = 0;i < qnaPage; i++){		// [1] 2 [3]
+	if(pageNumber == i){	// 현재 페이지		
+		%>
+		<span style="font-size: 15pt; color: #0000ff; font-weight: bold;">
+			<%=i + 1 %>
+		</span>&nbsp;
+		<%
+	}else{	// 그 외의 페이지
+		%>
+		<a href="#none" title="<%=i+1 %>페이지" onclick="goPage(<%=i %>)"
+			style="font-size: 13pt; color: #000; font-weight: bold; text-decoration: none">
+			[<%=i + 1 %>]
+		</a>&nbsp;
+		<%		
 	}
 }
 %>
-</ul>
 </div>
 
 <script type="text/javascript">
@@ -224,16 +213,31 @@ $(window).resize(function (){
 
 
 //detail로 가기 
-function goDetail( seq, pageNum ) {
-	alert("관리자 pageNum" + pageNum);
-	location.href = "qnaServlet?action=detail&seq="+seq+"&pageNum="+pageNum;
+function goDetail( seq) {
+
+	location.href = "qnaServlet?action=detail&seq="+seq;
 }
 
 // 사용자가 보고 있는 페이지 이외의 이동
 function goPage( pageNum ) {
-    location.href = "auth?command=noAnswer&pageNum="+pageNum;
+    location.herf = "auth?command='noAnswer'&pageNum="+pageNum;
 }
 
+
+function searchQna() {
+
+	var choice = document.getElementById("choice").value;
+	var word = $("#search").val();
+	//alert(choice);
+	//alert(word);
+ 
+	if(word == ""){
+		document.getElementById("choice").value = 'sel';
+	}
+	
+	location.href = "qnaServlet?action=list&searchWord=" + word + "&choice=" + choice;
+	
+}
 </script>
 </body>
 </html>

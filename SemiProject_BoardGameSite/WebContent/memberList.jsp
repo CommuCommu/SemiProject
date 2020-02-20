@@ -22,6 +22,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+<link rel="stylesheet" href="css/bootstrap.css">
+
 <style type="text/css">
 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,900);  
 #sidebox { background-color:rgba(0,0,75,.4); 
@@ -90,27 +96,56 @@ $(function () {
 </div>
 
 <%--페이지 시작. --%>
-<div align = "center">
-<h1>회원 정보</h1>
+<div class="container">
+<br><p class="subject">관리자 | 회원 정보</p>
+</div>
+
+
+
+
+
+
+<!-- 메인 페이지 -->
+<div align = "center" class="container" style="max-width: 900px">
+
 <input type="hidden" id="pItem" value='<%=pItem %>'>
 <input type="hidden" id="pSort" value='<%=pSort %>'>
 
 
-<table>
-	<col width="150"><col width="150"><col width="200"><col width="100">
+<table class="table">
+	<!-- <col width="100"><col width="100"><col width="100"><col width="100"><col width="100"><col width="100"> -->
+	<thead class="thead-dark">
 	<tr>
-		<th>User ID</th><th>Name</th><th>Email</th><th>Group</th><th>Join Date</th><th>Detail</th>
+		<!-- 정렬메뉴 상단 이동 CSS 포함-->
+		<td colspan="6" align="left">
+		
+			<select id="sort" class="serchSelect" style="vertical-align: bottom;">
+					<option value="choice">정렬</option>
+					<option value="name">이름</option>
+					<option value="rdate">가입일</option>	
+			</select>
+		<div class="btn-group">
+			<button onclick="sortAsc()"  class="btn btn-outline-info">오름차순</button>
+			<button onclick="sortDesc()" class="btn btn-outline-info">내림차순</button>
+		</div>
+		</td>
 	</tr>
-	<hr>
-	<% 
-
+	
+	
+	<tr>
+		<th>User ID</th><th>Name</th><th>E-mail</th><th>Group</th><th>Join Date</th><th>Detail</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	<% 	
 	for (int i = 0; i < list.size(); i++) {
 		MemberDto mem = list.get(i);
 
 		if (mem.getDel() != 1) {
 			if(mem.getAuth() == 1){
 	%>
-	<tr style="background-color: #8ba6e4">
+	<tr style="background-color: #ffe596">
 		<%
 			}else{
 		%>
@@ -118,7 +153,7 @@ $(function () {
 		<%
 			}
 		%>	
-		<td><%= mem.getId()%></td>
+		<th scope="row" align="center"><%= mem.getId()%></th>
 		<td><%=mem.getName() %></td>
 		<td><%=mem.getEmail() %></td>
 		<td><%if (mem.getAuth() == 1 ){ %> 관리자 
@@ -126,12 +161,15 @@ $(function () {
 		<td><%=mem.getRegdate().substring(0, 10) %></td>	
 		<td><a href="auth?command=getMemDetail&page=0&id=<%=mem.getId() %>">상세보기</a>	
 	</tr>
+	</tbody>
 <%
 		}
 	}	
 %>
 </table>
-
+ 
+<!-- css 추가 전 -->
+<%--
 	<div align="center">
 		<%
 			for (int i = 0; i < memPage; i++) { // [1][2[3]]
@@ -151,25 +189,42 @@ $(function () {
 		}
 		%>
 	</div>
-	
-	<div>
-		<select id="sort">
-				<option value="choice">정렬</option>
-				<option value="name">이름</option>
-				<option value="rdate">가입일</option>	
-		</select>
-		<button onclick="sortAsc()">오름차순</button>
-		<button onclick="sortDesc()">내림차순</button>
-		<span>&nbsp;</span>
-		<select id="item">
-				<option value="choice">선택</option>
-				<option value="id">아이디</option>
-				<option value="name">이름</option>
-		</select>
-		<input type="text" id="searchWord" placeholder="검색어를 입력해주세요">
-		<button type="button" onclick="search()">검색</button>
-	</div>
- </div>
+ --%>
+
+
+<!-- 페이징 css 추가 -->
+<ul class="pagination justify-content-center" style="margin:20px 0">
+<% for(int i = 0;i < memPage; i++) {		// [1] 2 [3]
+	if(pageNum == i) { // 현재 페이지	%>			
+		<li class="page-item active">
+			<a class="page-link" href="#">
+				<%=i + 1 %>
+			</a>
+		</li>
+		
+<%	 } else {	// 그 외의 페이지 	%>
+		<li class="page-item">
+			<a class="page-link" href="#" title="<%=i+1 %>페이지" onclick="goPage(<%=i %>)">
+				<%=i + 1 %>
+			</a>
+		</li>
+<%		
+	}
+}
+%>
+</ul>	
+
+<div>
+	<select id="item" class="serchSelect">
+			<option value="choice">선택</option>
+			<option value="id">아이디</option>
+			<option value="name">이름</option>
+	</select>
+	<input type="text" id="searchWord" placeholder="검색어를 입력해주세요" class="serchText" >
+	<button type="button" onclick="search()" class="btn btn-outline-dark" style="vertical-align: bottom;">검색</button>
+</div>
+
+</div>
 	
 
 <script type="text/javascript">

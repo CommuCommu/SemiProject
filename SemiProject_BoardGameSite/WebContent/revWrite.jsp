@@ -48,8 +48,7 @@
 
 <style type="text/css">
 td {text-align: center;width: 70px}
-
-
+.serchSelect {padding: 0rem 0.5rem}
 
 
 
@@ -96,14 +95,6 @@ $(function () {
 
 
 
-<%--
-	1. 이용할 테이블 선택
-	2. 테이블에 대한 예약 시간표를 출력 및 몇시부터 몇시까지 이용할건지 선택
-	3. 선택 후에 확인을 누르면 예약이 완료되고 예약 리스트에 올라가야함.
-	4. 한 아이디로 중복 예약은 불가능함.
-	5. 예약에 길이는 최대 4시간으로 할까? 고민좀 해보자.
-
- --%>
 
 <form action="RevWriteServlet" id="revForm">
 	<div>
@@ -187,7 +178,7 @@ $("#tableSelect").on("change", function () {	//테이블 선택 변경
 	        	$("#sf").append('<table border="1" id="revTable" class="table table-bordered">');
 	        	
 	            $("#revTable").append('<tr>');
-	            for(var i = 0; i < (revCheck.length + 1); i++) {
+	            for(var i = 0; i < (revCheck.length /*+ 1 */); i++) {
 	           		$("#revTable").append('<td><b>' + (9 + i) + '</b></td>');
 	            }
 	            $("#revTable").append('</tr>');
@@ -202,7 +193,7 @@ $("#tableSelect").on("change", function () {	//테이블 선택 변경
 	            		$("#revTable").append('<td>' + "<span class='badge badge-secondary'> 예약불가 </span>" + '</th>');
 	            	}
 	            }
-	            $("#revTable").append('<td>' + '</th>');
+	            /* $("#revTable").append('<td>' + '</td>'); */
 	            $("#revTable").append('</tr>');
 
 	            
@@ -246,8 +237,9 @@ $("#tableSelect").on("change", function () {	//테이블 선택 변경
 		        	$("#sf").append('</select>');
 	        	
 	        	}else {
-		        	$("#sf").append('<br><br>');
-		        	$("#sf").append('<b>현재 이 테이블은 예약이 전부 차있습니다. 다른 테이블을 이용하시거나, 다른 날짜를 이용해주세요.</b><br><br>');
+		        	/* $("#sf").append('<br><br>'); */
+		        	$("#sf").append('<span class="badge badge-warning" style="font-size:15px">이 테이블은 모든 예약이 마감되었습니다. 다른 테이블을 이용하시거나, 다른 날짜를 이용해주세요.</span>');
+		        	/* $("#sf").append('<b>현재 이 테이블은 예약이 전부 차있습니다. 다른 테이블을 이용하시거나, 다른 날짜를 이용해주세요.</b><br><br>'); */
 	        	}
 	             
 	
@@ -310,18 +302,19 @@ $(document).on("change", "#endTime", function () {
 		$("#sf").append('<div id="third">');
 			$("#third").append('<br><br>');
 	
-			$("#third").append('<span style="font-size:14pt; font-weight: bold;">3. 예약과 함께 남길 메모를 작성해주세요.</span><br><br>');
+			$("#third").append('<span style="font-size:14pt; font-weight: bold;">3. 예약과 함께 남길 메모를 작성해주세요.</span><br>');
 			
-			$("#third").append('예약자 이름 : <%=mem.getName() %>');
+			$("#third").append('<b> ◎ 예약자 이름 : <%=mem.getName() %></b>');
 			$("#third").append('<br>');
-			$("#third").append('예약일 : <%=year %>년 <%=month %>월 <%=day %>일 ');
+			$("#third").append('<b> ◎ 예약일 : <%=year %>년 <%=month %>월 <%=day %>일 </b>');
 			$("#third").append('<br>');
-			$("#third").append('예약시간 : ' + (st+9) + '시 ~ ' + (et+9) + '시');
+			$("#third").append('<b> ◎ 예약시간 : ' + (st+9) + '시 ~ ' + (et+9) + '시</b>');
 			$("#third").append('<br>');
-			$("#third").append('메모 : <input type="text" value="여기에 메모를 남겨주세요" id="memo" name="memo" class="serchText">');
-			$("#third").append('<br><br>');
+			$("#third").append('◎ 남길 말 : <input type="text" class="serchText" placeholder="이곳에 메모를 남겨주세요" id="memo" name="memo" class="serchText" style="margin-right:5px">');
+			/* $("#third").append('<br>');	 */		
+			$("#third").append('<button type="button" id="revGo" class="btn btn-success" style="vertical-align:top">예약완료</button>');
+			$("#third").append('<br><br><br>');
 			
-			$("#third").append('<button id="revGo">예약하기</button>');
 			
 			$("#third").append('<input type="hidden" name="year" value="<%=year%>">');
 			$("#third").append('<input type="hidden" name="month" value="<%=month%>">');

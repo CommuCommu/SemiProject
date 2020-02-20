@@ -55,13 +55,13 @@ if(searchWord == null){
 <script type="text/javascript">
 $(function () {
 	$("#gnb").load("./GNB/gnb.jsp");
+
 })
 </script>
 
 
 
 <style type="text/css">
-
 
 table.type02 {
     border-collapse: separate;
@@ -94,7 +94,6 @@ table.type02 td {
     border-bottom: 0.1px solid #ccc;
 }
 
-
 </style>
 
 </head>
@@ -115,6 +114,7 @@ table.type02 td {
 	}
 	mem = (MemberDto)ologin;
 %>	
+
 
 <script type="text/javascript">
 $(document).ready(function () {
@@ -184,9 +184,11 @@ if(len % 10 > 0){
 
 <thead align="center">
 
+
 <tr>
    <th>번호</th><th style="font-size: 9pt">Image</th><th>제목</th><th>댓글수</th><th>조회수</th><th>작성자</th><th>등록일</th>
 </tr>
+
 
 </thead>
 
@@ -264,6 +266,7 @@ for(int i = 0;i < list.size(); i++){
    <%
    }
   
+
 }
 %>
 
@@ -398,6 +401,7 @@ for(int i = 0;i < epiloguePage; i++){
 <input type="text" id="search" value="" class="searchText" placeholder="검색어를 입력해주세요 " size="40px">
 <button type="button" onclick="searchEpilogue()" class="btn btn-outline-dark" style="vertical-align: bottom;">검색</button>
 </div> <%-- 검색창 끝 --%>
+
 
 <br><br><br>
 <script type="text/javascript">

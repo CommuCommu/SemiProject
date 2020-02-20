@@ -45,7 +45,7 @@ $(function () {
 
 <%--페이지 시작. --%>
 <div align="center" class="container">
-	<br><p class="subject">My information</p>
+	<br><p class="subject">회원 관리</p>
 
 <table>
 <col width="140"><col width="300">
@@ -63,11 +63,11 @@ $(function () {
 	</tr>
 	<tr>
 		<th>이메일:</th> 
-		<td><input type="text" name="email" readonly="readonly" value='<%=email %>'> </td>
+		<td><input type="text" name="email" readonly="readonly" value='<%=email %>' class="form-control"> </td>
 	</tr>
 	<tr>
 		<th>포인트: </th> 
-	<td><input type="text" name="email" readonly="readonly" value='<%=credit %>'> 포인트</td>
+	<td><input type="text" name="email" readonly="readonly" value='<%=credit %> 점' class="form-control"></td>
 	</tr>
 <%--	
 =======
@@ -82,14 +82,16 @@ $(function () {
 			<!-- <a href="personalInfo?command=myReserv"><button type="button">내 예약</button></a> -->
 			<!-- <a href="login?command=logout"><button type="button">로그아웃</button></a> -->
 			<button type="button" onclick="location.href='personalInfo?command=memcheck'" class="btn btn-primary">수정</button>
-			<button type="button" onclick="location.href='personalInfo?command=myReserv'" class="btn btn-primary">내 예약</button>
+			<button type="button" onclick="location.href='myReserv?command=myReserv&id=<%=id %>&sort=asc&page=0'" class="btn btn-primary">내 예약</button>
 			<button type="button" onclick="location.href='login?command=logout'" class="btn btn-primary">로그아웃</button>
 		</div>
 		</td>
 	</tr>
 </table>
-<a href="myReserv?command=myReserv&id=<%=id %>&sort=asc&page=0"><button type="button">내 예약</button></a>
-<a href="login?command=logout"><button type="button">로그아웃</button></a>
+
+<!-- 기존 버튼에 추가 삭제 예정 -->
+<%-- <a href="myReserv?command=myReserv&id=<%=id %>&sort=asc&page=0"><button type="button">내 예약</button></a>
+<a href="login?command=logout"><button type="button">로그아웃</button></a> --%>
 
 </div>
 

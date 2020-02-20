@@ -36,6 +36,12 @@ public class QnaCommentServlet extends HttpServlet {
 		if(action.equals("commDelete")) {
 			int commSeq = Integer.parseInt(req.getParameter("commSeq"));
 			int qnaSeq = Integer.parseInt(req.getParameter("qnaSeq"));
+			int pageNum = Integer.parseInt(req.getParameter("pageNum"));
+			String enter = req.getParameter("enter"); 
+			req.setAttribute("enter", enter);
+			
+			
+			
 			System.out.println("comm서블릿의 commSeq : " + commSeq);
 			System.out.println("comm서블릿의 qnaSeq : " + qnaSeq);
 			
@@ -51,6 +57,9 @@ public class QnaCommentServlet extends HttpServlet {
 			// 댓글 호출
 			List<QnaCommentDto> commList = qnaService.getComment(qnaSeq);
 			
+			
+			
+			req.setAttribute("pageNum", pageNum);
 			req.setAttribute("qnaDto", dto);
 			req.setAttribute("commList", commList);
 			req.setAttribute("commDeleteisS", commDeleteisS);

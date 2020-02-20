@@ -89,7 +89,7 @@ $(function () {
 
 
 <%-- =============== QnA 작성 시작 =============== --%>
-<div align="center" class="container" style="max-width: 850px">
+<div align="center" class="container" style="max-width: 800px">
 <form id="writeForm" action="qnaServlet?action=writeAf" method="post">
 <!-- <form id="writeForm" method="post"> --> 
 	<table>
@@ -117,7 +117,7 @@ $(function () {
 	<tr>
 		<th>제목</th>
 		<td>
-			<input type="text" class="form-control" id="title" name="title" size="50px" maxlength="50" placeholder="제목 (최대 50자)" title="hhh" required>
+			<input type="text" class="form-control" id="title" name="title" size="50px" maxlength="50" placeholder="제목 (최대 50자)" required>
 		</td>
 	</tr>
 	<tr>
@@ -129,11 +129,12 @@ $(function () {
 	<tr>
 		<th>옵션</th>
 		<td>
-			<div class="form-check-inline">
-			  <label class="form-check-label">
-			    <input type="checkbox" class="form-check-input" id="secretChk" > 비밀글
+			<div class="custom-control custom-checkbox">
+			  
+			    <input type="checkbox" class="custom-control-input" id="secretChk" > 
 				<input type="hidden" id="secret" name="secret" value="0">
-			  </label>
+				<label class="custom-control-label" for="secretChk">비밀글</label>
+			 
 			</div>
 		</td>
 	</tr>
