@@ -63,7 +63,7 @@ public String showPen(int year, int month, int day){
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 

@@ -63,7 +63,7 @@ public String showPen(int year, int month, int day){
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
 <!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
@@ -72,7 +72,7 @@ public String showPen(int year, int month, int day){
 <style type="text/css">
 /* tr {height: 80%} */
 th {text-align: -webkit-center}
-img {vertical-align: unset}
+img {vertical-align: baseline}
 </style>
 
 
@@ -181,11 +181,11 @@ System.out.println("------------------------------");
 										//%s,		 %d, 	%d 
 // <	month--
 String p = String.format("<a href='%s?year=%d&month=%d'>"
-							+ "<img src='./image/reservP.png' width='30px' height='30px'>" +
+							+ "<img src='./image/reservP.png' width='30px' height='30px' style='vertical-align: baseline'>" +
 						  "</a>", "reservation.jsp", year, month-1);
 // >	month++
 String n = String.format("<a href='%s?year=%d&month=%d'>"
-							+ "<img src='./image/reservN.png' width='30px' height='30px'>" +
+							+ "<img src='./image/reservN.png' width='30px' height='30px' style='vertical-align: baseline'>" +
 						  "</a>", "reservation.jsp", year, month+1);
 // >>	year++
 /* String nn = String.format("<a href='%s?year=%d&month=%d'>"
@@ -301,6 +301,34 @@ for(int i = 0 ; i < 7 - weekday; i++){
 </div>
 
 <br><br><br>
+
+<footer id="ft">
+	<div id="footer"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#footer").load("./GNB/footer.jsp");
+	})
+	</script>
+</footer>
+
+
+
+<script type="text/javascript">
+$(document).ready(function () {
+	var height_size = $(document).height();
+	var h2_size = window.outerHeight - 200;
+	
+	if (height_size <= h2_size) {
+		$("#ft").attr('style', 'top: 940px; position: absolute; width: 100%')
+	}else {
+		
+	}
+	//alert(height_size);
+	//alert(h2_size);
+	
+	
+});
+</script>
 
 </body>
 </html>

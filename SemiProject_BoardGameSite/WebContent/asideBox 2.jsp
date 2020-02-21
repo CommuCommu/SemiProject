@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 
 <style type="text/css">
 	#sidebox { background-color:#22eeee; position:absolute; width:12%; top:280px; left:85%; padding: 3px 10px;}

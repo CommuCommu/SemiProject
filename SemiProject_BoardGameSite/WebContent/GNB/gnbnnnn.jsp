@@ -209,7 +209,7 @@ a {
       <a class="et-hero-tab" href="reservation.jsp">RESERVATION</a>
       <a class="et-hero-tab" href="epiloguelist.jsp">EPILOGUE</a>
       <a class="et-hero-tab" href="qnaServlet?action=list">Q&A</a>
-      <a class="et-hero-tab" href="mapEx.jsp">DIRECTION</a>
+      <a class="et-hero-tab" href="map.jsp">DIRECTION</a>
       <span class="et-hero-tab-slider"></span>
     </div>
   </section>

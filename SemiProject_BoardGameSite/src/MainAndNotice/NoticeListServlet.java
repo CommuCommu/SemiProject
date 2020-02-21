@@ -81,17 +81,14 @@ public class NoticeListServlet extends HttpServlet {
 		} else if (command.equals("page")) {
 			
 			int pageNumber = Integer.parseInt(req.getParameter("pageNumber"));
-			String choice = req.getParameter("choice");
-			String searchWord = req.getParameter("searchWord");
 			
 			System.out.println("페이징 pageNumber = " + pageNumber);
 			
 			List<NoticeDto> allNoticeList = service.showAllNotice(pageNumber);
-			int length = service.getSearchCount(choice, searchWord);
+			int length = service.getAllcount();
 			
 			req.setAttribute("pageNumber", pageNumber);
-			req.setAttribute("choice", choice);
-			req.setAttribute("searchWord", searchWord);
+			req.setAttribute("allNoticeList", allNoticeList);
 			req.setAttribute("length", length);
 			
 			RequestDispatcher dispatcher = req.getRequestDispatcher("notice.jsp");

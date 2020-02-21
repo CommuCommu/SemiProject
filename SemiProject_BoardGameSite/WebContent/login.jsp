@@ -1,4 +1,5 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@page import="dto.MemberDto"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 
@@ -10,7 +11,7 @@ String loginFail = request.getParameter("loginFail");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>로그인 페이지</title>
+<title>Bit Board Game</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
 <!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
@@ -27,7 +28,28 @@ String loginFail = request.getParameter("loginFail");
 
 </style>
 </head>
-<body>
+<body onkeydown="javascript:onEnterLogin();">
+
+<%--	//계정 검증
+	Object oLogin = session.getAttribute("login");
+	MemberDto mem = null;
+	if(oLogin == null) {
+--%>
+
+<%--
+	}else {
+--%>	
+
+<%-- 
+		<script type="text/javascript">	// TODO 나중에 서블릿으로 교체할 것.
+			alert("잘못된 접근입니다. 메인페이지로 이동합니다.");
+			location.href = "main.jsp"	
+		</script> 
+--%>
+<%--					
+	}
+--%>	
+
 
 <%-- GNB --%>
 <div id="gnb"></div>
@@ -39,6 +61,9 @@ $(function () {
 </script>
 
 
+
+
+<br><br>
 
 <%--페이지 시작. --%>
 <div align="center" class="container">
@@ -52,7 +77,11 @@ $(function () {
 
 	<div><!-- 아이디:  --><input type="text" id="_id" name="id" placeholder="아이디를 입력해주세요" class="form-control" style="width: 380px; margin-bottom: 10px"></div>
 	<div><!-- 비밀번호:  --><input type="password" id="_pw" name="pw" placeholder="비밀번호를 입력해주세요" class="form-control" style="width: 380px; margin-bottom: 15px"></div>
-	<div><input type="checkbox" id="saveId">아이디 저장</div>
+	<div class="custom-control custom-checkbox" style="line-height: normal">
+      <!-- <input type="checkbox" id="saveId">아이디 저장 -->
+      <input type="checkbox" class="custom-control-input" id="saveId">
+       <label class="custom-control-label" for="saveId" style="font-weight:bold">아이디 저장</label>
+   </div>
 	<div>
 		<input type="button" id="_submit" class="btn btn-danger" style="width: 380px;vertical-align: middle;" value="로그인">
 	</div>
@@ -89,6 +118,18 @@ $(function () {
 </form>
 </div>
 --%>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<footer>
+	<div id="footer"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#footer").load("./GNB/footer.jsp");
+	})
+	</script>
+</footer>
+
 
 
 <script type="text/javascript">

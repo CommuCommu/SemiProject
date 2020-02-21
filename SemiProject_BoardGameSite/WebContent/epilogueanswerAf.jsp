@@ -30,7 +30,7 @@ if(title == null || title == "" || content == "" || content == null){
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
-<title>epilogue answer Af</title>
+<title>Bit Board Game</title>
 </head>
 <body>
 <%

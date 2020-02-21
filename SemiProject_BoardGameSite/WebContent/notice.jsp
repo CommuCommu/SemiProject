@@ -6,15 +6,15 @@
     pageEncoding="UTF-8"%>
     
     <% 
-    request.setCharacterEncoding("utf-8");
- 	response.setCharacterEncoding("utf-8");
+    request.setCharacterEncoding("UTF-8");
+ 	response.setCharacterEncoding("UTF-8");
     %>
     	
     	
     <%
     // 검색
-    String searchWord = request.getParameter("searchWord");
-    String choice = request.getParameter("choice");
+    String choice = (String)request.getAttribute("choice");
+    String searchWord = (String)request.getAttribute("searchWord");
     
     // sel 을 지정하는 이유는, 검색옵션을 제목이나 작성자가 아닌 select 를 선택했을 경우에
     // 아무것도 수행하지 않게 하기 위해서이다.
@@ -36,7 +36,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
@@ -107,6 +107,9 @@ $(document).ready(function () {
 <%
 // paging list unpacking
 
+
+List<NoticeDto> list = (List<NoticeDto>)request.getAttribute("allNoticeList");
+
 String sPageNumber = request.getParameter("pageNumber");
 int pageNumber = 0;
 if(sPageNumber != null && !sPageNumber.equals("")) {
@@ -115,9 +118,7 @@ if(sPageNumber != null && !sPageNumber.equals("")) {
 
 NoticeDAO dao = NoticeDAO.getInstance();
 
-List<NoticeDto> list = dao.getSearchAllList(choice, searchWord, pageNumber);
-
-int length = dao.getSearchCount(choice, searchWord);
+int length = (int)request.getAttribute("length");
 System.out.println("총 글의 개수는 = " + length);
 
 int noticePage = length / 10;
@@ -143,7 +144,7 @@ if(length % 10 > 0) {
 				<th scope="col" style = "text-align:center"> 작성일 </th>
 				<th scope="col" style = "text-align:center"> 조회수 </th> 
 				-->
-				<th>No</th><th>제목</th><th>작성자</th><th>작성일</th><th>조회수</th>
+				<th></th><th>제목</th><th>작성자</th><th>작성일</th><th>조회수</th>
 			</tr>
 		</thead>
 		
@@ -167,12 +168,13 @@ if(length % 10 > 0) {
 		%>
 		
 		<tr>
-			<th style="text-align:center"> <%=(pageNumber * 10) + i + 1 %> </th>
+		<td align="center"><img src="./image/qnaNotice2.png" width="21"></td>
+			<%-- <th style="text-align:center"> <%=(pageNumber * 10) + i + 1 %> </th> --%>
 			<td style = "text-align:center">
 				<%
 					if(dto.getDel() == 0) {
 				%>
-				<a href = "noticeDetail?seq=<%=dto.getSeq() %>"> <%=dto.getTitle() %></a>
+				<a href = "noticeDetail?command=detail&seq=<%=dto.getSeq() %>"> <%=dto.getTitle() %></a>
 				<%
 					} else {
 				%> <font color = "#ff0000"> 이 글은 삭제된 글입니다. </font> <%
@@ -214,8 +216,6 @@ if(length % 10 > 0) {
 		</div>
 	
 		
-		<!-- <a href = "noticeWrite?command=write"> <button type = "button"> 글쓰기 </button></a> -->
-		
 		<%
 			}
 		%>
@@ -223,27 +223,6 @@ if(length % 10 > 0) {
 		<%
 		}
 		%>
-	 
-	 
-	 
-	<%-- 	<%
-		if(mem.getAuth() == 1) {
-		%>
-			<a href = "noticeWrite?command=write"> <button type = "button"> 글쓰기 </button> </a>
-			
-			< ========== 글쓰기 쓰실때 아래 참고하셔서 사용하시면 부트스트랩 적용됩니다 :) -우철- ========== >
-			<div align="right">
-				<input type="button" class="btn btn-outline-danger" onclick="location.href='noticeWrite?command=write'" value="글쓰기">
-			</div>
-			
-		<%
-		}
-		%>
-	 --%>
-	
-	
-
-
 
 	<%-- 페이징에 대한 뷰 처리 --%>
 	<ul class="pagination justify-content-center" style="margin:20px 0">
@@ -260,7 +239,7 @@ if(length % 10 > 0) {
 	
 	<li class="page-item">
 		<a class="page-link" href="#">
-			<%=i + 1 %>
+			<b><%=i + 1 %></b>
 		</a>
 	</li>
 		
@@ -295,13 +274,13 @@ if(length % 10 > 0) {
 	<!-- 검색기능 -->
 	<div align = "center">
 	
-	<select id = "choice" class="searchSelect">
+	<select id = "choice" class="serchSelect">
 		<option value = "sel"> 선택 </option>
 		<option value = "title"> 제목 </option>
 		<option value = "writer"> 작성자 </option>
 		<option value = "content"> 내용 </option>
 	</select>
-	<input type = "text" id = "search" value = "" class="searchText" placeholder="검색어를 입력해주세요 " size="40px">
+	<input type = "text" id = "search" value = "" class="serchText" placeholder="검색어를 입력해주세요 " size="40px">
 	
 	<!-- 검색버튼을 누르면 검색 메소드 searchNotice() 호출 -->
 	<button type = "button" onclick = "searchNotice()" 
@@ -339,7 +318,7 @@ function searchNotice() {
 	}
 	
 	// NoticeListServlet 에 command = search, 검색어 searchWord = word, 검색항목 choice 를 보낸다.
-	location.href = "noticeList?command=search&searchWord=" + word + "&choice=" + choice;
+	location.href = "noticeList?command=search&pageNumber=0&searchWord=" + word + "&choice=" + choice;
 }
 
 
@@ -356,8 +335,8 @@ function goPage( pageNum ) {
 		linkStr = linkStr + "&searchWord=" + word + "&choice=" + choice;
 	}
 	// null 인지 확인
-	alert(choice);
-	alert(word);
+//	alert(choice);
+//	alert(word);
 	location.href = linkStr;
 }
 
@@ -366,6 +345,17 @@ function goPage( pageNum ) {
 
 
 </script>
+
+<br><br><Br>
+
+<footer>
+	<div id="footer"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#footer").load("./GNB/footer.jsp");
+	})
+	</script>
+</footer>
 
 </body>
 </html>

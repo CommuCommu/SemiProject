@@ -25,7 +25,7 @@ if(allCount % 5 > 0){
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
 <!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
@@ -33,7 +33,7 @@ if(allCount % 5 > 0){
 
 
 <style type="text/css">
-@import url(https://fonts.googleapis.com/css?family=Lato:100,300,900);  
+<%-- @import url(https://fonts.googleapis.com/css?family=Lato:100,300,900);  --%>
 #sidebox { background-color:rgba(0,0,75,.4); 
 		   position:absolute; 
 		   width:12%; 

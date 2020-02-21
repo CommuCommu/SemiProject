@@ -12,9 +12,7 @@
    License: none (public domain)
 */
 
-
 /*
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -35,7 +33,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
-
+*/
 /* HTML5 display-role reset for older browsers */
 
 article, aside, details, figcaption, figure, 
@@ -61,12 +59,7 @@ table {
 	border-spacing: 0;
 }
 
-*/
-
-
-
-
-#footer {width:100%; padding:40px 0; text-align:center; background:#333; line-height:1.6;}
+#footer {width:100%; padding:10px 0; text-align:center; background:#333; line-height:1.6;}
 #footer img,footer-logo {}
 #footer address {font-size:17px; color:#fff; margin-top:20px;}
 #footer p.copyright {font-size:17px; color:#fff;}
@@ -78,10 +71,10 @@ table {
 <body>
 
 
-<!-- Footer -->
+<!-- Footer --> 
 <footer id="footer">
 
-<img class="footer-logo" src="http://ovio.com/images/common/footer_logo.jpg" alt="footer logo">
+<img class="footer-logo" src="./GNB/image/dice.png" alt="footer logo" Style="width: 60px; height: 60px;">
 <address>
 주소 :서울특별시 강남구 비트캠프 202호 
 </address>

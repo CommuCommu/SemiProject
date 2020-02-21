@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title>오시는 길</title>
+	<title>Bit Board Game</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
 	<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
@@ -58,6 +58,19 @@ $(function () {
 		
 		</table>
 	</div>	
+	
+	<br><br>
+	
+	<footer id="ft">
+		<div id="footer"></div>
+		<script type="text/javascript">
+		$(function () {
+			$("#footer").load("./GNB/footer.jsp");
+		})
+		</script>
+	</footer>
+	
+	
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fe680ff21a68b0f0669e251d8bd150ea"></script>
 	<script>
 		var container = document.getElementById('map');

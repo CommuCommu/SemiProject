@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>epilogue write Af</title>
+<title>Bit Board Game</title>
 
 <div id="gnb"></div>
 <script type="text/javascript">

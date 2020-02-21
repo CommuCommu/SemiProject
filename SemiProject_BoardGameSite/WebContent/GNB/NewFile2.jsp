@@ -203,7 +203,7 @@ a {
       <a class="et-hero-tab" href="reservation.jsp">RESERVATION</a>
       <a class="et-hero-tab" href="epilogue.jsp">EPILOGUE</a>
       <a class="et-hero-tab" href="qna.jsp">Q&A</a>
-      <a class="et-hero-tab" href="mapEx.jsp">DIRECTION</a>
+      <a class="et-hero-tab" href="map.jsp">DIRECTION</a>
       <span class="et-hero-tab-slider"></span>
     </div>
   </section>

@@ -28,8 +28,7 @@
     
     <%
     // notice 에서 넘어온 sequence
-   	String sseq = request.getParameter("seq");
-    int seq = Integer.parseInt(sseq);
+   	int seq = dto.getSeq();
     System.out.println("Detail seq = " + seq);
     
     /* String title = request.getParameter("title");
@@ -47,6 +46,15 @@
     // dto 에 메소드를 통해 글 상세정보 담기
     NoticeDto methodDto = dao.noticeDetail(seq);
     
+    
+    // 이전글, 다음글
+//  NoticeDto pre = dao.preNotice(seq);
+//  NoticeDto post = dao.postNotice(seq);
+    
+//  System.out.println("이전글=" + pre.getSeq());
+//  System.out.println("다음글=" + post.getSeq());
+    
+    
     // 아이디가 일치할경우에만 수정 삭제가 가능하도록 세션에서 정보를 가져온다.
     MemberDto mem = (MemberDto)request.getSession().getAttribute("login");
     
@@ -57,13 +65,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
 <!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
 <link rel="stylesheet" href="css/bootstrap.css">
-
 
 
 
@@ -78,61 +85,21 @@ $(function () {
 </script>
 <br><br>
 
+
+
+
+
 <%-- 페이지 시작 --%>
 
 <div align = "center">
-
 <!-- 이전글, 다음글로 이동하기 -->
 <%
 List<NoticeDto> list = new ArrayList<NoticeDto>();
 list.add(dto);
 %>
 
-<%
-for(int i = 1; i < list.size(); i++) {
-		if(dto.getDel() == 1) {
-		
-	} else if(dto.getDel() == 0) {
-		%>
-		<a href = "noticeDetail?seq=<%=dto.getSeq() %>"> <button> 이전글 </button> </a>
-		<a href = "noticeDetail?seq=<%=dto.getSeq() %>"> <button> 다음글 </button> </a>
-	<%
-	}
-	%>
-
-<%
-}
-%>
-
-		<!-- 가장 처음과 마지막 글에는 현재가 처음 or 마지막임을 알려줘야한다. -->
-		
-		
-
-<%-- <%
-for(int i=0; i<list.size(); i++) {
-%>
-<!-- 이전글, 다음글으로 이동하기 -->
-<a href = "noticeDetail.jsp?seq=<%=i-1 %>"><button> 이전글 </button></a>
-<a href = "noticeDetail.jsp?seq=<%=i+1 %>"><button> 다음글 </button></a>
-<%
-}
-%> --%>
-<%-- <table border = "1" style="border-collapse:collapse; width:1200px; height:1300px">
-	
-	<tr>
-		<th style="text-align:center">
-			제목 <%=dto.getTitle() %> 
-		</th>
-	</tr>
-	
-	
-	<tr>
-		<td>
-			내용 <%=dto.getContent() %> 
-		</td>
-	</tr>
-	
-</table> --%>
+<a href = "noticeDetail?command=post&seq=<%=seq %>"> <button class="btn btn-outline-primary"> 이전글 </button></a>
+<a href = "noticeDetail?command=pre&seq=<%=seq %>"> <button class="btn btn-outline-primary" style = "margin-left:800px"> 다음글 </button> </a>
 
 <br><br>
 
@@ -152,7 +119,7 @@ for(int i=0; i<list.size(); i++) {
 </div>
 </div>
 
-
+<% System.out.println(dto.getContent()); %>
 
 
 
@@ -170,19 +137,33 @@ for(int i=0; i<list.size(); i++) {
 <!-- 수정, 삭제 기능 -->
 
 <%
-	/* if(mem.getAuth() == 1) { */
+
+	Object oLogin = session.getAttribute("login");
+	MemberDto m = null;
+	if (oLogin == null) {
+		
+	} else {
+		m = (MemberDto) oLogin;
+		 if(m.getId().equals("aa") || m.getId().equals("Admin")) {
+			 System.out.println("id = " + m.getId());
+	
+
 %>
 
 	<button onclick = "updateNotice(<%=dto.getSeq() %>)" class="btn btn-outline-primary"> 수정 </button> &nbsp;&nbsp;
 	<button onclick = "deleteNotice(<%=dto.getSeq() %>)" class="btn btn-outline-primary"> 삭제 </button> &nbsp;&nbsp;
 	
 	
+	<%
+		 }
+	%>
+	
 <%
-	/* } */
+	}
 %>	
 
 <!-- 공지사항 리스트로 돌아가기 -->
-	<button type= "button" onclick = "location.href='notice.jsp'" class="btn btn-outline-primary"> 목록 </button>
+	<button type= "button" onclick = "location.href='noticeList?command=page&pageNumber=0'" class="btn btn-outline-primary"> 목록 </button>
 	
 	<br><br><br><br><br><br>
 </div>
@@ -202,6 +183,16 @@ function deleteNotice(seq) {
 
 </script>
 
+<br><Br>
+
+<footer id="ft">
+	<div id="footer"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#footer").load("./GNB/footer.jsp");
+	})
+	</script>
+</footer>
 
 </body>
 </html>

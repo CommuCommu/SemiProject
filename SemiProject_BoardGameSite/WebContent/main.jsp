@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
 <style type = "text/css">
 body {
@@ -118,7 +118,7 @@ a {
       <a class="et-hero-tab" href="#tab-es6">NOTICE</a>
       <a class="et-hero-tab" href="#tab-flexbox">GAME LIST</a>
       <a class="et-hero-tab" href="#tab-react">RESERVATION</a>
-      <a class="et-hero-tab" href="#tab-angular">REVIEW</a>
+      <a class="et-hero-tab" href="#tab-angular">EPILOGUE</a>
       <a class="et-hero-tab" href="#tab-qqq">Q&A</a>
       <a class="et-hero-tab" href="#tab-other">DIRECTION</a>
       <span class="et-hero-tab-slider"></span>
@@ -128,7 +128,7 @@ a {
   <!-- Main -->
   <main class="et-main">
     <section class="et-slide" id="tab-es6" style = "padding-top:30px">
-    	<a href = "notice.jsp"><img src = "notice.jpg"></a>
+    	<a href = "noticeList?command=page&pageNumber=0"><img src = "notice.jpg"></a>
     	<br><br>
       <h1>NOTICE</h1>
       <h3>최근 소식</h3>
@@ -151,7 +151,7 @@ a {
     <section class="et-slide" id="tab-angular">
     	<a href = "epiloguelist.jsp"><img src = "epilogue.jpg"></a>
     	<br><br>
-      <h1>REVIEW</h1>
+      <h1>EPILOGUE</h1>
       <h3>이용 후기를 남겨보세요</h3>
     </section>
     
@@ -163,13 +163,21 @@ a {
     </section>
     
     <section class="et-slide" id="tab-other">
-    	<a href = "mapEx.jsp"><img src = "direction.jpg"></a>
+    	<a href = "map.jsp"><img src = "direction.jpg"></a>
     	<br><br>
       <h1>DIRECTION</h1>
       <h3>찾아오시는 길</h3>
     </section>
   </main>
   
+  <footer>
+	<div id="footer"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#footer").load("./GNB/footer.jsp");
+	})
+	</script>
+</footer>
   
   
   <script type = "text/javascript">

@@ -26,25 +26,53 @@ public class NoticeDetailServlet extends HttpServlet {
 	
 	public void processFunction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
-		
-		// noticeDetail.jsp ¿¡¼­ º¸³½ seq ¸¦ ¹Þ¾ÆµéÀÎ´Ù.
-		String sseq = req.getParameter("seq");
-		int seq = Integer.parseInt(sseq);
-		
+		String command = req.getParameter("command");
 		// singleton
 		NoticeDAO dao = NoticeDAO.getInstance();
 		
-		// Á¶È¸¼ö ¸Þ¼Òµå È£Ãâ
+		
+		if(command.equals("detail")) {
+		
+		// noticeDetail.jsp ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ seq ï¿½ï¿½ ï¿½Þ¾Æµï¿½ï¿½Î´ï¿½.
+		String sseq = req.getParameter("seq");
+		int seq = Integer.parseInt(sseq);
+		
+		
 		dao.viewCount(seq);
 		
-		// seq ¸¦ ÅëÇØ dto ¸¦ °¡Á®¿À´Â ¸Þ¼Òµå È£Ãâ
+		// seq ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ dto ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ È£ï¿½ï¿½
 		NoticeDto dto = dao.noticeDetail(seq);
 		
-		// setAttribute ·Î dto ¸¦ packing ÇÏ¿© forward ¸¦ ÅëÇØ noticeDetail.jsp ·Î º¸³½´Ù.
+		// setAttribute ï¿½ï¿½ dto ï¿½ï¿½ packing ï¿½Ï¿ï¿½ forward ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ noticeDetail.jsp ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 		req.setAttribute("dto", dto);
 		forward("noticeDetail.jsp", req, resp);
+		
+		
+		
+		
+		} else if(command.equals("pre")) {
+			String sseq = req.getParameter("seq");
+			System.out.println("detail previous seq = " + sseq);
+			int seq = Integer.parseInt(sseq);
+			
+			NoticeDto dto = dao.preNotice(seq);
+			System.out.println("dto asfdsd = " + dto);
+			req.setAttribute("dto", dto);
+			
+			forward("noticeDetail.jsp", req, resp);
+			
+		} else if(command.equals("post")) {
+			String sseq = req.getParameter("seq");
+			System.out.println("detail post seq = " + sseq);
+			int seq = Integer.parseInt(sseq);
+			
+			NoticeDto dto = dao.postNotice(seq);
+			System.out.println("dto asfdsd = " + dto);
+			req.setAttribute("dto", dto);
+			
+			forward("noticeDetail.jsp", req, resp);
+		}
 	}
-
 	
 	public void forward(String link, HttpServletRequest req, HttpServletResponse resp) 
 						throws ServletException, IOException {

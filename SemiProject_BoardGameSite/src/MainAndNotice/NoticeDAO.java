@@ -77,15 +77,22 @@ public class NoticeDAO {
 		PreparedStatement psmt = null;
 		int count = 0;
 		
+		
+		
 		try {
 			conn = DBConnection.getConnection();
 			psmt = conn.prepareStatement(sql);
+			
+			System.out.println("updateNotice 1/6 success");
 			
 			psmt.setString(1, title);
 			psmt.setString(2, content);
 			psmt.setInt(3, seq);
 			
+			System.out.println("updateNotice 2/6 success");
+			
 			count = psmt.executeUpdate();
+			System.out.println("count = " + count);
 			System.out.println("updateNotice Finally Success");
 			
 		} catch (SQLException e) {
@@ -181,6 +188,41 @@ public class NoticeDAO {
 //		return list;
 //	}
 	
+	// 검색에 상관없이 모든 글의 개수
+	public int getAllcount() {
+		String sql = " SELECT COUNT(*) "
+				+ " FROM BG_NOTICE "
+				+ " WHERE DEL = 0 ";
+		
+		String sqlWord = "";
+		
+		sql += sqlWord;
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		int length = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				length = rs.getInt(1);
+			}
+			
+			System.out.println("getAllNotice Finally Success");
+			
+		} catch (SQLException e) {
+			System.out.println("getAllNotice Failed");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		
+		return length;
+	}
 	
 	// 검색한 글의 개수
 	public int getSearchCount(String choice, String searchWord) {
@@ -430,4 +472,133 @@ public class NoticeDAO {
 		
 		return list;
 	}
+	
+	
+	
+	
+	// 이전글 불러오기
+	public NoticeDto preNotice(int seq) {
+		
+		String sql = " SELECT SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL "
+				+ " FROM BG_NOTICE "
+				+ " WHERE SEQ = ( SELECT MAX(SEQ) FROM BG_NOTICE WHERE SEQ < ?  AND DEL = 0) ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		NoticeDto dto = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6");
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6");
+			psmt.setInt(1, seq);
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6");
+			if(rs.next()) {
+				dto = new NoticeDto(rs.getInt(1), 
+									rs.getString(2), 
+									rs.getString(3), 
+									rs.getString(4), 
+									rs.getString(5), 
+									rs.getInt(6),
+									rs.getInt(7));
+			}
+			System.out.println("6/6");
+			//System.out.println("dto.seq" + dto.getSeq());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return dto;
+		
+	}
+	
+	// 다음글 불러오기
+	public NoticeDto postNotice(int seq) {
+		
+		String sql = " SELECT SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL "
+				+ " FROM BG_NOTICE "
+				+ " WHERE SEQ = ( SELECT MIN(SEQ) FROM BG_NOTICE WHERE SEQ > ?  AND DEL = 0) ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		NoticeDto dto = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6");
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6");
+			psmt.setInt(1, seq);
+			
+			rs = psmt.executeQuery();
+			System.out.println("3/6");
+			if(rs.next()) {
+				dto = new NoticeDto(rs.getInt(1), 
+									rs.getString(2), 
+									rs.getString(3), 
+									rs.getString(4), 
+									rs.getString(5), 
+									rs.getInt(6),
+									rs.getInt(7));
+			}
+			System.out.println("6/6");
+			//System.out.println("dto.seq" + dto.getSeq());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return dto;
+		
+	}
+	/*
+	// 다음글 불러오기
+	
+		public NoticeDto postNotice(int seq) {
+		
+		String sql = " SELECT SEQ, ID, WDATE, TITLE, CONTENT, READCOUNT, DEL, "
+				+ " LEAD(SEQ, 1, 0) OVER(ORDER BY SEQ) "
+				+ " FROM BG_NOTICE "
+				+ " WHERE SEQ = ? AND DEL = 0 ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		
+		NoticeDto dto = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			psmt = conn.prepareStatement(sql);
+			
+			psmt.setInt(1, seq);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				dto = new NoticeDto(rs.getInt(1), 
+									rs.getString(2), 
+									rs.getString(3), 
+									rs.getString(4), 
+									rs.getString(5), 
+									rs.getInt(6),
+									rs.getInt(7));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, rs);
+		}
+		return dto;
+		
+	} */
+	
 }

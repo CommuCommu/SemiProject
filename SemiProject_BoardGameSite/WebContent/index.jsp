@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 </head>
 <body>
 
@@ -15,17 +15,17 @@
 
 <% DBConnection.initConnection(); %>
 
-
+<%--
 <a href="adminServlet?command=tableCheck">테스트용 어드민 테이블</a> <br><br>
 
- <%-- response.sendRedirect("./auth?command=adminMain"); --%>
-
+  response.sendRedirect("./auth?command=adminMain"); 
 <a href="main.jsp">메인으로</a>
 
-
-<%--
-	response.sendRedirect("main.jsp");
 --%>
+
+
+<%  response.sendRedirect("main.jsp"); %>
+
 
 
 

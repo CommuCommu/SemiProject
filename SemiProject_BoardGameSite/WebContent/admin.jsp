@@ -14,7 +14,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 페이지</title>
+<title>Bit Board Game</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -25,7 +25,7 @@
 <script src="https://code.highcharts.com/modules/series-label.js"></script>
 <link rel="stylesheet" href="admin.css">
 <style type="text/css">
-@import url(https://fonts.googleapis.com/css?family=Lato:100,300,900);  
+<%-- @import url(https://fonts.googleapis.com/css?family=Lato:100,300,900);  --%>
 
 .all-card{
 display: table;
@@ -36,7 +36,7 @@ margin-right : 300px;
 
 .card{
 	margin : auto;
-	padding : 10px 50px 10px 50px;
+	padding : 5px 50px 5px 50px;
 	float : left;
 
 }
@@ -54,17 +54,19 @@ margin-right : 300px;
 .card-text{
 	text-align: center;
 }
+
+
 #sidebox { background-color:rgba(0,0,75,.4); 
 		   position:absolute; 
 		   width:12%; 
-		   top:280px; 
+		   top:150px; 
 		   left:85%; 
 		   padding: 3px 10px;
 }
 #sidebox2 { background-color:rgba(0,0,75,.4); 
 			position:absolute; 
 			width:12%; 
-			top:280px; 
+			top:150px; 
 			left:1200px; 
 			padding: 3px 10px;
 			display:none;
@@ -114,6 +116,7 @@ margin-right : 300px;
 
 .highcharts-figure, .highcharts-data-table table {
     min-width: 320px; 
+    
     max-width: 1000px;
     margin: 1em auto;
 }
@@ -151,7 +154,7 @@ margin-right : 300px;
 
 .chart{
 	margin-top: 80px;
-	margin-left: 250px;
+	margin-left: 50px;
 	width: 1000px;
 
 
@@ -180,50 +183,49 @@ $(function () {
 	<div class="sidemenu"><a href="authRev?command=curRev">예약관리</a></div>
 	<div class="sidemenu"><a href="authRev?command=pastRev">지난예약</a></div>
 	<div class="sidemenu"><a href="auth?command=noAnswer">미응답 Q&A</a></div>
-	<div class="sidemenu"><a href="#">게임관리</a></div>
+	<%--<div class="sidemenu"><a href="#">게임관리</a></div>  --%>
 	<div class="sidemenu"><a href="auth?command=tableCheck">테이블관리</a></div>
 	<hr>
 	<div class="sidemenu"><a href="#">맨 위로</a></div>
-	<hr>
-	<img src="./GNB/profile.png" width="40px" height="40px">
 </div>
 
 
 <%--페이지 시작. --%>
+<div align="center">
 <div class="all-card" style="padding-top:20px;">
-	<div class="card" style="width: 18rem;">
+	<div class="card" style="width: 16rem;">
 	  <img src="./image/membership.png" class="card-img-top" alt="...">
-	  <div class="card-body">
+	  <div class="card-body" style="padding-left : 0px">
 	    <h5 class="card-title">회원관리</h5>
 	    <p class="card-text1" >총 회원수</p>
 	    <p class="card-text"><%=memNum %>명</p>
-	    <a href="auth?command=getMemlist&pageNum=0&item=name&sort=asc" class="btn btn-primary"><span>회원관리 바로가기</span></a>
+	    <a  href="auth?command=getMemlist&pageNum=0&item=name&sort=asc" class="btn btn-primary"><span>회원관리<br>바로가기</span></a>
 	  </div>
 	</div>
 	
 	
-	<div class="card" style="width: 18rem;">
+	<div class="card" style="width: 16rem;">
 	  <img src="./image/appointment.png" class="card-img-top" alt="...">
-	  <div class="card-body">
+	  <div class="card-body" style="padding-left : 0px">
 	    <h5 class="card-title">예약관리</h5>
 	    <p class="card-text1" >금일 예약현황</p>
 	    <p class="card-text"><%=revNum %>건</p>
-	    <a href="authRev?command=curRev" class="btn btn-primary">예약관리 바로가기</a>
+	    <a href="authRev?command=curRev" class="btn btn-primary">예약관리<br>바로가기</a>
 	  </div>
 	</div>
 	
-	<div class="card" style="width: 18rem;">
+	<div class="card" style="width: 16rem;">
 	  <img src="./image/question.png" class="card-img-top" alt="...">
-	  <div class="card-body">
+	  <div class="card-body" style="padding-left : 0px">
 	    <h5 class="card-title">Q & A </h5>
 	    <p class="card-text1" >미응답 질문</p>
 	    <p class="card-text"><%=noAnswerNum %>건</p>
-	    <a href="auth?command=noAnswer" class="btn btn-primary">답변관리 바로가기</a>
+	    <a href="auth?command=noAnswer" class="btn btn-primary">답변관리<br>바로가기</a>
 	  </div>
 	</div>
 	
 	
-	
+	<%--
 	<div class="card" style="width: 18rem;">
 	  <img src="./image/chess.png" class="card-img-top" alt="...">
 	  <div class="card-body">
@@ -233,26 +235,25 @@ $(function () {
 	    <a href="#" class="btn btn-primary">게임관리 바로가기</a>
 	  </div>
 	</div>
-	
-	<div class="card" style="width: 18rem;" align="center">
+	--%>
+	<div class="card" style="width: 16rem;" align="center">
 	  <img src="./image/round-table.png" class="card-img-top" alt="...">
-	  <div class="card-body">
+	  <div class="card-body" style="padding-left : 0px">
 	    <h5 class="card-title">테이블관리</h5>
 	    <p class="card-text1" >예약테이블</p>
 	    <p class="card-text"> <%=tableNum %>개</p>
-	    <a href="auth?command=tableCheck" class="btn btn-primary">테이블관리 바로가기</a>
+	    <a href="auth?command=tableCheck" class="btn btn-primary">테이블관리<br>바로가기</a>
 	  </div>
 	</div>
 </div>
 
-<div class="chart">
-<figure class="highcharts-figure">
-    <div id="container"></div>
+</div>
 
-    <button id="plain">Plain</button>
-    <button id="inverted">Inverted</button>
-    <button id="polar">Polar</button>
-</figure>
+<div class="chart" align="left">
+	<figure class="highcharts-figure">
+	    <div id="container" align="left"></div>
+	
+	</figure>
 </div>
 
 <script type="text/javascript">
@@ -334,11 +335,22 @@ $('#polar').click(function () {
         subtitle: {
             text: 'Polar'
         }
-    });
+    })
 });
 
 
 </script>
+
+<br><br><Br>
+<footer id="ft">
+	<div id="footer"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#footer").load("./GNB/footer.jsp");
+	})
+	</script>
+</footer>
+
 
 
 </body>

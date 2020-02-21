@@ -40,7 +40,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>revWrite.jsp</title>
+<title>Bit Board Game</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
 <!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
@@ -121,15 +121,26 @@ $(function () {
 </form>
 </div>
 
+<footer style="top: 940px; position: absolute; width: 100%">
+	<div id="footer"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#footer").load("./GNB/footer.jsp");
+	})
+	</script>
+</footer>
+
+
+
+
+
 
 <script type="text/javascript">
 var revCheck = new Array();			//테이블 예약정보 전역변수.
 var numberPeoples = null;
 
-
-	
 $("#tableSelect").on("change", function () {	//테이블 선택 변경
-	alert("값 변환 감지");
+	//alert("값 변환 감지");
 	var tableNumber = $("#tableSelect option:selected").val(); //테이블 넘버를 가져옴.
 	
 	
@@ -147,7 +158,7 @@ $("#tableSelect").on("change", function () {	//테이블 선택 변경
 	        success : function(data) {
 	             // 통신이 성공적으로 이루어졌을 때 이 함수를 타게 된다.
 	             //Result(data , "delete" , id , null, null);
-	             alert("success"); 
+	             //alert("success"); 
 	             //alert(data); 
 	             //alert(data.length); //0~12 -> 13
 	    
@@ -259,7 +270,7 @@ $("#tableSelect").on("change", function () {	//테이블 선택 변경
 
 
 $(document).on("change", "#startTime", function () {
-	alert("시작시간 변환 감지");
+	//alert("시작시간 변환 감지");
 
 	var st = $("#startTime option:selected").val();	//i가 넘어옴. 0~12겠지.
 	$("#endTime").remove();
@@ -269,7 +280,7 @@ $(document).on("change", "#startTime", function () {
 
 	}else {
 		st *= 1;
-		alert(st);
+		//alert(st);
 		
 	   	$("#endSpan").append('<select id="endTime" name="endTime" class="serchSelect">');
 	   	$("#endTime").append('<option value="none">선택</option>');
@@ -286,7 +297,7 @@ $(document).on("change", "#startTime", function () {
 
 
 $(document).on("change", "#endTime", function () {
-	alert("시간설정 완료 감지");
+	//alert("시간설정 완료 감지");
 	$("#third").remove();
 	
 	var st = $("#startTime option:selected").val();	//i가 넘어옴. 0~12겠지.
@@ -329,7 +340,7 @@ $(document).on("change", "#endTime", function () {
 });
 
 $(document).on("click", "#revGo", function () {
-	alert("버튼 테슽");
+	//alert("예약이 완료되었습니다.");
 
 	$('#revForm').submit();
 	

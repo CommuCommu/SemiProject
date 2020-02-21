@@ -24,9 +24,9 @@ public class MemberService {
 	}
 	
 	
-	public boolean pwdCheck(String pwd) {
+	public boolean pwdCheck(String id, String pwd) {
 		
-		boolean isS = dao.pwdCheck(pwd);
+		boolean isS = dao.pwdCheck(id,  pwd);
 
 		return isS;
 	}

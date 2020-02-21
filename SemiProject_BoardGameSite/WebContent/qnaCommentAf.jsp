@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>qnaCommentAf.jsp</title>
+<title>Bit Board Game</title>
 </head>
 <body>
 

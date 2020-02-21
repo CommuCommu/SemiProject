@@ -57,7 +57,7 @@ QnaCommentDao qcDao = QnaCommentDao.getInstance();
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 
 
 
@@ -310,8 +310,6 @@ $(document).ready(function () {
 </ul>
 
 
-
-
 		
 
 
@@ -332,12 +330,38 @@ $(document).ready(function () {
 
 
 </div> <!-- 테이블 div 끝 -->
+<br><br><br>
 
+<footer id="ft">
+	<div id="footer"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#footer").load("./GNB/footer.jsp");
+	})
+	</script>
+</footer>
 
-<br><br><br><br>
 
 
 <script type="text/javascript">
+$(document).ready(function () {
+	var height_size = $(document).height();
+	var h2_size = window.outerHeight;
+	
+	if (height_size <= h2_size) {
+		$("#ft").attr('style', 'top: 940px; position: absolute; width: 100%')
+	}else {
+		
+	}
+	//alert(height_size);
+	//alert(h2_size);
+	
+	
+});
+
+
+
+
 // Qna 등록하기 선택시 세션id 확인 후 처리
 function QnaWrite() {
 	<% if(mem == null || mem.getId().equals("")){ %>

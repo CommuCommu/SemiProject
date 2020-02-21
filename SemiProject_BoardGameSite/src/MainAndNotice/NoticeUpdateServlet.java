@@ -48,7 +48,7 @@ public class NoticeUpdateServlet extends HttpServlet {
 			forward("noticeUpdate.jsp", req, resp);
 			
 			
-		// noticeUpdate.jsp ¿¡¼­ ±Û ÀÛ¼ºÀ» ¿Ï·áÇÏ°í noticeUpdateAf.jsp ·Î ³Ñ¾î°£´Ù.	
+		// noticeUpdate.jsp ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½Ï°ï¿½ noticeUpdateAf.jsp ï¿½ï¿½ ï¿½Ñ¾î°£ï¿½ï¿½.	
 		} else if(command.equals("noticeUpdateAf")) {
 			String sseq = req.getParameter("seq");
 			int seq = Integer.parseInt(sseq);
@@ -58,6 +58,16 @@ public class NoticeUpdateServlet extends HttpServlet {
 			
 			NoticeDAO dao = NoticeDAO.getInstance();
 			
+			System.out.println("seq = " + seq);
+			System.out.println("title = " + title);
+			System.out.println("content = " + content);
+			
+			boolean isS = dao.updateNotice(title, content, seq);
+			NoticeDto dto = dao.noticeDetail(seq);
+			req.setAttribute("dto", dto);
+			req.setAttribute("isS", isS);
+			forward("noticeUpdateAf.jsp", req, resp);
+			
 //			HttpSession session = req.getSession();
 //			MemberDto sDto = (MemberDto)session.getAttribute("login"); 
 //			
@@ -66,9 +76,9 @@ public class NoticeUpdateServlet extends HttpServlet {
 //			String content = req.getParameter("content");
 //			NoticeDto dto = new NoticeDto(id, title, content);
 			
-			boolean isS = dao.updateNotice(title, content, seq);
-			System.out.println("¾÷µ¥ÀÌÆ® = " + isS);
-			resp.sendRedirect("noticeUpdateAf.jsp?command=noticeUpdateAf&isS=" + isS);
+			
+			System.out.println("isS = " + isS);
+//			resp.sendRedirect("noticeUpdateAf.jsp?seq=" + seq + "&isS=" + isS);
 			
 		}
 	}

@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 </head>
 <body>
 
@@ -28,7 +28,7 @@ if(command.equals("writeAf")) {
 
 <script>
 	alert("등록되었습니다.");
-	location.href="notice.jsp";
+	location.href="noticeList?command=page&pageNumber=0";
 </script>
 <% 
 	} else {
@@ -36,7 +36,7 @@ if(command.equals("writeAf")) {
 
 <script>
 	alert("공지사항 작성에 실패했습니다.");
-	location.href="notice.jsp";
+	location.href="noticeWrite?command=write";
 </script>
 
 <%

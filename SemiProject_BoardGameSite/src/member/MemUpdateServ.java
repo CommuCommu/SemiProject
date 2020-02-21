@@ -42,7 +42,7 @@ public class MemUpdateServ extends HttpServlet {
 		if(command.equals("pwdcheck")) {
 			String pwd = req.getParameter("pwd");
 			System.out.println(pwd);
-			boolean isS = service.pwdCheck(pwd);  
+			boolean isS = service.pwdCheck(id, pwd);  
 				obj.put("result", isS); 
 				
 				resp.setContentType("application/x-json); charset=utf-8");

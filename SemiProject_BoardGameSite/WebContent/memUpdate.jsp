@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 정보 수정</title>
+<title>Bit Board Game</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
 <!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
@@ -20,6 +20,8 @@
 th {text-align: right;padding-right: 20px}
 .form-control { width: 95%;margin-bottom: 5px }
 .btn.btn-primary {width :100px}
+.alert.alert-danger.custom {width: 415px;padding: inherit;height: 30px;margin-bottom: auto;text-align: center;}
+.alert.alert-success.custom {width: 415px;padding: inherit;height: 30px;margin-bottom: auto;text-align: center;}
 </style>
 
 
@@ -42,68 +44,81 @@ $(function () {
 <div align="center" class="container" style="padding-right: 60px">
 <table>
 <col width="120px"><col width="300px">
-	<tr>
-		<th>아이디</th>
-		<td>
-			<!-- 세션 패스워드 -->
-			<input type="hidden" id="oldPw" value="<%=mem.getPw() %>">
-			<input type="text" id="id" value='<%=mem.getId() %>' readonly="readonly" class="form-control" >
-			<%-- <div id="id"><%=mem.getId() %></div> --%> 
-		</td>
-	</tr>
-	<tr>
-		<th>이름</th>
-		<td>
-			<input type="text" id="name" value='<%=mem.getName() %>' readonly="readonly" class="form-control" >
-			<%-- <div id="name"><%=mem.getName() %></div> --%>
-		</td>
-	</tr>
-	<tr>
-		<th>휴대폰번호</th>
-		<td>
-			
-			<input type="text" id="_phoneNum" name="phoneNum" value='<%=mem.getCall_number() %>' class="form-control" style="width:220px; display: inline;">
-			
-			<button type="button" onclick="phoneChange()" class="btn btn-outline-secondary" style="vertical-align: top;">변경</button>
-		</td>
-	</tr>
-	<tr>
-		<th></th>
-		<td><div id="phone-notice">잘못된 휴대폰 번호입니다. 확인 후 다시 입력해주세요</div></td>	
-	</tr>
-	<tr>
-		<th>이메일</th>
-		<td><input type="text" id="_email" name="email" value="<%=mem.getEmail()%>" class="form-control" style="width:220px; display: inline;">
-			<button type="button" onclick="emailChange()" class="btn btn-outline-secondary" style="vertical-align: top;">변경</button>
-		</td>
-	</tr>
-		<tr>
-		<th></th>
-		<td><div id="email-notice">잘못된 이메일주소 입니다. 확인 후 다시 입력해주세요</div></td>
-	</tr>
-	<tr>
-		<th>비밀번호</th>
-		<td><input type="password" id="pwd1" name="pwd" placeholder="영문+숫자+특수기호 조합 8자이상" class="form-control" style="display: inline;text-align: center;" ></td>
-	</tr>
-		<tr>
-		<th></th>
-		<td><div id="pwd-notice">비밀번호를 양식에 맞게 입력해주세요</div></td>
-	</tr>
-	<tr>
-		<td></td>
-		<td><input type="password" id="pwd2" placeholder="비밀번호 확인" class="form-control" style="width:220px; display: inline;text-align: center;">
-			<button type="button" id="pwbtn" onclick="pwChange()" class="btn btn-outline-secondary" style="vertical-align: top;">변경</button>
-		</td>
-	</tr>
-	<tr>
-		<td></td>
-		<td><div id="alert-success">비밀번호가 일치합니다.</div>
-			<div id="alert-danger">비밀번호가 일치하지 않습니다.</div>
-		</td>
-	</tr>	
+   <tr>
+      <th>아이디</th>
+      <td>
+         <!-- 세션 패스워드 -->
+         <input type="hidden" id="oldPw" value="<%=mem.getPw() %>">
+         <input type="text" id="id" value='<%=mem.getId() %>' readonly="readonly" class="form-control" >
+         <%-- <div id="id"><%=mem.getId() %></div> --%> 
+      </td>
+   </tr>
+   <tr>
+      <th>이름</th>
+      <td>
+         <input type="text" id="name" value='<%=mem.getName() %>' readonly="readonly" class="form-control" >
+         <%-- <div id="name"><%=mem.getName() %></div> --%>
+      </td>
+   </tr>
+   <tr>
+      <th>휴대폰번호</th>
+      <td>
+         <input type="text" id="_phoneNum" name="phoneNum" value='<%=mem.getCall_number() %>' class="form-control" style="width:220px; display: inline;">
+         
+         <button type="button" onclick="phoneChange()" class="btn btn-outline-secondary" style="vertical-align: top;">변경</button>
+      </td>
+   </tr>
+   <tr>
+      <td colspan="2">
+         <div class="alert alert-danger custom" id="phone-notice">잘못된 휴대폰 번호입니다. 확인 후 다시 입력해주세요</div>
+      </td>
+   </tr>
+   <tr>
+      <th>이메일</th>
+      <td><input type="text" id="_email" name="email" value="<%=mem.getEmail()%>" class="form-control" style="width:220px; display: inline;">
+         <button type="button" onclick="emailChange()" class="btn btn-outline-secondary" style="vertical-align: top;">변경</button>
+      </td>
+   </tr>
+      <tr>
+      <td colspan="2">
+         <div class="alert alert-danger custom" id="email-notice">잘못된 이메일주소 입니다. 확인 후 다시 입력해주세요</div>
+      </td>
+   </tr>
+   <tr>
+      <th>비밀번호</th>
+      <td><input type="password" id="pwd1" name="pwd" placeholder="영문+숫자+특수기호 조합 8자이상" class="form-control" style="display: inline;text-align: center;" ></td>
+   </tr>
+      <tr>
+      <td colspan="2">
+         <div class="alert alert-danger custom" id="pwd-notice">비밀번호를 양식에 맞게 입력해주세요</div>
+      </td>
+   </tr>
+   <tr>
+      <td></td>
+      <td><input type="password" id="pwd2" placeholder="비밀번호 확인" class="form-control" style="width:220px; display: inline;text-align: center;">
+         <button type="button" id="pwbtn" onclick="pwChange()" class="btn btn-outline-secondary" style="vertical-align: top;">변경</button>
+      </td>
+   </tr>
+   <tr>
+      <td colspan="2">
+         <div id="alert-success" class="alert alert-success custom">비밀번호가 일치합니다.</div>
+         <div id="alert-danger" class="alert alert-danger custom">비밀번호가 일치하지 않습니다.</div>
+      </td>
+   </tr>   
 </table>
 
 </div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<footer>
+	<div id="footer"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#footer").load("./GNB/footer.jsp");
+	})
+	</script>
+</footer>
 
 
 

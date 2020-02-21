@@ -85,7 +85,7 @@ public class AuthServ extends HttpServlet {
 			String item = req.getParameter("item");
 			String searchWord = req.getParameter("searchWord");
 			System.out.println("item:" + item+ "searchWord: " + searchWord + " page: " + page);
-			System.out.println("확인합니");
+			System.out.println("확인합니다.");
 			List<MemberDto> memList = memService.searchList(item, searchWord, page);
 			int len = memService.getSearchMem(item, searchWord);
 			
@@ -222,7 +222,7 @@ public class AuthServ extends HttpServlet {
 	
 	public String dateSplit(String date) {
 		
-		String result = date.substring(0, 4) + "." + date.substring(4) ;
+		String result = date.substring(0, 4) + "_" + date.substring(4) ;
 		return result;
 	}
 	

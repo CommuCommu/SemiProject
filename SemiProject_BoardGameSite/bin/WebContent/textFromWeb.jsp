@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 </head>
 <body>
 
@@ -72,7 +72,7 @@ function createPreviewWin(imgCommonPreview) {
    
    // window.open('주소', '이름(공란가능)', '속성'); 
    imageWin = window.open("", "", "top=" + popY + ",left=" + popX + ",width=" + wsize + ",height=" + hsize +",scrollbars=yes,resizable=yes,status=no"); 
-   imageWin.document.write("<html><title>Preview</title><body style='margin:0;cursor:pointer;' title='Close' onclick='window.close()'>"); 
+   imageWin.document.write("<html><title>Bit Board Game</title><body style='margin:0;cursor:pointer;' title='Close' onclick='window.close()'>"); 
    imageWin.document.write("<img src='" + imgCommonPreview.src + "'>"); 
    imageWin.document.write("</body></html>"); 
    } 

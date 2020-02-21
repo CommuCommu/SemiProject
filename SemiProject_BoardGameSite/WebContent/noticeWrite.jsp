@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 작성</title>
+<title>Bit Board Game</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script> 
 <script type="text/javascript" src="editor/js/HuskyEZCreator.js" charset="utf-8"></script>
@@ -38,19 +38,24 @@ $(function () {
 })
 </script>
 
+
+
+
+
+
 <div align="center" class="container">
 	<br><p class="subject">공지사항 작성</p>
-
-
-
+	
 <form id="frm" action="noticeWrite" method="post"><br>
 <input type = "hidden" name = "command" value= "writeAf">
 <%-- <form id="frm" action="insert.jsp" method="post" > --%>
 	
+
 <table>
 	<tr>
-		<td>
-			<div class="form-group"> 
+
+		<td> 
+						<div class="form-group"> 
 			<input type="text" id="title" name="title" style = "width : 660px;" placeholder="게시글 제목을 입력하세요" class="form-control">		
 			</div>
 		</td>
@@ -102,6 +107,15 @@ $(function () {
 </form>
 </div>
 <br><br><br>
+
+<footer id="ft">
+	<div id="footer"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#footer").load("./GNB/footer.jsp");
+	})
+	</script>
+</footer>
 
 </body>
 

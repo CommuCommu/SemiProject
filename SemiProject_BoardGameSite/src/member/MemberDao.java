@@ -184,9 +184,9 @@ public class MemberDao {
 
 	}
 
-	public boolean pwdCheck(String pwd) {
+	public boolean pwdCheck(String id, String pwd) {
 
-		String sql = " SELECT PW " + " FROM BG_MEMBER " + " WHERE PW=? ";
+		String sql = " SELECT PW " + " FROM BG_MEMBER " + " WHERE ID=? AND PW=? ";
 		System.out.println("pwdDao" + pwd);
 		Connection conn = null;
 		PreparedStatement psmt = null;
@@ -199,8 +199,8 @@ public class MemberDao {
 			System.out.println("1/6 pwdCheck success!");
 			psmt = conn.prepareStatement(sql);
 			System.out.println("2/6 pwdCheck success!");
-
-			psmt.setString(1, pwd);
+			psmt.setString(1, id);
+			psmt.setString(2, pwd);
 			rs = psmt.executeQuery();
 			while (rs.next()) {
 				result = 1;

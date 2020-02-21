@@ -120,7 +120,7 @@ public class RevDao{
 				sql += "(SELECT ROW_NUMBER()OVER(ORDER BY RDATE ASC) AS RNUM, ";
 				sql += " SEQ, ID, WDATE, RDATE, STARTTIME, ENDTIME, TABLENUMBER, MEMO, NUMBERPEOPLE, DEL  " 
 						+ " FROM BG_RESERVATION "
-						+ "	WHERE ID = ? AND DEL = 0 ";
+						+ "	WHERE ID = ? AND DEL = 0 AND RDATE >= SYSDATE ";
 				sql += " ORDER BY RDATE ASC) ";
 					
 		        sql += " WHERE RNUM >= ? AND RNUM <= ? ";
@@ -203,7 +203,10 @@ public class RevDao{
 	public int getAllreserv(String id) {
 		String sql = " SELECT COUNT(*) " 
 					+ " FROM BG_RESERVATION "
-					+ " WHERE ID = ? " ;
+					+ " WHERE ID = ? AND DEL=0 AND RDATE >= SYSDATE " ;
+		//+ " WHERE ID = ? AND DEL=0 AND RDATE >= TO_DATE(TO_CHAR(SYSDATE , 'YYYYMMDD'))" ;
+		
+		System.out.println(sql);
 		
 		Connection conn = null; // DB Connection
 		PreparedStatement psmt = null; // SQL
@@ -239,6 +242,7 @@ public class RevDao{
 		String sql =  " SELECT * "
 					+ " FROM BG_RESERVATION "
 					//+ " WHERE RDATE >= SYSDATE 
+					+ " WHERE DEL = 0 "
 					+ " ORDER BY RDATE ASC ";
 
 		Connection conn = null;

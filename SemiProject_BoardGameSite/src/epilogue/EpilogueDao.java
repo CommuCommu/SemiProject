@@ -12,58 +12,58 @@ import db.DBConnection;
 import dto.EpilogueDto;
 
 public class EpilogueDao {
-   
-   private static EpilogueDao dao = new EpilogueDao();
-   
-   private EpilogueDao() {
-   }
-   
-   public static EpilogueDao getInstance() {
-      return dao;
-   }
-   
-   public boolean writeEpilogue(EpilogueDto epilogue) {
-      
-      String sql = " INSERT INTO BG_EPILOGUE "
-            + " (SEQ, ID, "
-            + " REF, STEP, DEPTH, "      
-            + " THUMBNAIL,TITLE, CONTENT, WDATE, "
-            + " DEL, READCOUNT) "
-            + " VALUES(SEQ_BG_EPILOGUE.NEXTVAL, ?, "
-            + "    (SELECT NVL(MAX(REF), 0) + 1 FROM BG_EPILOGUE), "   
-            + "     0, 0, "
-            + "    'Main', ?, ?, SYSDATE, "
-            + "      0, 0) ";
-      
-      
-      Connection conn = null;
-      PreparedStatement psmt = null;
-      int count = 0;
-      
-      try {
-         conn = DBConnection.getConnection();
-         System.out.println("1/6 writeEpilogue success");
-            
-         psmt = conn.prepareStatement(sql);
-         System.out.println("2/6 writeEpilogue success" + epilogue);
-         
-         psmt.setString(1, epilogue.getId());
-         psmt.setString(2, epilogue.getTitle());
-         psmt.setString(3, epilogue.getContent());
-         System.out.println("2-1/6 writeEpilogue success" + epilogue.getContent());
-         
-         count = psmt.executeUpdate();
-         System.out.println("3/6 writeEpilogue success");
-         
-      } catch (SQLException e) {
-         System.out.println("writeEpilogue fail");
-         e.printStackTrace();
-      } finally {
-         DBClose.close(psmt, conn, null);         
-      }      
-      
-      return count>0?true:false;
-   }
+	
+	private static EpilogueDao dao = new EpilogueDao();
+	
+	private EpilogueDao() {
+	}
+	
+	public static EpilogueDao getInstance() {
+		return dao;
+	}
+	
+	public boolean writeEpilogue(EpilogueDto epilogue) {
+		
+		String sql = " INSERT INTO BG_EPILOGUE "
+				+ " (SEQ, ID, "
+				+ " REF, STEP, DEPTH, "		
+				+ " THUMBNAIL,TITLE, CONTENT, WDATE, "
+				+ " DEL, READCOUNT) "
+				+ " VALUES(SEQ_BG_EPILOGUE.NEXTVAL, ?, "
+				+ " 	(SELECT NVL(MAX(REF), 0) + 1 FROM BG_EPILOGUE), "	
+				+ "     0, 0, "
+				+ " 	'Main', ?, ?, SYSDATE, "
+				+ "		0, 0) ";
+		
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int count = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 writeEpilogue success");
+				
+			psmt = conn.prepareStatement(sql);
+			System.out.println("2/6 writeEpilogue success" + epilogue);
+			
+			psmt.setString(1, epilogue.getId());
+			psmt.setString(2, epilogue.getTitle());
+			psmt.setString(3, epilogue.getContent());
+			System.out.println("2-1/6 writeEpilogue success" + epilogue.getContent());
+			
+			count = psmt.executeUpdate();
+			System.out.println("3/6 writeEpilogue success");
+			
+		} catch (SQLException e) {
+			System.out.println("writeEpilogue fail");
+			e.printStackTrace();
+		} finally {
+			DBClose.close(psmt, conn, null);			
+		}		
+		
+		return count>0?true:false;
+	}
 
 	public EpilogueDto getEpilogue(int seq) {
 		String sql = " SELECT SEQ, ID, REF, STEP, DEPTH, "
@@ -167,32 +167,32 @@ public class EpilogueDao {
 		
 		int count = 0;
 
-      try {
-         conn = DBConnection.getConnection();
-         conn.setAutoCommit(false);         
-         System.out.println("1/6 epilogueReply success");
-         
-         // update
-         psmt = conn.prepareStatement(sql1);
-         psmt.setInt(1, seq);
-         psmt.setInt(2, seq);
-         System.out.println("2/6 epilogueReply success");
-         
-         count = psmt.executeUpdate();
-         System.out.println("3/6 epilogueReply success");
-         
-         // psmt 초기화
-         psmt.clearParameters();
-         
-         // insert
-         psmt = conn.prepareStatement(sql2);
-         psmt.setString(1, epilogue.getId());
-         psmt.setInt(2, seq);   // ref
-         psmt.setInt(3, seq);   // step
-         psmt.setInt(4, seq);   // depth
-         //psmt.setString(5, epilogue.getThumbnail());
-         psmt.setString(5, epilogue.getTitle());
-         psmt.setString(6, epilogue.getContent());
+		try {
+			conn = DBConnection.getConnection();
+			conn.setAutoCommit(false);			
+			System.out.println("1/6 epilogueReply success");
+			
+			// update
+			psmt = conn.prepareStatement(sql1);
+			psmt.setInt(1, seq);
+			psmt.setInt(2, seq);
+			System.out.println("2/6 epilogueReply success");
+			
+			count = psmt.executeUpdate();
+			System.out.println("3/6 epilogueReply success");
+			
+			// psmt 초기화
+			psmt.clearParameters();
+			
+			// insert
+			psmt = conn.prepareStatement(sql2);
+			psmt.setString(1, epilogue.getId());
+			psmt.setInt(2, seq);	// ref
+			psmt.setInt(3, seq);	// step
+			psmt.setInt(4, seq);	// depth
+			//psmt.setString(5, epilogue.getThumbnail());
+			psmt.setString(5, epilogue.getTitle());
+			psmt.setString(6, epilogue.getContent());
 
 			System.out.println("4/6 epilogueReply success" );
 			
@@ -254,38 +254,39 @@ public class EpilogueDao {
 		return count > 0 ? true : false;
 	}
 
-   public boolean deleteEpilogue(int seq) {
-      
-      String sql = " UPDATE BG_EPILOGUE "
-               + " SET DEL=1 "
-               + " WHERE SEQ=? ";
-      
-      Connection conn = null;
-      PreparedStatement psmt = null;
-      int count = 0;
-      
-      try {
-         conn = DBConnection.getConnection();
-         System.out.println("1/6 S deleteEpilogue");
-         
-         psmt = conn.prepareStatement(sql);
-         psmt.setInt(1, seq);
-         System.out.println("2/6 S deleteEpilogue");
-         
-         count = psmt.executeUpdate();
-         System.out.println("3/6 S deleteEpilogue");
-         
-      } catch (Exception e) {      
-         System.out.println("fail deleteEpilogue");
-         e.printStackTrace();
-         
-      } finally {
-         DBClose.close(psmt, conn, null);         
-      }
-      
-      return count>0?true:false;
-   }
-   
+	public boolean deleteEpilogue(int seq) {
+		
+		String sql = " UPDATE BG_EPILOGUE "
+					+ " SET DEL=1 "
+					+ " WHERE SEQ=? ";
+		
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		int count = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			System.out.println("1/6 S deleteEpilogue");
+			
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, seq);
+			System.out.println("2/6 S deleteEpilogue");
+			
+			count = psmt.executeUpdate();
+			System.out.println("3/6 S deleteEpilogue");
+			
+		} catch (Exception e) {		
+			System.out.println("fail deleteEpilogue");
+			e.printStackTrace();
+			
+		} finally {
+			DBClose.close(psmt, conn, null);			
+		}
+		
+		return count>0?true:false;
+	}
+	
+
 	public int getAllEpilogue(String choice, String searchWord) {
 		
 		String sql = " SELECT COUNT(*) FROM BG_EPILOGUE WHERE STEP = 0";
@@ -492,9 +493,3 @@ public int getReplyCount(int seq) {
 	}
 
 }
-
-
-
-
-
-

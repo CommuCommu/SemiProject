@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
 </head>
 <body>
 
@@ -24,7 +24,7 @@ if(command.equals("deleteAf")) {
 %>
 <script>
 	alert("삭제되었습니다.");
-	location.href="notice.jsp";
+	location.href="noticeList?command=page&pageNumber=0";
 </script>
 <%
 	} else {

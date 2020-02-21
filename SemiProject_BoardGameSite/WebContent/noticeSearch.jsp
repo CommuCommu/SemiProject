@@ -5,6 +5,12 @@
     pageEncoding="UTF-8"%>
     
     <%
+    // 깨짐 방지
+    request.setCharacterEncoding("UTF-8");
+    response.setCharacterEncoding("UTF-8");
+    %>
+    
+    <%
     List<NoticeDto> list = (List<NoticeDto>)request.getAttribute("searchList");
     
     int length = (int)request.getAttribute("length");
@@ -22,7 +28,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bit Board Game</title>
+<script src = "https://code.jquery.com/jquery-3.4.1.min.js"> </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- 부트스트랩 링크 - GNB에 링크 추가하여 주석처리함 -->
+<!-- GNC에 링크를 달면 스타일 오버라이딩 불가 발견 / GNB 링크 제거하고 각 페이지마다 추가 -->
+<link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
 
@@ -36,6 +47,15 @@ $(function () {
 
 
 <%-- 공지 검색 페이지 시작! --%>
+
+
+<input type = "hidden" id = "_choice" value="<%=choice %>">
+<input type = "hidden" id = "_searchWord" value = "<%=searchWord %>">
+
+<!-- 타이틀 수정 -->
+<div class="container">
+<br><p class="subject">Notice</p>
+</div>
 
 <!-- 테이블 div 시작 -->
 	<div align="center" class="container"> 
@@ -63,7 +83,7 @@ $(function () {
 		%>
 		
 		<tr>
-			<td colspan = "5" style = "text-align : center"> 작성된 공지사항이 없습니다. </td>
+			<td colspan = "5" style = "text-align : center"> 검색 결과가 없습니다. </td>
 		</tr>
 		
 		
@@ -81,7 +101,7 @@ $(function () {
 				<%
 					if(dto.getDel() == 0) {
 				%>
-				<a href = "noticeDetail?seq=<%=dto.getSeq() %>"> <%=dto.getTitle() %></a>
+				<a href = "noticeDetail?command=detail&seq=<%=dto.getSeq() %>"> <%=dto.getTitle() %></a>
 				<%
 					} else {
 				%> <font color = "#ff0000"> 이 글은 삭제된 글입니다. </font> <%
@@ -169,7 +189,7 @@ $(function () {
 	
 	<li class="page-item">
 		<a class="page-link" href="#">
-			<%=i + 1 %>
+			<b><%=i + 1 %></b>
 		</a>
 	</li>
 		
@@ -227,14 +247,9 @@ $(function () {
 
 
 
-
-
-
-
-
 <script type = "text/javascript">
 
-function searchNotice() {
+ function searchNotice() {
 	
 	// choice = select 의 option
 	var choice = document.getElementById("choice").value;
@@ -248,25 +263,29 @@ function searchNotice() {
 	}
 	
 	// NoticeListServlet 에 command = search, 검색어 searchWord = word, 검색항목 choice 를 보낸다.
-	location.href = "noticeList?command=search&searchWord=" + word + "&choice=" + choice;
-}
+	location.href = "noticeList?command=search&pageNumber=0&searchWord=" + word + "&choice=" + choice;
+} 
 
 
-function goPage( pageNum ) {
-	var choice = $("#choice").val();
-	var word = $("#search").val();
+function goPage( pageNumber ) {
+//	alert("Search.jsp goPage() pageNumber = " + pageNumber);
+//	var choice = $("#choice").val();
+//	var word = $("#search").val();
+
+	var choice = $("#_choice").val();
+	var word = $("#_searchWord").val();
 
 	if(word == "") {
 		document.getElementById("choice").value= 'sel';
 	}
 	
-	var linkStr = "noticeList?command=page&pageNumber=" + pageNum;
+	var linkStr = "noticeList?command=search&pageNumber=" + pageNumber;
 	if(choice != 'sel' && word != "") {
 		linkStr = linkStr + "&searchWord=" + word + "&choice=" + choice;
 	}
 	// null 인지 확인
-	alert(choice);
-	alert(word);
+//	alert("Search.jsp goPage() choice = " + choice);
+//	alert("Search.jsp goPage() searchWord = " + word);
 	location.href = linkStr;
 }
 
@@ -276,6 +295,16 @@ function goPage( pageNum ) {
 
 </script>
 
+<br><Br><Br>
+
+<footer id="ft">
+	<div id="footer"></div>
+	<script type="text/javascript">
+	$(function () {
+		$("#footer").load("./GNB/footer.jsp");
+	})
+	</script>
+</footer>
 
 </body>
 </html>
